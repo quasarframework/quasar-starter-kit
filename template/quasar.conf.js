@@ -2,8 +2,16 @@
 
 module.exports = function (ctx) {
   return {
-    vendor: [],
-    plugins: [],
+    vendor: [
+      'axios',
+      'vue-i18n',
+      'some-package'
+    ],
+    plugins: [
+      'axios',
+      'i18n',
+      'some-package'
+    ],
     css: [],
     extras: [
       ctx.mat ? 'roboto-font' : '',
