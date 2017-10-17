@@ -20,6 +20,7 @@ module.exports = function (ctx) {
       // 'fontawesome',
       // 'animate'
     ],
+    supportIE: false,
     extend (config) {
       config.module.rules.push({
         enforce: 'pre',
