@@ -3,8 +3,8 @@
 module.exports = function (ctx) {
   return {
     vendor: [],
-    deps: [],
-    styles: [],
+    plugins: [],
+    css: [],
     extras: [
       ctx.mat ? 'roboto-font' : '',
       'material-icons',
