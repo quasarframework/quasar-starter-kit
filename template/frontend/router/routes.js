@@ -1,20 +1,15 @@
-function layout (name) {
-  return () => import(`layouts/${name}.vue`)
-}
-
-function page (name) {
-  return () => import(`pages/${name}.vue`)
-}
 
 export default [
   {
     path: '/',
-    component: layout('default'),
+    component: () => import('layouts/default'),
     children: [
-      { path: '', component: page('index') }
+      { path: '', component: () => import('pages/index') }
     ]
   },
 
-  // Always leave this as last one
-  { path: '*', component: page('404') } // Not found
+  { // Always leave this as last one
+    path: '*',
+    component: () => import('pages/404')
+  }
 ]
