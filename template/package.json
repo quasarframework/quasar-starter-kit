@@ -1,0 +1,21 @@
+{
+  "name": "quasar-app",
+  "version": "1.0.0",
+  "description": "A Quasar App",
+  "author": "Your Name <your@email.com>",
+  "private": true,
+  "scripts": {
+    "clean": "qbuild clean",
+    "dev": "qbuild dev",
+    "start": "npm run dev",
+    "build": "qbuild build"
+  },
+  "dependencies": {
+    "quasar-framework": "git+https://git@github.com/quasarframework/quasar-future.git"
+  },
+  "browserslist": [
+    "> 1%",
+    "last 2 versions",
+    "not ie <= 10"
+  ]
+}
