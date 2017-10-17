@@ -5,7 +5,7 @@ import routes from './routes'
 
 Vue.use(VueRouter)
 
-export function createRouter () {
+export function createRouter (ctx) {
   const Router = new VueRouter({
     /*
      * NOTE! VueRouter "history" mode DOESN'T works for Cordova builds,

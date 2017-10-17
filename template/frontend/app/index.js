@@ -1,6 +1,6 @@
+import { sync } from 'vuex-router-sync'
 import { createRouter } from 'router'
 import { createStore } from 'store'
-import { sync } from 'vuex-router-sync'
 import { QApp } from 'quasar'
 
 export function createApp (ssrContext) {

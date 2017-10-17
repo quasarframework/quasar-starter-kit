@@ -8,7 +8,7 @@ import getters from './getters'
 
 Vue.use(Vuex)
 
-export function createStore () {
+export function createStore (ctx) {
   return new Vuex.Store({
     state,
     actions,

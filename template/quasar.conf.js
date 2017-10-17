@@ -1,5 +1,24 @@
-# Configuration for your app
+// Configuration for your app
 
-module.exports = {
-  //
+module.exports = function (ctx) {
+  return {
+    vendor: [],
+    deps: [],
+    styles: [],
+    extras: [
+      ctx.mat ? 'roboto-font' : '',
+      'material-icons',
+      // 'ionicons',
+      // 'fontawesome',
+      // 'animate'
+    ],
+    extend (config) {
+      config.module.rules.push({
+        enforce: 'pre',
+        test: /\.(js|vue)$/,
+        loader: 'eslint-loader',
+        exclude: /(node_modules|quasar)/
+      })
+    }
+  }
 }
