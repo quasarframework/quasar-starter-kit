@@ -12,9 +12,11 @@ module.exports = function (ctx) {
       'i18n',
       'some-package'
     ],
-    css: [],
+    css: [
+      'my-style.styl'
+    ],
     extras: [
-      ctx.mat ? 'roboto-font' : '',
+      ctx.theme.mat ? 'roboto-font' : '',
       'material-icons',
       // 'ionicons',
       // 'fontawesome',
