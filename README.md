@@ -6,7 +6,7 @@
 > Starter Kit for a Quasar Project.
 
 ## Usage
-Use Quasar CLI to generate a new project using this template:
+Use Vue CLI to generate a new project using this template:
 
 ``` bash
 # install Vue CLI if you don't have it already
