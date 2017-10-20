@@ -5,17 +5,25 @@
   "author": "Your Name <your@email.com>",
   "private": true,
   "scripts": {
-    "clean": "qbuild clean",
-    "dev": "qbuild dev",
+    "clean": "npm run q clean",
+    "dev": "npm run q dev",
     "start": "npm run dev",
-    "build": "qbuild build"
+    "build": "npm run q build",
+    "q": "./node_modules/quasar-framework/bin/qbuild"
   },
   "dependencies": {
-    "quasar-framework": "git+https://git@github.com/quasarframework/quasar-future.git"
+    "axios": "^0.16.2",
+    "quasar-framework": "git+https://git@github.com/quasarframework/quasar-future.git",
+    "vue-i18n": "^7.3.2"
   },
   "browserslist": [
     "> 1%",
     "last 2 versions",
     "not ie <= 10"
-  ]
+  ],
+  "devDependencies": {
+    "babel-plugin-transform-runtime": "^6.23.0",
+    "babel-preset-env": "^1.6.1",
+    "babel-preset-stage-2": "^6.24.1"
+  }
 }

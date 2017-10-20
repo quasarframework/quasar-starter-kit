@@ -16,13 +16,6 @@ module.exports = {
     'html',
     'import'
   ],
-  settings: {
-    'import/resolver': {
-      'webpack': {
-        'config': 'build/webpack.base.conf.js'
-      }
-    }
-  },
   globals: {
     'ga': true, // Google Analytics
     'cordova': true,
@@ -44,10 +37,7 @@ module.exports = {
     'import/namespace': 2,
     'import/default': 2,
     'import/export': 2,
-    'import/extensions': ['error', 'never', {
-      'js': 'never',
-      'vue': 'never'
-    }],
+    'import/extensions': 0,
     // allow debugger during development
     'no-debugger': process.env.NODE_ENV === 'production' ? 2 : 0
   }

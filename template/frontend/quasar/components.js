@@ -1,5 +1,3 @@
-import { QLayout } from 'quasar'
+import * as All from 'quasar'
 
-export default {
-  QLayout
-}
+export default All

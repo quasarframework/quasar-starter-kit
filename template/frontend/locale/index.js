@@ -3,5 +3,5 @@ import ro from './ro'
 
 export default {
   en,
-  ro,
+  ro
 }

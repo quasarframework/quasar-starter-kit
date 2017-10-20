@@ -5,7 +5,7 @@
       view="lHh Lpr fff"
       :left-class="{'bg-grey-2': true}"
     >
-      <q-toolbar slot="header" class="glossy">
+      <q-toolbar color="primary" slot="header" glossy>
         <q-btn
           flat
           @click="$refs.layout.toggleLeft()"

@@ -1,4 +1,5 @@
-import SomePackage from 'some-package'
-import Vue from 'vue'
+// import SomePackage from 'some-package'
+// import Vue from 'vue'
 
-Vue.use(SomePackage)
+// Vue.use(SomePackage)
+export default function () {}

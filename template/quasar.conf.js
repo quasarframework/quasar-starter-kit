@@ -22,7 +22,9 @@ module.exports = function (ctx) {
       // 'fontawesome',
       // 'animate'
     ],
-    supportIE: false,
+    build: {
+      supportIE: false
+    },
     extend (config) {
       config.module.rules.push({
         enforce: 'pre',
