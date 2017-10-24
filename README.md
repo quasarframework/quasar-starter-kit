@@ -13,7 +13,7 @@ Use Vue CLI to generate a new project using this template:
 $ npm install -g vue-cli
 
 # generate a project folder with this template
-$ vue init @quasarframework/app my-project
+$ vue init quasarframework/app my-project
 
 $ cd my-project
 $ npm install
