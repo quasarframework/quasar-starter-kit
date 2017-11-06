@@ -13,7 +13,8 @@ const
   webpack = require('webpack')
 
 const
-  appPaths = require('./lib/app-paths'),
+  appPaths = require('../lib/app-paths'),
+  QuasarConfig = require('../lib/quasar-config'),
   resolve = path.resolve
 
 const argv = parseArgs(process.argv.slice(2), {
@@ -52,7 +53,7 @@ if (argv.help) {
 
 const
   quasarConfig = new QuasarConfig({
-    filename: argv['config-file']
+    filename: argv['config-file'],
     theme: argv.theme,
     mode: argv.mode,
     port: argv.port,
@@ -60,16 +61,16 @@ const
     debug: argv.debug
   }),
   webpackConfig = quasarConfig.getWebpackConfig(),
-  ctx = quasarConfig.getQuasarConfigCtx()
+  buildConfig = quasarConfig.getBuildConfig()
 
 console.log(chalk.bold(' WARNING!'))
 console.log(' Do NOT use VueRouter\'s "history" mode if')
 console.log(' building for Cordova or Electron.\n')
 
-console.log(chalk.bold(` Building Quasar App with "${ctx.build.themeName}" theme...\n`))
+console.log(chalk.bold(` Building Quasar App with "${argv.theme}" theme...\n`))
 
 webpack(webpackConfig, (err, stats) => {
-  if (err) throw err
+  if (err) { throw err }
 
   process.stdout.write(stats.toString({
     colors: true,
@@ -85,13 +86,13 @@ webpack(webpackConfig, (err, stats) => {
   }
 
   console.log(chalk.cyan(
-    `\n Build complete with "${chalk.bold(ctx.build.themeName)}" theme in "${chalk.bold(ctx.build.distDir)}" folder.\n`
+    `\n Build complete with "${chalk.bold(argv.theme)}" theme in "${chalk.bold(buildConfig.build.distDir)}" folder.\n`
   ))
 
   console.log(chalk.bold(' Built files are meant to be served over an HTTP server.'))
-  console.log(chalk.bold(` Opening ${ctx.build.htmlFilename} over file:// won't work.`))
+  console.log(chalk.bold(` Opening ${buildConfig.build.htmlFilename} over file:// won't work.`))
 
-  if (ctx.build.debug) {
+  if (buildConfig.build.debug) {
     console.log(chalk.cyan(
       '\n Built for ' + chalk.bold('DEBUG') +
       '\n - Do NOT deploy this version to production.'

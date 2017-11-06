@@ -1,13 +1,10 @@
 import Vue from 'vue'
-import Quasar, { QApp } from 'quasar'
+import Quasar from 'quasar'
 
-import components from '__quasar/components'
-import directives from '__quasar/directives'
+import App from '~/App'
+import QuasarOptions from '~/quasar-imports'
 
-Vue.use(Quasar, {
-  components,
-  directives
-})
+Vue.use(Quasar, QuasarOptions)
 
 require(`themes/app.${__THEME__}.styl`)
 require(`quasar-extras/roboto-font`) // TODO
@@ -25,7 +22,7 @@ const app = {
   el: '#q-app',
   router,
   store,
-  render: h => h(QApp)
+  render: h => h(App)
 }
 
 const inject = function (key, value) {

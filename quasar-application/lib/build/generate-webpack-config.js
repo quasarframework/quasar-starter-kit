@@ -3,38 +3,34 @@ const
   chalk = require('chalk'),
   path = require('path'),
   webpack = require('webpack'),
+  merge = require('webpack-merge'),
   ProgressBarPlugin = require('progress-bar-webpack-plugin')
 
 const
+  appPaths = require('../app-paths'),
   getCssUtils = require('./get-css-utils')
 
 module.exports = function (ctx, cfg) {
   const
     build = cfg.build,
-    cssUtils = getCssUtils(ctx),
-    vueLoaderConfig = {
-      loaders: cssUtils.cssLoaders({
-        sourceMap: ctx.debug,
-        extract: ctx.prod
-      }),
-      transformToRequire: {
-        video: 'src',
-        source: 'src',
-        img: 'src',
-        image: 'xlink:href'
-      }
-    }
+    cssUtils = getCssUtils(ctx)
 
   function appResolve (dir) {
-    return path.join(build.appDir, 'frontend', dir)
+    return path.join(appPaths.appDir, dir)
+  }
+  function srcResolve (dir) {
+    return path.join(appPaths.appDir, 'frontend', dir)
   }
   function cliResolve (dir) {
-    return path.join(build.cliDir, dir)
+    return path.join(appPaths.cliDir, dir)
   }
 
   let appEntry = [ cliResolve(`lib/app/entry.js`) ]
   if (build.supportIE) {
     appEntry.unshift(cliResolve(`node_modules/quasar-framework/dist/quasar.ie.polyfills.js`))
+  }
+  if (ctx.dev) {
+    appEntry.unshift(cliResolve(`lib/app/hot-reload.js`))
   }
 
   let webpackConfig = {
@@ -43,31 +39,30 @@ module.exports = function (ctx, cfg) {
     },
     resolve: {
       extensions: [
-        `.${build.themeName}.js`, '.js',
-        `.${build.themeName}.vue`, '.vue',
+        `.${ctx.themeName}.js`, '.js',
+        `.${ctx.themeName}.vue`, '.vue',
         '.json'
       ],
       modules: [
-        build.srcDir,
+        appPaths.srcDir,
         appResolve('node_modules'),
         cliResolve('node_modules')
       ],
       alias: {
-        quasar: cliResolve(`node_modules/quasar-framework/dist/quasar.${build.themeName}.esm.js`),
-        'quasar-styl': cliResolve(`node_modules/quasar-framework/dist/quasar.${build.themeName}.styl`),
-        variables: appResolve(`themes/app.variables.styl`),
-        '~': build.srcDir,
-        css: appResolve(`css`),
-        layouts: appResolve(`layouts`),
-        components: appResolve(`components`),
-        pages: appResolve(`pages`),
-        plugins: appResolve(`plugins`),
-        __quasar: appResolve(`quasar`),
-        router: appResolve(`router`),
-        store: appResolve(`store`),
-        themes: appResolve(`themes`),
-        statics: appResolve(`statics`),
-        assets: appResolve(`assets`)
+        quasar: cliResolve(`node_modules/quasar-framework/dist/quasar.${ctx.themeName}.esm.js`),
+        'quasar-styl': cliResolve(`node_modules/quasar-framework/dist/quasar.${ctx.themeName}.styl`),
+        variables: srcResolve(`themes/app.variables.styl`),
+        '~': appPaths.srcDir,
+        css: srcResolve(`css`),
+        layouts: srcResolve(`layouts`),
+        components: srcResolve(`components`),
+        pages: srcResolve(`pages`),
+        plugins: srcResolve(`plugins`),
+        router: srcResolve(`router`),
+        store: srcResolve(`store`),
+        themes: srcResolve(`themes`),
+        statics: srcResolve(`statics`),
+        assets: srcResolve(`assets`)
       }
     },
     resolveLoader: {
@@ -81,18 +76,29 @@ module.exports = function (ctx, cfg) {
         {
           test: /\.vue$/,
           loader: 'vue-loader',
-          options: vueLoaderConfig(ctx)
+          options: {
+            loaders: cssUtils.cssLoaders({
+              sourceMap: ctx.debug,
+              extract: ctx.prod
+            }),
+            transformToRequire: {
+              video: 'src',
+              source: 'src',
+              img: 'src',
+              image: 'xlink:href'
+            }
+          }
         },
         {
           test: /\.js$/,
           loader: 'babel-loader',
           include: [
-            build.srcDir,
-            path.resolve(__dirname, '../app/entry.js')
+            appPaths.srcDir,
+            cliResolve('lib/app/entry.js')
           ],
           options: JSON.parse(
             fs.readFileSync(
-              path.join(build.appDir, '.babelrc'),
+              appResolve('.babelrc'),
               'utf8'
             )
           )
@@ -139,7 +145,7 @@ module.exports = function (ctx, cfg) {
   }
 
   // DEVELOPMENT build
-  if (ctx.dev)
+  if (ctx.dev) {
     const
       HtmlWebpackPlugin = require('html-webpack-plugin'),
       FriendlyErrorsPlugin = require('friendly-errors-webpack-plugin')
@@ -157,7 +163,7 @@ module.exports = function (ctx, cfg) {
         // https://github.com/ampedandwired/html-webpack-plugin,
         new HtmlWebpackPlugin({
           filename: 'index.html',
-          template: 'src/index.html',
+          template: srcResolve(`index.template.html`),
           inject: true
         }),
         new FriendlyErrorsPlugin({
@@ -177,13 +183,13 @@ module.exports = function (ctx, cfg) {
     webpackConfig = merge(webpackConfig, {
       devtool: build.debug ? '#source-map' : false,
       module: {
-        rules: styleLoaders({
+        rules: cssUtils.styleLoaders({
           sourceMap: build.debug,
           extract: true
         })
       },
       output: {
-        path: build.distDir,
+        path: appResolve(build.distDir),
         publicPath: build.publicPath,
         filename: 'js/[name].js',
         chunkFilename: 'js/[id].[chunkhash].js'
@@ -194,8 +200,8 @@ module.exports = function (ctx, cfg) {
           filename: '[name].[contenthash].css'
         }),
         new HtmlWebpackPlugin({
-          filename: path.join(build.distDir, build.htmlFilename),
-          template: appResolve(`frontend/index.template.html`),
+          filename: path.join(appResolve(build.distDir), build.htmlFilename),
+          template: srcResolve(`index.template.html`),
           inject: true,
           minify: build.debug ? {} : {
             removeComments: true,
@@ -233,8 +239,8 @@ module.exports = function (ctx, cfg) {
         // copy custom static assets
         new CopyWebpackPlugin([
           {
-            from: appResolve(`statics`),
-            to: path.join(build.distDir, 'statics')
+            from: srcResolve(`statics`),
+            to: path.join(appResolve(build.distDir), 'statics')
           }
         ])
       ]

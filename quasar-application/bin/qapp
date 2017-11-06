@@ -20,5 +20,4 @@ else {
   cmd = defaultCommand
 }
 
-const bin = join(__dirname, 'qapp-' + cmd)
-require(bin)
+require(join(__dirname, 'qapp-' + cmd))

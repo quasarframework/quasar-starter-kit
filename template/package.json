@@ -5,15 +5,15 @@
   "author": "Your Name <your@email.com>",
   "private": true,
   "scripts": {
-    "clean": "npm run q clean",
-    "dev": "npm run q dev",
+    "clean": "npm run qapp clean",
+    "dev": "npm run qapp dev",
     "start": "npm run dev",
-    "build": "npm run q build",
-    "q": "./node_modules/quasar-framework/bin/qbuild"
+    "build": "npm run qapp build",
+    "qapp": "./node_modules/quasar-application/bin/qapp"
   },
   "dependencies": {
     "axios": "^0.16.2",
-    "quasar-framework": "git+https://git@github.com/quasarframework/quasar-future.git",
+    "quasar-application": "0.0.2",
     "vue-i18n": "^7.3.2"
   },
   "browserslist": [
@@ -22,8 +22,13 @@
     "not ie <= 10"
   ],
   "devDependencies": {
-    "babel-plugin-transform-runtime": "^6.23.0",
-    "babel-preset-env": "^1.6.1",
-    "babel-preset-stage-2": "^6.24.1"
+    "eslint": "^4.10.0",
+    "eslint-config-standard": "^10.2.1",
+    "eslint-loader": "^1.9.0",
+    "eslint-plugin-html": "^3.2.2",
+    "eslint-plugin-import": "^2.8.0",
+    "eslint-plugin-node": "^5.2.1",
+    "eslint-plugin-promise": "^3.6.0",
+    "eslint-plugin-standard": "^3.0.1"
   }
 }

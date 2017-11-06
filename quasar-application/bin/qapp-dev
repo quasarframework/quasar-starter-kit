@@ -11,7 +11,7 @@ const
   path = require('path')
 
 const
-  appPaths = require('./lib/app-paths'),
+  appPaths = require('../lib/app-paths'),
   resolve = path.resolve
 
 const argv = parseArgs(process.argv.slice(2), {
@@ -51,21 +51,21 @@ if (argv.help) {
 
 const
   DevServer = require('../lib/dev-server'),
-  quasarConfig = new QuasarConfig(
-    filename: argv['config-file']
+  QuasarConfig = require('../lib/quasar-config'),
+  quasarConfig = new QuasarConfig({
+    filename: argv['config-file'],
     theme: argv.theme,
     mode: argv.mode,
     port: argv.port,
     dev: true,
     debug: true,
-    watch (newConfig) {
-      webpackConfig = newConfig
+    watch () {
       dev = dev.then(startDev)
     }
   })
 
 function startDev (oldDevServer) {
-  const devServer = new DevServer(webpackConfig)
+  const devServer = new DevServer(quasarConfig)
 
   return Promise.resolve()
     .then(() => devServer.build()) // Start build
@@ -74,6 +74,4 @@ function startDev (oldDevServer) {
     .then(() => devServer) // Pass new builder to watch chain
 }
 
-let
-  webpackConfig = quasarConfig.getWebpackConfig(),
-  dev = startDev()
+let dev = startDev()
