@@ -17,7 +17,7 @@ import QuasarOptions from '~/quasar-imports'
 
 Vue.use(Quasar, QuasarOptions)
 
-require(`themes/app.<%= ctx.themeName %>.styl`)
+require(`~/themes/app.<%= ctx.themeName %>.styl`)
 
 <%
 extras && extras.filter(asset => asset).forEach(asset => {

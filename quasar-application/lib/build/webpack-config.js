@@ -28,12 +28,9 @@ module.exports = function (cfg) {
     },
     resolve: {
       extensions: [
-        `.${cfg.ctx.themeName}.js`, '.js',
-        `.${cfg.ctx.themeName}.vue`, '.vue',
-        '.json'
+        '.js', '.vue', '.json'
       ],
       modules: [
-        appPaths.srcDir,
         appResolve('node_modules'),
         cliResolve('node_modules')
       ],
@@ -152,12 +149,8 @@ module.exports = function (cfg) {
 
     if (cfg.devServer.hot) {
       require('webpack-dev-server').addDevServerEntrypoints(webpackConfig, cfg.devServer)
-      webpackConfig = merge(webpackConfig, {
-        plugins: [
-          new webpack.NamedModulesPlugin(),
-          new webpack.HotModuleReplacementPlugin(), // HMR shows filenames in console on update
-        ]
-      })
+      webpackConfig.plugins.push(new webpack.NamedModulesPlugin()) // HMR shows filenames in console on update
+      webpackConfig.plugins.push(new webpack.HotModuleReplacementPlugin())
     }
   }
   // PRODUCTION build
