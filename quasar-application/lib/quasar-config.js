@@ -1,6 +1,8 @@
 const debug = require('debug')('qapp:conf')
 debug.color = 2 // force green color
 
+const path = require('path')
+
 const
   fs = require('fs'),
   generateWebpackConfig = require('./build/generate-webpack-config'),
@@ -31,15 +33,13 @@ class QuasarConfig {
     this.quasarConfigCtx = getQuasarConfigCtx(opts)
 
     if (opts.watch) {
-      /*
       // Start watching for quasar.config.js changes
       chokidar
         .watch(this.filename, { watchers: { chokidar: { ignoreInitial: true } } })
-        .on('all', debounce(() => {
-          debug(`${opts.filename} changed. Rebuilding...`)
+        .on('change', debounce(() => {
+          debug(`${opts.filename} changed.`)
           opts.watch()
         }), 2500)
-      */
     }
   }
 
@@ -64,20 +64,42 @@ class QuasarConfig {
     }
 
     const cfg = config(this.quasarConfigCtx)
+    let publicPath = this.quasarConfigCtx.dev ? '' : '/'
 
-    const build = cfg.build || {}
+    if (cfg.build && cfg.build.publicPath) {
+      publicPath = cfg.build.publicPath
+    }
+
     cfg.build = merge(
       {
-        publicPath: this.quasarConfigCtx.dev ? '' : '/',
+        publicPath,
         debug: this.quasarConfigCtx.dev,
         distDir: `dist-${this.quasarConfigCtx.modeName}`,
         htmlFilename: 'index.html',
-        devOpenBrowser: true,
-        devProxyTable: {},
-        devPort: this.opts.port ||process.env.PORT || 8080
+        devServer: {
+          contentBase: '/work/app/template/frontend/',
+          publicPath,
+          hot: true,
+          inline: true,
+          overlay: true,
+          quiet: true,
+          historyApiFallback: true,
+          noInfo: true,
+          disableHostCheck: true,
+          host: this.opts.host,
+          port: this.opts.port,
+          open: true
+        }
       },
-      build
+      cfg.build || {}
     )
+
+    if (process.env.PORT) {
+      cfg.build.devServer.port = process.env.PORT
+    }
+    if (process.env.HOSTNAME) {
+      cfg.build.devServer.host = process.env.HOSTNAME
+    }
 
     const defines = {
       'process.env': {

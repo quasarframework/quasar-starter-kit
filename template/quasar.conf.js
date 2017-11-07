@@ -23,7 +23,10 @@ module.exports = function (ctx) {
       // 'animate'
     ],
     build: {
-      supportIE: false
+      supportIE: false,
+      devServer: {
+        // https: true
+      }
     },
     extend (config) {
       config.module.rules.push({

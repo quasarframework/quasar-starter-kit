@@ -10,27 +10,24 @@ const
   appPaths = require('../app-paths'),
   getCssUtils = require('./get-css-utils')
 
+function appResolve (dir) {
+  return path.join(appPaths.appDir, dir)
+}
+function srcResolve (dir) {
+  return path.join(appPaths.appDir, 'frontend', dir)
+}
+function cliResolve (dir) {
+  return path.join(appPaths.cliDir, dir)
+}
+
 module.exports = function (ctx, cfg) {
   const
     build = cfg.build,
     cssUtils = getCssUtils(ctx)
 
-  function appResolve (dir) {
-    return path.join(appPaths.appDir, dir)
-  }
-  function srcResolve (dir) {
-    return path.join(appPaths.appDir, 'frontend', dir)
-  }
-  function cliResolve (dir) {
-    return path.join(appPaths.cliDir, dir)
-  }
-
   let appEntry = [ cliResolve(`lib/app/entry.js`) ]
   if (build.supportIE) {
     appEntry.unshift(cliResolve(`node_modules/quasar-framework/dist/quasar.ie.polyfills.js`))
-  }
-  if (ctx.dev) {
-    appEntry.unshift(cliResolve(`lib/app/hot-reload.js`))
   }
 
   let webpackConfig = {
@@ -157,8 +154,6 @@ module.exports = function (ctx, cfg) {
         rules: cssUtils.styleLoaders({ sourceMap: build.debug })
       },
       plugins: [
-        // https://github.com/glenjamin/webpack-hot-middleware#installation--usage
-        new webpack.HotModuleReplacementPlugin(),
         new webpack.NoEmitOnErrorsPlugin(),
         // https://github.com/ampedandwired/html-webpack-plugin,
         new HtmlWebpackPlugin({
@@ -167,10 +162,23 @@ module.exports = function (ctx, cfg) {
           inject: true
         }),
         new FriendlyErrorsPlugin({
+          compilationSuccessInfo: {
+            messages: [`App is running at http${build.devServer.https ? 's' : ''}://${build.devServer.host}:${build.devServer.port}\n`],
+          },
           clearConsole: true
         })
       ]
     })
+
+    if (build.devServer.hot) {
+      require('webpack-dev-server').addDevServerEntrypoints(webpackConfig, build.devServer)
+      webpackConfig = merge(webpackConfig, {
+        plugins: [
+          new webpack.NamedModulesPlugin(),
+          new webpack.HotModuleReplacementPlugin(), // HMR shows filenames in console on update
+        ]
+      })
+    }
   }
   // PRODUCTION build
   else {

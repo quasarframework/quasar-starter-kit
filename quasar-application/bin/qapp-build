@@ -30,6 +30,7 @@ const argv = parseArgs(process.argv.slice(2), {
   default: {
     t: 'mat',
     m: 'spa',
+    p: process.env.PORT || 8080,
     c: 'quasar.conf.js'
   }
 })
@@ -40,7 +41,7 @@ if (argv.help) {
       Starts the app in development mode (hot-code reloading, error
       reporting, etc)
     Usage
-      $ quasar dev -p <port number>
+      $ npm run build -p <port number>
     Options
       --theme, -t         App theme (default: mat)
       --mode, -m          App mode (default: spa)

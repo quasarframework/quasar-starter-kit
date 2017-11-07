@@ -28,6 +28,8 @@ const argv = parseArgs(process.argv.slice(2), {
   default: {
     t: 'mat',
     m: 'spa',
+    p: process.env.PORT || 8080,
+    H: 'localhost',
     c: 'quasar.conf.js'
   }
 })
@@ -38,11 +40,12 @@ if (argv.help) {
       Starts the app in development mode (hot-code reloading, error
       reporting, etc)
     Usage
-      $ quasar dev -p <port number>
+      $ npm run dev -p <port number>
     Options
       --theme, -t         App theme (default: mat)
       --mode, -m          App mode (default: spa)
       --port, -p          A port number on which to start the application
+      --hostname, -h      A hostname to use for serving the application
       --config-file, -c   Path to Quasar config file (default: quasar.config.js)
       --help, -h          Displays this message
   `)
@@ -57,9 +60,11 @@ const
     theme: argv.theme,
     mode: argv.mode,
     port: argv.port,
+    host: argv.hostname,
     dev: true,
     debug: true,
     watch () {
+      debug(`Rebuilding...`)
       dev = dev.then(startDev)
     }
   })
@@ -68,7 +73,6 @@ function startDev (oldDevServer) {
   const devServer = new DevServer(quasarConfig)
 
   return Promise.resolve()
-    .then(() => devServer.build()) // Start build
     .then(() => oldDevServer ? oldDevServer.stop() : Promise.resolve()) // Close old builder after successful build
     .then(() => devServer.listen()) // Start listening
     .then(() => devServer) // Pass new builder to watch chain
