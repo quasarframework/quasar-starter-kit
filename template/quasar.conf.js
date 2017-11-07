@@ -22,8 +22,8 @@ module.exports = function (ctx) {
       // 'fontawesome',
       // 'animate'
     ],
+    supportIE: true,
     build: {
-      supportIE: false,
       test () {
         // console.log('a')
       }

@@ -1,12 +1,9 @@
 {
   "name": "quasar-application",
-  "version": "0.0.3",
+  "version": "0.0.4",
   "description": "Quasar Framework App Builder",
   "bin": {
     "qapp": "./bin/qapp"
-  },
-  "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
   },
   "repository": {
     "type": "git",

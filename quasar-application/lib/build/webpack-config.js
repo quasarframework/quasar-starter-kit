@@ -22,14 +22,9 @@ function cliResolve (dir) {
 module.exports = function (cfg) {
   const cssUtils = getCssUtils(cfg.ctx)
 
-  let appEntry = [ appResolve(`.quasar/entry.js`) ]
-  if (cfg.build.supportIE) {
-    appEntry.unshift(cliResolve(`node_modules/quasar-framework/dist/quasar.ie.polyfills.js`))
-  }
-
   let webpackConfig = {
     entry: {
-      app: appEntry
+      app: [ appPaths.entryFile ]
     },
     resolve: {
       extensions: [
@@ -82,7 +77,7 @@ module.exports = function (cfg) {
           loader: 'babel-loader',
           include: [
             appPaths.srcDir,
-            appResolve(`.quasar/entry.js`)
+            appPaths.entryFile
           ]
         },
         {

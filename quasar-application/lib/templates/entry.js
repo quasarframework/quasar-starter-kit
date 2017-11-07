@@ -4,6 +4,11 @@ function hash (str) {
   return name.charAt(0).toUpperCase() + name.slice(1)
 }
 %>
+
+<% if (supportIE) { %>
+require('quasar-framework/dist/quasar.ie.polyfills.js')
+<% } %>
+
 import Vue from 'vue'
 import Quasar from 'quasar'
 

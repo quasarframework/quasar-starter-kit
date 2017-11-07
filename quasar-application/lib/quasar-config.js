@@ -5,7 +5,7 @@ const path = require('path')
 
 const
   fs = require('fs'),
-  generateWebpackConfig = require('./build/generate-webpack-config'),
+  generateWebpackConfig = require('./build/webpack-config'),
   appPaths = require('./app-paths'),
   resolve = require('path').resolve,
   merge = require('webpack-merge'),
@@ -96,41 +96,38 @@ class QuasarConfig {
       publicPath = cfg.build.publicPath
     }
 
-    cfg.build = merge(
-      {
-        publicPath,
-        debug: this.ctx.dev,
-        distDir: `dist-${this.ctx.modeName}`,
-        htmlFilename: 'index.html',
-        defines: {
-          'process.env': {
-            NODE_ENV: `"${this.ctx.prod ? 'production' : 'development'}"`
-          },
-          'DEV': this.ctx.dev,
-          'PROD': this.ctx.prod,
-          '__THEME__': `"${this.ctx.themeName}"`
-        }
-      },
-      cfg.build || {}
-    )
+    // make sure it exists
+    cfg.supportIE = cfg.supportIE || false
 
-    cfg.devServer = merge(
-      {
-        contentBase: '/work/app/template/frontend/',
-        publicPath,
-        hot: true,
-        inline: true,
-        overlay: true,
-        quiet: true,
-        historyApiFallback: true,
-        noInfo: true,
-        disableHostCheck: true,
-        host: this.opts.host,
-        port: this.opts.port,
-        open: true
-      },
-      cfg.devServer || {}
-    )
+    cfg.build = merge({
+      publicPath,
+      debug: this.ctx.dev,
+      distDir: `dist-${this.ctx.modeName}`,
+      htmlFilename: 'index.html',
+      defines: {
+        'process.env': {
+          NODE_ENV: `"${this.ctx.prod ? 'production' : 'development'}"`,
+          DEV: this.ctx.dev,
+          PROD: this.ctx.prod,
+          THEME: `"${this.ctx.themeName}"`
+        }
+      }
+    }, cfg.build || {})
+
+    cfg.devServer = merge({
+      contentBase: '/work/app/template/frontend/',
+      publicPath,
+      hot: true,
+      inline: true,
+      overlay: true,
+      quiet: true,
+      historyApiFallback: true,
+      noInfo: true,
+      disableHostCheck: true,
+      host: this.opts.host,
+      port: this.opts.port,
+      open: true
+    }, cfg.devServer || {})
 
     if (process.env.PORT) {
       cfg.devServer.port = process.env.PORT
