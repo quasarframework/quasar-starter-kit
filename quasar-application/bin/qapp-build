@@ -5,17 +5,7 @@ process.env.DEBUG = process.env.DEBUG || 'qapp:*'
 const debug = require('debug')('qapp:build')
 debug.color = 2 // force green color
 
-// cli deps
-const
-  parseArgs = require('minimist'),
-  path = require('path'),
-  chalk = require('chalk'),
-  webpack = require('webpack')
-
-const
-  appPaths = require('../lib/app-paths'),
-  QuasarConfig = require('../lib/quasar-config'),
-  resolve = path.resolve
+const parseArgs = require('minimist')
 
 const argv = parseArgs(process.argv.slice(2), {
   alias: {
@@ -53,6 +43,15 @@ if (argv.help) {
 }
 
 const
+  chalk = require('chalk'),
+  webpack = require('webpack')
+
+const
+  appPaths = require('../lib/app-paths'),
+  QuasarConfig = require('../lib/quasar-config'),
+  Generator = require('../lib/generator')
+
+const
   quasarConfig = new QuasarConfig({
     filename: argv['config-file'],
     theme: argv.theme,
@@ -61,7 +60,7 @@ const
     prod: true,
     debug: argv.debug
   }),
-  entry = new EntryCompiler(quasarConfig),
+  generator = new Generator(quasarConfig),
   webpackConfig = quasarConfig.getWebpackConfig(),
   buildConfig = quasarConfig.getBuildConfig()
 
@@ -71,7 +70,7 @@ console.log(' building for Cordova or Electron.\n')
 
 console.log(chalk.bold(` Building Quasar App with "${argv.theme}" theme...\n`))
 
-entry.build()
+generator.build()
 webpack(webpackConfig, (err, stats) => {
   if (err) { throw err }
 

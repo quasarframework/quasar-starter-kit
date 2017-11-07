@@ -55,7 +55,7 @@ if (argv.help) {
 const
   DevServer = require('../lib/dev-server'),
   QuasarConfig = require('../lib/quasar-config'),
-  EntryCompiler = require('../lib/entry-compiler')
+  Generator = require('../lib/generator')
 
 const
   quasarConfig = new QuasarConfig({
@@ -72,13 +72,13 @@ const
     },
     onAppChange () {
       debug(`Updating app...`)
-      entry.build()
+      generator.build()
     }
   }),
-  entry = new EntryCompiler(quasarConfig)
+  generator = new Generator(quasarConfig)
 
 function startDev (oldDevServer) {
-  entry.build()
+  generator.build()
   const devServer = new DevServer(quasarConfig)
 
   return Promise.resolve()

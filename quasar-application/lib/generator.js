@@ -1,22 +1,30 @@
+const debug = require('debug')('qapp:generator')
+debug.color = 2 // force green color
+
 const
   fs = require('fs'),
   mkdirp = require('mkdirp').sync,
   dirname = require('path').dirname,
-  Handlebars = require('handlebars')
+  compileTemplate = require('lodash.template')
 
 const appPaths = require('./app-paths')
 
-class EntryCompiler {
+class Generator {
   constructor (quasarConfig) {
     const content = fs.readFileSync(appPaths.entryTemplateFile, 'utf-8')
-    this.template = Handlebars.compile(content)
+    this.template = compileTemplate(content)
     this.quasarConfig = quasarConfig
   }
 
   build () {
+    debug(`Generating entry point`)
     const data = this.quasarConfig.getBuildConfig()
+    // console.log(this.template(data))
+    // process.exit(0)
+
     mkdirp(dirname(appPaths.entryFile))
     fs.writeFileSync(appPaths.entryFile, this.template(data), 'utf-8')
+
 
     const
       now = Date.now() / 1000,
@@ -26,4 +34,4 @@ class EntryCompiler {
   }
 }
 
-module.exports = EntryCompiler
+module.exports = Generator

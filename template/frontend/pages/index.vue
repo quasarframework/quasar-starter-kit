@@ -1,6 +1,6 @@
 <template>
   <q-page class="text-center">
-    <div>The logo X</div>
+    <div>The logo</div>
     <img src="statics/quasar-logo-full.svg">
   </q-page>
 </template>

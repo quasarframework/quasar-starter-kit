@@ -16,15 +16,15 @@ module.exports = function (ctx) {
       'my-style.styl'
     ],
     extras: [
-      ctx.theme.mat ? 'roboto-font' : '',
+      ctx.theme.mat ? 'roboto-font' : null,
       'material-icons'
       // 'ionicons',
       // 'fontawesome',
       // 'animate'
     ],
     build: {
-      supportIE: true,
-      wow () {
+      supportIE: false,
+      test () {
         // console.log('a')
       }
     },

@@ -1,5 +1,4 @@
 const
-  fs = require('fs'),
   chalk = require('chalk'),
   path = require('path'),
   webpack = require('webpack'),
@@ -20,8 +19,8 @@ function cliResolve (dir) {
   return path.join(appPaths.cliDir, dir)
 }
 
-module.exports = function (ctx, cfg) {
-  const cssUtils = getCssUtils(ctx)
+module.exports = function (cfg) {
+  const cssUtils = getCssUtils(cfg.ctx)
 
   let appEntry = [ appResolve(`.quasar/entry.js`) ]
   if (cfg.build.supportIE) {
@@ -34,8 +33,8 @@ module.exports = function (ctx, cfg) {
     },
     resolve: {
       extensions: [
-        `.${ctx.themeName}.js`, '.js',
-        `.${ctx.themeName}.vue`, '.vue',
+        `.${cfg.ctx.themeName}.js`, '.js',
+        `.${cfg.ctx.themeName}.vue`, '.vue',
         '.json'
       ],
       modules: [
@@ -44,19 +43,13 @@ module.exports = function (ctx, cfg) {
         cliResolve('node_modules')
       ],
       alias: {
-        quasar: cliResolve(`node_modules/quasar-framework/dist/quasar.${ctx.themeName}.esm.js`),
-        'quasar-styl': cliResolve(`node_modules/quasar-framework/dist/quasar.${ctx.themeName}.styl`),
+        quasar: cliResolve(`node_modules/quasar-framework/dist/quasar.${cfg.ctx.themeName}.esm.js`),
+        'quasar-styl': cliResolve(`node_modules/quasar-framework/dist/quasar.${cfg.ctx.themeName}.styl`),
         variables: srcResolve(`themes/app.variables.styl`),
         '~': appPaths.srcDir,
-        css: srcResolve(`css`),
+        '@': srcResolve(`components`),
         layouts: srcResolve(`layouts`),
-        components: srcResolve(`components`),
         pages: srcResolve(`pages`),
-        plugins: srcResolve(`plugins`),
-        router: srcResolve(`router`),
-        store: srcResolve(`store`),
-        themes: srcResolve(`themes`),
-        statics: srcResolve(`statics`),
         assets: srcResolve(`assets`)
       }
     },
@@ -74,7 +67,7 @@ module.exports = function (ctx, cfg) {
           options: {
             loaders: cssUtils.cssLoaders({
               sourceMap: cfg.build.debug,
-              extract: ctx.prod
+              extract: cfg.ctx.prod
             }),
             transformToRequire: {
               video: 'src',
@@ -89,14 +82,8 @@ module.exports = function (ctx, cfg) {
           loader: 'babel-loader',
           include: [
             appPaths.srcDir,
-            cliResolve('lib/app/entry.js')
-          ],
-          options: JSON.parse(
-            fs.readFileSync(
-              appResolve('.babelrc'),
-              'utf8'
-            )
-          )
+            appResolve(`.quasar/entry.js`)
+          ]
         },
         {
           test: /\.json$/,
@@ -140,7 +127,7 @@ module.exports = function (ctx, cfg) {
   }
 
   // DEVELOPMENT build
-  if (ctx.dev) {
+  if (cfg.ctx.dev) {
     const
       HtmlWebpackPlugin = require('html-webpack-plugin'),
       FriendlyErrorsPlugin = require('friendly-errors-webpack-plugin')

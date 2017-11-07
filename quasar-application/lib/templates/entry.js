@@ -1,3 +1,9 @@
+<%
+function hash (str) {
+  const name = str.replace(/\W+/g, '')
+  return name.charAt(0).toUpperCase() + name.slice(1)
+}
+%>
 import Vue from 'vue'
 import Quasar from 'quasar'
 
@@ -6,13 +12,20 @@ import QuasarOptions from '~/quasar-imports'
 
 Vue.use(Quasar, QuasarOptions)
 
-require(`themes/app.${__THEME__}.styl`)
-require(`quasar-extras/roboto-font`) // TODO
-require(`quasar-extras/material-icons`) // TODO
-require(`css`)
+require(`themes/app.<%= ctx.themeName %>.styl`)
 
-import { createRouter } from 'router'
-import { createStore } from 'store'
+<%
+extras && extras.filter(asset => asset).forEach(asset => {
+%>
+require('quasar-extras/<%= asset %>')
+<% }) %>
+
+<% css && css.forEach(asset => { %>
+require('~/css/<%= asset %>')
+<% }) %>
+
+import { createRouter } from '~/router'
+import { createStore } from '~/store'
 
 const
   router = createRouter(),
@@ -31,7 +44,7 @@ const inject = function (key, value) {
   }
 
   key = '$' + key
-  const installKey = `__quasar_${key}_installed__`
+  const installKey = '__quasar_' + key + '_installed__'
 
   if (Vue[installKey]) {
     return
@@ -43,13 +56,17 @@ const inject = function (key, value) {
   }
 }
 
-import plugins from 'plugins'
-
-plugins.forEach(plugin => {
-  if (typeof plugin === 'function') {
-    plugin({ app, router, store, inject })
-  }
-})
+<% if (plugins) { %>
+const plugins = []
+<%
+plugins.filter(asset => asset).forEach(asset => {
+  let importName = 'plugin' + hash(asset)
+%>
+import <%= importName %> from '~/plugins/<%= asset %>'
+plugins.push(<%= importName %>)
+<% }) %>
+plugins.forEach(plugin => plugin({ app, router, store, inject }))
+<% } %>
 
 /* eslint-disable no-new */
 new Vue(app)

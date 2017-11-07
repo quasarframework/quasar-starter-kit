@@ -46,7 +46,7 @@ class QuasarConfig {
   constructor (opts) {
     this.filename = resolve(appPaths.appDir, opts.filename)
     this.opts = opts
-    this.quasarConfigCtx = getQuasarConfigCtx(opts)
+    this.ctx = getQuasarConfigCtx(opts)
 
     this.watch = opts.onBuildChange || opts.onAppChange
 
@@ -69,10 +69,6 @@ class QuasarConfig {
     this.refresh()
   }
 
-  getQuasarConfigCtx () {
-    return this.quasarConfigCtx
-  }
-
   getBuildConfig () {
     return this.buildConfig
   }
@@ -93,8 +89,8 @@ class QuasarConfig {
       process.exit(1)
     }
 
-    const cfg = config(this.quasarConfigCtx)
-    let publicPath = this.quasarConfigCtx.dev ? '' : '/'
+    const cfg = config(this.ctx)
+    let publicPath = this.ctx.dev ? '' : '/'
 
     if (cfg.build && cfg.build.publicPath) {
       publicPath = cfg.build.publicPath
@@ -103,16 +99,16 @@ class QuasarConfig {
     cfg.build = merge(
       {
         publicPath,
-        debug: this.quasarConfigCtx.dev,
-        distDir: `dist-${this.quasarConfigCtx.modeName}`,
+        debug: this.ctx.dev,
+        distDir: `dist-${this.ctx.modeName}`,
         htmlFilename: 'index.html',
         defines: {
           'process.env': {
-            NODE_ENV: `"${this.quasarConfigCtx.prod ? 'production' : 'development'}"`
+            NODE_ENV: `"${this.ctx.prod ? 'production' : 'development'}"`
           },
-          'DEV': this.quasarConfigCtx.dev,
-          'PROD': this.quasarConfigCtx.prod,
-          '__THEME__': `"${this.quasarConfigCtx.themeName}"`
+          'DEV': this.ctx.dev,
+          'PROD': this.ctx.prod,
+          '__THEME__': `"${this.ctx.themeName}"`
         }
       },
       cfg.build || {}
@@ -143,8 +139,6 @@ class QuasarConfig {
       cfg.devServer.host = process.env.HOSTNAME
     }
 
-    cfg.build.uri = `http${cfg.devServer.https ? 's' : ''}://${cfg.devServer.host}:${cfg.devServer.port}`
-
     if (this.watch) {
       const newBuild = encodeConfig(cfg)
 
@@ -155,8 +149,11 @@ class QuasarConfig {
       this.oldBuild = newBuild
     }
 
+    cfg.ctx = this.ctx
+    cfg.build.uri = `http${cfg.devServer.https ? 's' : ''}://${cfg.devServer.host}:${cfg.devServer.port}`
+
     this.buildConfig = cfg
-    let webpackConfig = generateWebpackConfig(this.quasarConfigCtx, cfg)
+    let webpackConfig = generateWebpackConfig(cfg)
 
     if (typeof cfg.extend === 'function') {
       cfg.extend(webpackConfig)

@@ -15,9 +15,9 @@ const
 class DevServer {
   constructor (quasarConfig) {
     this.webpackConfig = quasarConfig.getWebpackConfig()
-    this.ctx = quasarConfig.getQuasarConfigCtx()
 
     const cfg = quasarConfig.getBuildConfig()
+    this.ctx = cfg.ctx
     this.opts = cfg.devServer
     this.uri = cfg.build.uri
   }
