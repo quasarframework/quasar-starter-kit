@@ -40,7 +40,7 @@ const app = {
   el: '#q-app',
   router,
   store,
-  render: h => h(App)
+  ...App
 }
 
 const inject = function (key, value) {
