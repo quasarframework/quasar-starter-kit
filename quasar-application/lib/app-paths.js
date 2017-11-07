@@ -1,12 +1,14 @@
 const resolve = require('path').resolve
 
 const
-  cliDir = resolve(__dirname, '..'),
   appDir = resolve(process.argv[1], '../../../..'),
-  srcDir = resolve(appDir, 'frontend')
+  cliDir = resolve(__dirname, '..')
 
 module.exports = {
   appDir,
-  srcDir,
-  cliDir
+  srcDir: resolve(appDir, 'frontend'),
+  cliDir,
+
+  entryTemplateFile: resolve(cliDir, 'lib/templates/entry.js'),
+  entryFile: resolve(appDir, '.quasar/entry.js')
 }

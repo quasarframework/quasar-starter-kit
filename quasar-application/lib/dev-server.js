@@ -15,17 +15,15 @@ const
 class DevServer {
   constructor (quasarConfig) {
     this.webpackConfig = quasarConfig.getWebpackConfig()
-    const
-      cfg = quasarConfig.getBuildConfig(),
-      ctx = quasarConfig.getQuasarConfigCtx()
+    this.ctx = quasarConfig.getQuasarConfigCtx()
 
-    this.opts = cfg.build.devServer
-    this.theme = ctx.themeName
-    this.uri = `http${this.opts.https ? 's' : ''}://${this.opts.host}:${this.opts.port}`
+    const cfg = quasarConfig.getBuildConfig()
+    this.opts = cfg.devServer
+    this.uri = cfg.build.uri
   }
 
   listen () {
-    debug(`Starting dev server with "${chalk.bold(this.theme)}" theme...`)
+    debug(`Starting dev server with "${chalk.bold(this.ctx.themeName)}" theme...`)
     debug(`Will listen at ${chalk.bold(this.uri)}`)
     if (this.opts.open) {
       debug('Browser will open when build is ready.')

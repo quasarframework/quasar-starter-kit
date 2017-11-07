@@ -55,6 +55,9 @@ if (argv.help) {
 const
   DevServer = require('../lib/dev-server'),
   QuasarConfig = require('../lib/quasar-config'),
+  EntryCompiler = require('../lib/entry-compiler')
+
+const
   quasarConfig = new QuasarConfig({
     filename: argv['config-file'],
     theme: argv.theme,
@@ -63,13 +66,19 @@ const
     host: argv.hostname,
     dev: true,
     debug: true,
-    watch () {
-      debug(`Rebuilding...`)
+    onBuildChange () {
+      debug(`Rebuilding app...`)
       dev = dev.then(startDev)
+    },
+    onAppChange () {
+      debug(`Updating app...`)
+      entry.build()
     }
-  })
+  }),
+  entry = new EntryCompiler(quasarConfig)
 
 function startDev (oldDevServer) {
+  entry.build()
   const devServer = new DevServer(quasarConfig)
 
   return Promise.resolve()

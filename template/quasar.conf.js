@@ -23,10 +23,15 @@ module.exports = function (ctx) {
       // 'animate'
     ],
     build: {
-      supportIE: false,
-      devServer: {
-        // https: true
+      supportIE: true,
+      wow () {
+        // console.log('a')
       }
+    },
+    devServer: {
+      // https: true,
+      // port: 8080,
+      open: false
     },
     extend (config) {
       config.module.rules.push({

@@ -21,12 +21,10 @@ function cliResolve (dir) {
 }
 
 module.exports = function (ctx, cfg) {
-  const
-    build = cfg.build,
-    cssUtils = getCssUtils(ctx)
+  const cssUtils = getCssUtils(ctx)
 
-  let appEntry = [ cliResolve(`lib/app/entry.js`) ]
-  if (build.supportIE) {
+  let appEntry = [ appResolve(`.quasar/entry.js`) ]
+  if (cfg.build.supportIE) {
     appEntry.unshift(cliResolve(`node_modules/quasar-framework/dist/quasar.ie.polyfills.js`))
   }
 
@@ -75,7 +73,7 @@ module.exports = function (ctx, cfg) {
           loader: 'vue-loader',
           options: {
             loaders: cssUtils.cssLoaders({
-              sourceMap: ctx.debug,
+              sourceMap: cfg.build.debug,
               extract: ctx.prod
             }),
             transformToRequire: {
@@ -131,7 +129,7 @@ module.exports = function (ctx, cfg) {
       ]
     },
     plugins: [
-      new webpack.DefinePlugin(cfg.defines),
+      new webpack.DefinePlugin(cfg.build.defines),
       new ProgressBarPlugin({
         format: ` [:bar] ${chalk.bold(':percent')} (:msg)`
       })
@@ -151,7 +149,7 @@ module.exports = function (ctx, cfg) {
       // cheap-module-eval-source-map is faster for development
       devtool: '#cheap-module-eval-source-map',
       module: {
-        rules: cssUtils.styleLoaders({ sourceMap: build.debug })
+        rules: cssUtils.styleLoaders({ sourceMap: cfg.build.debug })
       },
       plugins: [
         new webpack.NoEmitOnErrorsPlugin(),
@@ -163,15 +161,15 @@ module.exports = function (ctx, cfg) {
         }),
         new FriendlyErrorsPlugin({
           compilationSuccessInfo: {
-            messages: [`App is running at http${build.devServer.https ? 's' : ''}://${build.devServer.host}:${build.devServer.port}\n`],
+            messages: [`App is running at ${cfg.build.uri}\n`],
           },
           clearConsole: true
         })
       ]
     })
 
-    if (build.devServer.hot) {
-      require('webpack-dev-server').addDevServerEntrypoints(webpackConfig, build.devServer)
+    if (cfg.devServer.hot) {
+      require('webpack-dev-server').addDevServerEntrypoints(webpackConfig, cfg.devServer)
       webpackConfig = merge(webpackConfig, {
         plugins: [
           new webpack.NamedModulesPlugin(),
@@ -189,16 +187,16 @@ module.exports = function (ctx, cfg) {
       CopyWebpackPlugin = require('copy-webpack-plugin')
 
     webpackConfig = merge(webpackConfig, {
-      devtool: build.debug ? '#source-map' : false,
+      devtool: cfg.build.debug ? '#source-map' : false,
       module: {
         rules: cssUtils.styleLoaders({
-          sourceMap: build.debug,
+          sourceMap: cfg.build.debug,
           extract: true
         })
       },
       output: {
-        path: appResolve(build.distDir),
-        publicPath: build.publicPath,
+        path: appResolve(cfg.build.distDir),
+        publicPath: cfg.build.publicPath,
         filename: 'js/[name].js',
         chunkFilename: 'js/[id].[chunkhash].js'
       },
@@ -208,10 +206,10 @@ module.exports = function (ctx, cfg) {
           filename: '[name].[contenthash].css'
         }),
         new HtmlWebpackPlugin({
-          filename: path.join(appResolve(build.distDir), build.htmlFilename),
+          filename: path.join(appResolve(cfg.build.distDir), cfg.build.htmlFilename),
           template: srcResolve(`index.template.html`),
           inject: true,
-          minify: build.debug ? {} : {
+          minify: cfg.build.debug ? {} : {
             removeComments: true,
             collapseWhitespace: true,
             removeAttributeQuotes: true
@@ -248,19 +246,19 @@ module.exports = function (ctx, cfg) {
         new CopyWebpackPlugin([
           {
             from: srcResolve(`statics`),
-            to: path.join(appResolve(build.distDir), 'statics')
+            to: path.join(appResolve(cfg.build.distDir), 'statics')
           }
         ])
       ]
     })
 
-    if (!build.debug) {
+    if (!cfg.build.debug) {
       webpackConfig.plugins.push(
         new webpack.optimize.UglifyJsPlugin({
           compress: {
             warnings: false
           },
-          sourceMap: build.debug
+          sourceMap: cfg.build.debug
         })
       )
       webpackConfig.plugins.push(

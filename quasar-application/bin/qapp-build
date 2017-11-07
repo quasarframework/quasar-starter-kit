@@ -61,6 +61,7 @@ const
     prod: true,
     debug: argv.debug
   }),
+  entry = new EntryCompiler(quasarConfig),
   webpackConfig = quasarConfig.getWebpackConfig(),
   buildConfig = quasarConfig.getBuildConfig()
 
@@ -70,6 +71,7 @@ console.log(' building for Cordova or Electron.\n')
 
 console.log(chalk.bold(` Building Quasar App with "${argv.theme}" theme...\n`))
 
+entry.build()
 webpack(webpackConfig, (err, stats) => {
   if (err) { throw err }
 
