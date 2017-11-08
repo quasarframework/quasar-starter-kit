@@ -78,7 +78,7 @@ class QuasarConfig {
   }
 
   refresh () {
-    debug(`Parsing Quasar config file`)
+    debug(`Parsing ${this.opts.filename}`)
     let config
 
     if (fs.existsSync(this.filename)) {

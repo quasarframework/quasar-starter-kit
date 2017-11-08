@@ -20,6 +20,21 @@ function cliResolve (dir) {
 }
 
 module.exports = function (cfg) {
+  const injectQScripts = (() => {
+    let output = ''
+    if (cfg.ctx.mode.cordova) {
+      output += `<script type="text/javascript" src="cordova.js"></script>`
+    }
+    if (cfg.ctx.dev) {
+      output += `
+        <script type="text/javascript">
+        console.log('[Quasar] Running on mode ${cfg.ctx.modeName.toUpperCase()} with ${cfg.ctx.themeName.toUpperCase()} theme.')
+        </script>
+      `
+    }
+    return output
+  })()
+
   let webpackConfig = {
     entry: {
       app: [ appPaths.entryFile ]
@@ -151,7 +166,11 @@ module.exports = function (cfg) {
       new HtmlWebpackPlugin({
         filename: 'index.html',
         template: srcResolve(`index.template.html`),
-        inject: true
+        inject: true,
+
+        // custom ones
+        ctx: cfg.ctx,
+        injectQScripts
       })
     )
 
@@ -191,9 +210,14 @@ module.exports = function (cfg) {
             // https://github.com/kangax/html-minifier#options-quick-reference
           }
           : undefined,
+        // inject bundles
         inject: true,
         // necessary to consistently work with multiple chunks via CommonsChunkPlugin
-        chunksSortMode: 'dependency'
+        chunksSortMode: 'dependency',
+
+        // custom ones
+        ctx: cfg.ctx,
+        injectQScripts
       })
     )
 

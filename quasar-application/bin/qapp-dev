@@ -6,7 +6,8 @@ debug.color = 2 // force green color
 // cli deps
 const
   parseArgs = require('minimist'),
-  path = require('path')
+  path = require('path'),
+  chalk = require('chalk')
 
 const
   appPaths = require('../lib/app-paths'),
@@ -41,7 +42,7 @@ if (argv.help) {
       $ npm run dev -p <port number>
     Options
       --theme, -t         App theme (default: mat)
-      --mode, -m          App mode (default: spa)
+      --mode, -m          App mode [spa|pwa|cordova|electron] (default: spa)
       --port, -p          A port number on which to start the application
       --hostname, -h      A hostname to use for serving the application
       --config-file, -c   Path to Quasar config file (default: quasar.config.js)
@@ -49,6 +50,8 @@ if (argv.help) {
   `)
   process.exit(0)
 }
+
+debug(`Mode [ ${chalk.red(argv.mode.toUpperCase())} ] with [ ${chalk.red(argv.theme.toUpperCase())} ] theme`)
 
 const
   DevServer = require('../lib/dev-server'),

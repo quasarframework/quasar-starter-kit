@@ -34,7 +34,7 @@ if (argv.help) {
       $ npm run build -p <port number>
     Options
       --theme, -t         App theme (default: mat)
-      --mode, -m          App mode (default: spa)
+      --mode, -m          App mode [spa|pwa|cordova|electron] (default: spa)
       --config-file, -c   Path to Quasar config file (default: quasar.config.js)
       --help, -h          Displays this message
   `)
@@ -44,6 +44,8 @@ if (argv.help) {
 const
   chalk = require('chalk'),
   webpack = require('webpack')
+
+debug(`Mode [ ${chalk.red(argv.mode.toUpperCase())} ] with [ ${chalk.red(argv.theme.toUpperCase())} ] theme`)
 
 const
   appPaths = require('../lib/app-paths'),
