@@ -12,11 +12,10 @@ const argv = parseArgs(process.argv.slice(2), {
   alias: {
     t: 'theme',
     m: 'mode',
-    d: 'debug',
     c: 'config-file',
     h: 'help'
   },
-  boolean: ['h', 'd'],
+  boolean: ['h'],
   string: ['t', 'm', 'c'],
   default: {
     t: 'mat',
@@ -36,7 +35,6 @@ if (argv.help) {
     Options
       --theme, -t         App theme (default: mat)
       --mode, -m          App mode (default: spa)
-      --debug, -d         Add sourcemaps, remove minification
       --config-file, -c   Path to Quasar config file (default: quasar.config.js)
       --help, -h          Displays this message
   `)
@@ -58,8 +56,7 @@ const
     theme: argv.theme,
     mode: argv.mode,
     port: argv.port,
-    prod: true,
-    debug: argv.debug
+    prod: true
   }),
   generator = new Generator(quasarConfig),
   webpackConfig = quasarConfig.getWebpackConfig(),
@@ -82,25 +79,25 @@ webpack(webpackConfig, (err, stats) => {
   }) + '\n')
 
   if (stats.hasErrors()) {
-    debug(chalk.red('Build failed with errors.\n'))
+    warn(chalk.red('[FAIL] Build failed with errors'))
     process.exit(1)
   }
 
   console.log()
   debug(chalk.cyan(
-    `[success] ${chalk.bold(mode)} with "${chalk.bold(argv.theme)}" theme in "${chalk.bold(buildConfig.build.distDir)}" folder.`
+    `[SUCCESS] ${chalk.bold(mode)} with "${chalk.bold(argv.theme)}" theme in "${chalk.bold(buildConfig.build.distDir)}" folder`
   ))
   console.log()
 
-  warn('Do NOT use VueRouter\'s "history" mode if building for Cordova or Electron.')
+  warn('Do NOT use VueRouter\'s "history" mode if building for Cordova or Electron')
   console.log()
 
-  warn('Built files are meant to be served over an HTTP server.')
-  warn(`Opening ${buildConfig.build.htmlFilename} over file:// won't work.`)
+  warn('Built files are meant to be served over an HTTP server')
+  warn(`Opening ${buildConfig.build.htmlFilename} over file:// won't work`)
   console.log()
 
   if (buildConfig.build.debug) {
-    warn(`Built for ${chalk.bold('DEBUG')} - Do NOT deploy this version to production.`)
+    warn(`Built for ${chalk.bold('DEBUG')} - Do NOT deploy this version to production`)
     console.log()
   }
 })

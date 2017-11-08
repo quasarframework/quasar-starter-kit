@@ -36,9 +36,10 @@ function encode (obj) {
 
 function encodeConfig (obj) {
   return [
-    encode(obj.build),
-    encode(obj.devServer),
-    encode(obj.extendWebpack)
+    obj.build ? encode(obj.build) : '',
+    obj.devServer ? encode(obj.devServer) : '',
+    obj.extendWebpack ? encode(obj.extendWebpack) : '',
+    obj.vendor ? encode(obj.vendor) : ''
   ].join('')
 }
 
@@ -57,7 +58,7 @@ class QuasarConfig {
         .on('change', debounce(() => {
           debug(`${opts.filename} changed`)
           this.refresh()
-          if (this.buildChanged) {
+          if (this.webpackConfigChanged) {
             opts.onBuildChange()
           }
           else {
@@ -91,6 +92,19 @@ class QuasarConfig {
     }
 
     const cfg = config(this.ctx)
+
+    // if watching for changes,
+    // then determine the type (webpack related or not)
+    if (this.watch) {
+      const newConfigSnapshot = encodeConfig(cfg)
+
+      if (this.oldConfigSnapshot) {
+        this.webpackConfigChanged = newConfigSnapshot !== this.oldConfigSnapshot
+      }
+
+      this.oldConfigSnapshot = newConfigSnapshot
+    }
+
     let publicPath = this.ctx.dev ? '' : '/'
 
     if (cfg.build && cfg.build.publicPath) {
@@ -103,18 +117,26 @@ class QuasarConfig {
     cfg.build = merge({
       publicPath,
       debug: this.ctx.debug,
+      extractCSS: this.ctx.prod,
+      sourceMap: this.ctx.dev,
+      minify: this.ctx.prod,
       distDir: `dist-${this.ctx.modeName}`,
       htmlFilename: 'index.html',
-      defines: {
-        'process.env': {
-          NODE_ENV: `"${this.ctx.prod ? 'production' : 'development'}"`,
-          DEV: this.ctx.dev,
-          PROD: this.ctx.prod,
-          THEME: `"${this.ctx.themeName}"`,
-          MODE: `"${this.ctx.modeName}"`
-        }
+      webpackManifest: this.ctx.prod,
+      env: {
+        NODE_ENV: `"${this.ctx.prod ? 'production' : 'development'}"`,
+        DEV: this.ctx.dev,
+        PROD: this.ctx.prod,
+        THEME: `"${this.ctx.themeName}"`,
+        MODE: `"${this.ctx.modeName}"`
       }
     }, cfg.build || {})
+
+    if (!cfg.build.devtool) {
+      cfg.build.devtool = this.ctx.dev
+        ? '#cheap-module-eval-source-map'
+        : '#source-map'
+    }
 
     if (cfg.build.gzip) {
       let gzip = cfg.build.gzip === true
@@ -158,14 +180,10 @@ class QuasarConfig {
       cfg.devServer.host = process.env.HOSTNAME
     }
 
-    if (this.watch) {
-      const newBuild = encodeConfig(cfg)
-
-      if (this.oldBuild) {
-        this.buildChanged = newBuild !== this.oldBuild
-      }
-
-      this.oldBuild = newBuild
+    if (this.ctx.dev) {
+      // force some configuration
+      cfg.build.minify = false
+      cfg.build.extractCSS = false
     }
 
     cfg.ctx = this.ctx

@@ -63,7 +63,6 @@ const
     port: argv.port,
     host: argv.hostname,
     dev: true,
-    debug: true,
     onBuildChange () {
       debug(`Rebuilding app...`)
       dev = dev.then(startDev)
@@ -76,11 +75,11 @@ const
   generator = new Generator(quasarConfig)
 
 function startDev (oldDevServer) {
-  generator.build()
   const devServer = new DevServer(quasarConfig)
 
   return Promise.resolve()
     .then(() => oldDevServer ? oldDevServer.stop() : Promise.resolve()) // Close old builder after successful build
+    .then(() => generator.build()) // Update generated files
     .then(() => devServer.listen()) // Start listening
     .then(() => devServer) // Pass new builder to watch chain
 }

@@ -18,10 +18,15 @@ module.exports = function (ctx) {
       // 'animate'
     ],
     supportIE: true,
+    vendor: {
+      add: ['404.vue'],
+      remove: []
+    },
     build: {
       scopeHoisting: true,
       // gzip: true,
       // analyze: true,
+      // extractCSS: false,
       test () {
         // console.log('a')
       }
