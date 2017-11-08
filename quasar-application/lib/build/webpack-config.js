@@ -199,14 +199,16 @@ module.exports = function (cfg) {
         // split vendor js into its own file
         new webpack.optimize.CommonsChunkPlugin({
           name: 'vendor',
-          minChunks: function (module, count) {
-            // any required modules inside node_modules are extracted to vendor
+          minChunks (module) {
+            // A module is extracted into the vendor chunk when...
             return (
-              module.resource &&
+              // It's a JS file
               /\.js$/.test(module.resource) &&
               (
-                module.resource.indexOf('quasar') > -1 ||
-                module.resource.indexOf('node_modules') > -1
+                // If it's inside node_modules
+                /node_modules/.test(module.context) ||
+                // or it's Quasar internals (while developing)
+                /\/quasar\//.test(module.resource)
               )
             )
           }
@@ -226,6 +228,15 @@ module.exports = function (cfg) {
         ])
       ]
     })
+
+    if (cfg.build.scopeHoisting) {
+      webpackConfig.plugins.push(new webpack.optimize.ModuleConcatenationPlugin())
+    }
+
+    if (cfg.build.analyze) {
+      const BundleAnalyzerPlugin = require('webpack-bundle-analyzer').BundleAnalyzerPlugin
+      webpackConfig.plugins.push(new BundleAnalyzerPlugin(Object.assign({}, cfg.build.analyze)))
+    }
 
     if (!cfg.build.debug) {
       webpackConfig.plugins.push(

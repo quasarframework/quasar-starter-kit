@@ -1,4 +1,4 @@
-const debug = require('debug')('qapp:conf')
+const debug = require('debug')('app:conf')
 debug.color = 2 // force green color
 
 const path = require('path')
@@ -38,7 +38,7 @@ function encodeConfig (obj) {
   return [
     encode(obj.build),
     encode(obj.devServer),
-    encode(obj.extend)
+    encode(obj.extendWebpack)
   ].join('')
 }
 
@@ -55,7 +55,7 @@ class QuasarConfig {
       chokidar
         .watch(this.filename, { watchers: { chokidar: { ignoreInitial: true } } })
         .on('change', debounce(() => {
-          debug(`${opts.filename} changed.`)
+          debug(`${opts.filename} changed`)
           this.refresh()
           if (this.buildChanged) {
             opts.onBuildChange()
@@ -78,6 +78,7 @@ class QuasarConfig {
   }
 
   refresh () {
+    debug(`Parsing Quasar config file`)
     let config
 
     if (fs.existsSync(this.filename)) {
@@ -101,7 +102,7 @@ class QuasarConfig {
 
     cfg.build = merge({
       publicPath,
-      debug: this.ctx.dev,
+      debug: this.ctx.debug,
       distDir: `dist-${this.ctx.modeName}`,
       htmlFilename: 'index.html',
       defines: {
@@ -109,13 +110,14 @@ class QuasarConfig {
           NODE_ENV: `"${this.ctx.prod ? 'production' : 'development'}"`,
           DEV: this.ctx.dev,
           PROD: this.ctx.prod,
-          THEME: `"${this.ctx.themeName}"`
+          THEME: `"${this.ctx.themeName}"`,
+          MODE: `"${this.ctx.modeName}"`
         }
       }
     }, cfg.build || {})
 
     cfg.devServer = merge({
-      contentBase: '/work/app/template/frontend/',
+      contentBase: appPaths.srcDir,
       publicPath,
       hot: true,
       inline: true,
@@ -150,10 +152,12 @@ class QuasarConfig {
     cfg.build.uri = `http${cfg.devServer.https ? 's' : ''}://${cfg.devServer.host}:${cfg.devServer.port}`
 
     this.buildConfig = cfg
+    debug(`Generating Webpack config`)
     let webpackConfig = generateWebpackConfig(cfg)
 
-    if (typeof cfg.extend === 'function') {
-      cfg.extend(webpackConfig)
+    if (typeof cfg.extendWebpack === 'function') {
+      debug(`Extending Webpack config`)
+      cfg.extendWebpack(webpackConfig)
     }
 
     this.webpackConfig = webpackConfig

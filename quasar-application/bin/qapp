@@ -1,14 +1,12 @@
 #!/usr/bin/env node
 
-const join = require('path').join
+process.env.DEBUG = process.env.DEBUG || 'app:*'
 require('../lib/pretty-error')
 
 const defaultCommand = 'dev'
 const commands = new Set([
   defaultCommand,
-  'build',
-  'start',
-  'generate'
+  'build'
 ])
 
 var cmd = process.argv[2]
@@ -20,4 +18,4 @@ else {
   cmd = defaultCommand
 }
 
-require(join(__dirname, 'qapp-' + cmd))
+require(require('path').join(__dirname, 'qapp-' + cmd))

@@ -1,9 +1,10 @@
 #!/usr/bin/env node
 
-// logs
-process.env.DEBUG = process.env.DEBUG || 'qapp:*'
-const debug = require('debug')('qapp:build')
+const debug = require('debug')('app:build')
 debug.color = 2 // force green color
+
+const warn = require('debug')('app:warn')
+warn.color = 1 // force red color
 
 const parseArgs = require('minimist')
 
@@ -35,7 +36,7 @@ if (argv.help) {
     Options
       --theme, -t         App theme (default: mat)
       --mode, -m          App mode (default: spa)
-      --debug, -d         Add sourcemaps etc
+      --debug, -d         Add sourcemaps, remove minification
       --config-file, -c   Path to Quasar config file (default: quasar.config.js)
       --help, -h          Displays this message
   `)
@@ -62,15 +63,13 @@ const
   }),
   generator = new Generator(quasarConfig),
   webpackConfig = quasarConfig.getWebpackConfig(),
-  buildConfig = quasarConfig.getBuildConfig()
-
-console.log(chalk.bold(' WARNING!'))
-console.log(' Do NOT use VueRouter\'s "history" mode if')
-console.log(' building for Cordova or Electron.\n')
-
-console.log(chalk.bold(` Building Quasar App with "${argv.theme}" theme...\n`))
+  buildConfig = quasarConfig.getBuildConfig(),
+  mode = argv.mode.toUpperCase()
 
 generator.build()
+
+debug(chalk.bold(`Building ${mode} with "${argv.theme}" theme...`))
+console.log()
 webpack(webpackConfig, (err, stats) => {
   if (err) { throw err }
 
@@ -83,21 +82,25 @@ webpack(webpackConfig, (err, stats) => {
   }) + '\n')
 
   if (stats.hasErrors()) {
-    console.log(chalk.red(' Build failed with errors.\n'))
+    debug(chalk.red('Build failed with errors.\n'))
     process.exit(1)
   }
 
-  console.log(chalk.cyan(
-    `\n Build complete with "${chalk.bold(argv.theme)}" theme in "${chalk.bold(buildConfig.build.distDir)}" folder.\n`
+  console.log()
+  debug(chalk.cyan(
+    `[success] ${chalk.bold(mode)} with "${chalk.bold(argv.theme)}" theme in "${chalk.bold(buildConfig.build.distDir)}" folder.`
   ))
+  console.log()
 
-  console.log(chalk.bold(' Built files are meant to be served over an HTTP server.'))
-  console.log(chalk.bold(` Opening ${buildConfig.build.htmlFilename} over file:// won't work.`))
+  warn('Do NOT use VueRouter\'s "history" mode if building for Cordova or Electron.')
+  console.log()
+
+  warn('Built files are meant to be served over an HTTP server.')
+  warn(`Opening ${buildConfig.build.htmlFilename} over file:// won't work.`)
+  console.log()
 
   if (buildConfig.build.debug) {
-    console.log(chalk.cyan(
-      '\n Built for ' + chalk.bold('DEBUG') +
-      '\n - Do NOT deploy this version to production.'
-    ))
+    warn(`Built for ${chalk.bold('DEBUG')} - Do NOT deploy this version to production.`)
+    console.log()
   }
 })

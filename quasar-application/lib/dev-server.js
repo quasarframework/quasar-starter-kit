@@ -1,4 +1,4 @@
-const debug = require('debug')('qapp:dev-server')
+const debug = require('debug')('app:dev-server')
 debug.color = 2 // force green color
 
 const
@@ -23,11 +23,7 @@ class DevServer {
   }
 
   listen () {
-    debug(`Starting dev server with "${chalk.bold(this.ctx.themeName)}" theme...`)
-    debug(`Will listen at ${chalk.bold(this.uri)}`)
-    if (this.opts.open) {
-      debug('Browser will open when build is ready.')
-    }
+    debug(`Booting up...`)
     console.log()
 
     this.compiler = webpack(this.webpackConfig)
@@ -47,6 +43,7 @@ class DevServer {
   }
 
   stop () {
+    debug(`Shutting down`)
     this.server.close()
   }
 }

@@ -1,8 +1,6 @@
 #!/usr/bin/env node
 
-// logs
-process.env.DEBUG = process.env.DEBUG || 'qapp:*'
-const debug = require('debug')('qapp:dev')
+const debug = require('debug')('app:dev')
 debug.color = 2 // force green color
 
 // cli deps
