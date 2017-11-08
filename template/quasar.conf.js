@@ -20,6 +20,7 @@ module.exports = function (ctx) {
     supportIE: true,
     build: {
       scopeHoisting: true,
+      // gzip: true,
       // analyze: true,
       test () {
         // console.log('a')

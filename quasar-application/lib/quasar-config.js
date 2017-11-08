@@ -116,6 +116,26 @@ class QuasarConfig {
       }
     }, cfg.build || {})
 
+    if (cfg.build.gzip) {
+      let gzip = cfg.build.gzip === true
+        ? {}
+        : cfg.build.gzip
+      let ext = ['js', 'css']
+
+      if (gzip.extensions) {
+        ext = gzip.extensions
+        delete gzip.extensions
+      }
+
+      cfg.build.gzip = merge({
+        asset: '[path].gz[query]',
+        algorithm: 'gzip',
+        test: new RegExp('\\.(' + ext.join('|') + ')$'),
+        threshold: 10240,
+        minRatio: 0.8
+      }, gzip)
+    }
+
     cfg.devServer = merge({
       contentBase: appPaths.srcDir,
       publicPath,

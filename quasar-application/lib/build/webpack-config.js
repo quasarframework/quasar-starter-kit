@@ -257,6 +257,14 @@ module.exports = function (cfg) {
         })
       )
     }
+
+    if (cfg.build.gzip) {
+      const CompressionWebpackPlugin = require('compression-webpack-plugin')
+
+      webpackConfig.plugins.push(
+        new CompressionWebpackPlugin(cfg.build.gzip)
+      )
+    }
   }
 
   return webpackConfig
