@@ -339,13 +339,15 @@ module.exports = function (cfg) {
       // write manifest.json file
       webpackConfig.plugins.push({
         apply (compiler) {
-          compiler.plugin('after-emit', (compilation, cb) => {
-            fs.writeFile(
-              `${appResolve(cfg.build.distDir)}/manifest.json`,
-              JSON.stringify(cfg.pwa.manifest),
-              'utf-8',
-              cb
-            )
+          compiler.plugin('emit', (compilation, callback) => {
+            const source = JSON.stringify(cfg.pwa.manifest)
+
+            compilation.assets['manifest.json'] = {
+              source: function() { return new Buffer(source) },
+              size: function() { return Buffer.byteLength(source) }
+            }
+
+            callback()
           })
         }
       })
