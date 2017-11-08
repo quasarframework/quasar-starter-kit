@@ -6,10 +6,10 @@
   "private": true,
   "scripts": {
     "clean": "npm run qapp clean",
-    "dev": "NODE_ENV=development npm run qapp dev --",
-    "start": "npm run dev --",
-    "build": "NODE_ENV=production npm run qapp build --",
-    "qapp": "./node_modules/quasar-application/bin/qapp"
+    "dev": "npm run qapp dev --",
+    "start": "npm run dev",
+    "build": "npm run qapp build --",
+    "qapp": "node ./node_modules/quasar-application/bin/qapp"
   },
   "dependencies": {
     "axios": "^0.16.2",
