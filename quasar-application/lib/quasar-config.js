@@ -34,15 +34,6 @@ function encode (obj) {
   })
 }
 
-function encodeConfig (obj) {
-  return [
-    obj.build ? encode(obj.build) : '',
-    obj.devServer ? encode(obj.devServer) : '',
-    obj.extendWebpack ? encode(obj.extendWebpack) : '',
-    obj.vendor ? encode(obj.vendor) : ''
-  ].join('')
-}
-
 class QuasarConfig {
   constructor (opts) {
     this.filename = resolve(appPaths.appDir, opts.filename)
@@ -95,7 +86,13 @@ class QuasarConfig {
     // if watching for changes,
     // then determine the type (webpack related or not)
     if (this.watch) {
-      const newConfigSnapshot = encodeConfig(cfg)
+      const newConfigSnapshot = [
+        obj.build ? encode(obj.build) : '',
+        obj.devServer ? encode(obj.devServer) : '',
+        obj.extendWebpack ? encode(obj.extendWebpack) : '',
+        obj.vendor ? encode(obj.vendor) : '',
+        obj.pwaManifest ? encode(obj.pwaManifest) : ''
+      ].join('')
 
       if (this.oldConfigSnapshot) {
         this.webpackConfigChanged = newConfigSnapshot !== this.oldConfigSnapshot
@@ -122,6 +119,7 @@ class QuasarConfig {
       distDir: `dist-${this.ctx.modeName}`,
       htmlFilename: 'index.html',
       webpackManifest: this.ctx.prod,
+      pwaCacheId: 'quasar-app',
       env: {
         NODE_ENV: `"${this.ctx.prod ? 'production' : 'development'}"`,
         DEV: this.ctx.dev,
@@ -137,7 +135,7 @@ class QuasarConfig {
         : '#source-map'
     }
 
-    if (cfg.build.gzip) {
+    if (this.ctx.prod && cfg.build.gzip) {
       let gzip = cfg.build.gzip === true
         ? {}
         : cfg.build.gzip
@@ -157,32 +155,52 @@ class QuasarConfig {
       }, gzip)
     }
 
-    cfg.devServer = merge({
-      contentBase: appPaths.srcDir,
-      publicPath,
-      hot: true,
-      inline: true,
-      overlay: true,
-      quiet: true,
-      historyApiFallback: true,
-      noInfo: true,
-      disableHostCheck: true,
-      host: this.opts.host,
-      port: this.opts.port,
-      open: true
-    }, cfg.devServer || {})
+    if (this.ctx.dev) {
+      cfg.devServer = merge({
+        contentBase: appPaths.srcDir,
+        publicPath,
+        hot: true,
+        inline: true,
+        overlay: true,
+        quiet: true,
+        historyApiFallback: true,
+        noInfo: true,
+        disableHostCheck: true,
+        host: this.opts.host,
+        port: this.opts.port,
+        open: true
+      }, cfg.devServer || {})
 
-    if (process.env.PORT) {
-      cfg.devServer.port = process.env.PORT
-    }
-    if (process.env.HOSTNAME) {
-      cfg.devServer.host = process.env.HOSTNAME
+      if (process.env.PORT) {
+        cfg.devServer.port = process.env.PORT
+      }
+      if (process.env.HOSTNAME) {
+        cfg.devServer.host = process.env.HOSTNAME
+      }
     }
 
     if (this.ctx.dev) {
-      // force some configuration
       cfg.build.minify = false
       cfg.build.extractCSS = false
+    }
+    if (this.ctx.mode.pwa) {
+      cfg.build.webpackManifest = false
+
+      cfg.pwa = merge({
+        cacheId: 'quasar-pwa-app',
+        filename: 'service-worker.js',
+        cacheExt: 'js,html,css,woff,ttf,eot,otf,woff,woff2,json,svg,gif,jpg,jpeg,png,wav,ogg,webm,flac,aac,mp4,mp3'
+      }, cfg.pwa || {})
+
+      cfg.pwa.manifest = merge({
+        start_url: `${publicPath}${cfg.build.htmlFilename}`,
+        display: 'standalone'
+      }, cfg.pwa.manifest || {})
+
+      cfg.pwa.manifest.icons = cfg.pwa.manifest.icons.map(icon => {
+        icon.src = `${publicPath}${icon.src}`
+        return icon
+      })
     }
 
     cfg.ctx = this.ctx

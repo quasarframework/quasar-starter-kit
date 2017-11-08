@@ -1,6 +1,7 @@
 const
-  chalk = require('chalk'),
+  fs = require('fs'),
   path = require('path'),
+  chalk = require('chalk'),
   webpack = require('webpack'),
   ProgressBarPlugin = require('progress-bar-webpack-plugin'),
   HtmlWebpackPlugin = require('html-webpack-plugin')
@@ -19,22 +20,39 @@ function cliResolve (dir) {
   return path.join(appPaths.cliDir, dir)
 }
 
-module.exports = function (cfg) {
-  const injectQScripts = (() => {
-    let output = ''
-    if (cfg.ctx.mode.cordova) {
-      output += `<script type="text/javascript" src="cordova.js"></script>`
-    }
+function getHtmlScripts (cfg) {
+  let output = ''
+  if (cfg.ctx.mode.cordova) {
+    output += `<script type="text/javascript" src="cordova.js"></script>`
+  }
+  if (cfg.ctx.dev) {
+    output += `
+      <script>
+        console.log('[Quasar] Running on mode ${cfg.ctx.modeName.toUpperCase()} with ${cfg.ctx.themeName.toUpperCase()} theme.')
+      </script>
+    `
+  }
+  if (cfg.ctx.mode.pwa) {
     if (cfg.ctx.dev) {
       output += `
-        <script type="text/javascript">
-        console.log('[Quasar] Running on mode ${cfg.ctx.modeName.toUpperCase()} with ${cfg.ctx.themeName.toUpperCase()} theme.')
+        <script>
+          ${fs.readFileSync(cliResolve('lib/templates/service-worker-dev.js'), 'utf-8')}
         </script>
       `
     }
-    return output
-  })()
+    else {
+      const loadMinified = require('./load-minified')
+      output += `
+        <script>
+          ${loadMinified(cliResolve('lib/templates/service-worker-prod.js'))}
+        </script>
+      `
+    }
+  }
+  return output
+}
 
+module.exports = function (cfg) {
   let webpackConfig = {
     entry: {
       app: [ appPaths.entryFile ]
@@ -128,6 +146,31 @@ module.exports = function (cfg) {
       }),
       new ProgressBarPlugin({
         format: ` [:bar] ${chalk.bold(':percent')} (:msg)`
+      }),
+      // https://github.com/ampedandwired/html-webpack-plugin
+      new HtmlWebpackPlugin({
+        filename: cfg.ctx.dev
+          ? 'index.html'
+          : path.join(appResolve(cfg.build.distDir), cfg.build.htmlFilename),
+        template: srcResolve(`index.template.html`),
+        minify: cfg.build.minify
+          ? {
+            removeComments: true,
+            collapseWhitespace: true,
+            removeAttributeQuotes: true
+            // more options:
+            // https://github.com/kangax/html-minifier#options-quick-reference
+          }
+          : undefined,
+        // necessary to consistently work with multiple chunks via CommonsChunkPlugin
+        chunksSortMode: cfg.ctx.prod ? 'dependency' : undefined,
+        // inject script tags for bundle
+        inject: true,
+
+        // custom ones
+        ctx: cfg.ctx,
+        pwaManifest: cfg.pwa.manifest,
+        injectQScripts: getHtmlScripts(cfg)
       })
     ],
     performance: {
@@ -160,20 +203,6 @@ module.exports = function (cfg) {
       })
     )
 
-    // generate html file
-    webpackConfig.plugins.push(
-      // https://github.com/ampedandwired/html-webpack-plugin
-      new HtmlWebpackPlugin({
-        filename: 'index.html',
-        template: srcResolve(`index.template.html`),
-        inject: true,
-
-        // custom ones
-        ctx: cfg.ctx,
-        injectQScripts
-      })
-    )
-
     if (cfg.devServer.hot) {
       require('webpack-dev-server').addDevServerEntrypoints(webpackConfig, cfg.devServer)
       webpackConfig.plugins.push(new webpack.NamedModulesPlugin()) // HMR shows filenames in console on update
@@ -195,31 +224,6 @@ module.exports = function (cfg) {
       filename: `js/[name]${cfg.build.webpackManifest ? '' : '.[chunkhash]'}.js`,
       chunkFilename: 'js/[id].[chunkhash].js'
     }
-
-    // generate html file
-    webpackConfig.plugins.push(
-      new HtmlWebpackPlugin({
-        filename: path.join(appResolve(cfg.build.distDir), cfg.build.htmlFilename),
-        template: srcResolve(`index.template.html`),
-        minify: cfg.build.minify
-          ? {
-            removeComments: true,
-            collapseWhitespace: true,
-            removeAttributeQuotes: true
-            // more options:
-            // https://github.com/kangax/html-minifier#options-quick-reference
-          }
-          : undefined,
-        // inject bundles
-        inject: true,
-        // necessary to consistently work with multiple chunks via CommonsChunkPlugin
-        chunksSortMode: 'dependency',
-
-        // custom ones
-        ctx: cfg.ctx,
-        injectQScripts
-      })
-    )
 
     // keep module.id stable when vender modules does not change
     webpackConfig.plugins.push(
@@ -316,6 +320,35 @@ module.exports = function (cfg) {
           })
         )
       }
+    }
+
+    if (cfg.ctx.mode.pwa) {
+      const SWPrecacheWebpackPlugin = require('sw-precache-webpack-plugin')
+
+      // service worker caching
+      webpackConfig.plugins.push(
+        new SWPrecacheWebpackPlugin({
+          cacheId: cfg.pwa.cacheId,
+          filename: cfg.pwa.filename,
+          staticFileGlobs: [`${cfg.build.distDir}/**/*.{${cfg.pwa.cacheExt}}`],
+          minify: true,
+          stripPrefix: cfg.build.distDir + '/'
+        })
+      )
+
+      // write manifest.json file
+      webpackConfig.plugins.push({
+        apply (compiler) {
+          compiler.plugin('after-emit', (compilation, cb) => {
+            fs.writeFile(
+              `${appResolve(cfg.build.distDir)}/manifest.json`,
+              JSON.stringify(cfg.pwa.manifest),
+              'utf-8',
+              cb
+            )
+          })
+        }
+      })
     }
 
     // also produce a gzipped version

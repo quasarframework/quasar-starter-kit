@@ -5,9 +5,9 @@ const
   cliDir = resolve(__dirname, '..')
 
 module.exports = {
+  cliDir,
   appDir,
   srcDir: resolve(appDir, 'src'),
-  cliDir,
 
   entryTemplateFile: resolve(cliDir, 'lib/templates/entry.js'),
   entryFile: resolve(appDir, '.quasar/entry.js')
