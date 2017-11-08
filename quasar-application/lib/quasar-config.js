@@ -50,6 +50,7 @@ class QuasarConfig {
     this.ctx = getQuasarConfigCtx(opts)
 
     this.watch = opts.onBuildChange || opts.onAppChange
+    this.refresh()
 
     if (this.watch) {
       // Start watching for quasar.config.js changes
@@ -66,8 +67,6 @@ class QuasarConfig {
           }
         }), 2500)
     }
-
-    this.refresh()
   }
 
   getBuildConfig () {
