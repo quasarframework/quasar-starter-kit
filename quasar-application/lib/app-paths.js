@@ -6,7 +6,7 @@ const
 
 module.exports = {
   appDir,
-  srcDir: resolve(appDir, 'frontend'),
+  srcDir: resolve(appDir, 'src'),
   cliDir,
 
   entryTemplateFile: resolve(cliDir, 'lib/templates/entry.js'),

@@ -2,30 +2,44 @@ const
   chalk = require('chalk'),
   path = require('path'),
   webpack = require('webpack'),
-  merge = require('webpack-merge'),
-  ProgressBarPlugin = require('progress-bar-webpack-plugin')
+  ProgressBarPlugin = require('progress-bar-webpack-plugin'),
+  HtmlWebpackPlugin = require('html-webpack-plugin')
 
 const
   appPaths = require('../app-paths'),
-  getCssUtils = require('./get-css-utils')
+  cssUtils = require('./get-css-utils')
 
 function appResolve (dir) {
   return path.join(appPaths.appDir, dir)
 }
 function srcResolve (dir) {
-  return path.join(appPaths.appDir, 'frontend', dir)
+  return path.join(appPaths.srcDir, dir)
 }
 function cliResolve (dir) {
   return path.join(appPaths.cliDir, dir)
 }
 
 module.exports = function (cfg) {
-  const cssUtils = getCssUtils(cfg.ctx)
+  const injectQScripts = (() => {
+    let output = ''
+    if (cfg.ctx.mode.cordova) {
+      output += `<script type="text/javascript" src="cordova.js"></script>`
+    }
+    if (cfg.ctx.dev) {
+      output += `
+        <script type="text/javascript">
+        console.log('[Quasar] Running on mode ${cfg.ctx.modeName.toUpperCase()} with ${cfg.ctx.themeName.toUpperCase()} theme.')
+        </script>
+      `
+    }
+    return output
+  })()
 
   let webpackConfig = {
     entry: {
       app: [ appPaths.entryFile ]
     },
+    devtool: cfg.build.sourceMap ? cfg.build.devtool : false,
     resolve: {
       extensions: [
         '.js', '.vue', '.json'
@@ -58,8 +72,9 @@ module.exports = function (cfg) {
           loader: 'vue-loader',
           options: {
             loaders: cssUtils.cssLoaders({
-              sourceMap: cfg.build.debug,
-              extract: cfg.ctx.prod
+              sourceMap: cfg.build.sourceMap,
+              extract: cfg.build.extractCSS,
+              minimize: cfg.build.minify
             }),
             transformToRequire: {
               video: 'src',
@@ -108,7 +123,9 @@ module.exports = function (cfg) {
       ]
     },
     plugins: [
-      new webpack.DefinePlugin(cfg.build.defines),
+      new webpack.DefinePlugin({
+        'process.env': cfg.build.env
+      }),
       new ProgressBarPlugin({
         format: ` [:bar] ${chalk.bold(':percent')} (:msg)`
       })
@@ -118,34 +135,44 @@ module.exports = function (cfg) {
     }
   }
 
+  // inject CSS loaders for outside of .vue
+  webpackConfig.module.rules = webpackConfig.module.rules.concat(
+    cssUtils.styleLoaders({
+      sourceMap: cfg.build.sourceMap,
+      extract: cfg.build.extractCSS,
+      minimize: cfg.build.minify
+    })
+  )
+
   // DEVELOPMENT build
   if (cfg.ctx.dev) {
-    const
-      HtmlWebpackPlugin = require('html-webpack-plugin'),
-      FriendlyErrorsPlugin = require('friendly-errors-webpack-plugin')
+    const FriendlyErrorsPlugin = require('friendly-errors-webpack-plugin')
 
-    webpackConfig = merge(webpackConfig, {
-      // cheap-module-eval-source-map is faster for development
-      devtool: '#cheap-module-eval-source-map',
-      module: {
-        rules: cssUtils.styleLoaders({ sourceMap: cfg.build.debug })
-      },
-      plugins: [
-        new webpack.NoEmitOnErrorsPlugin(),
-        // https://github.com/ampedandwired/html-webpack-plugin,
-        new HtmlWebpackPlugin({
-          filename: 'index.html',
-          template: srcResolve(`index.template.html`),
-          inject: true
-        }),
-        new FriendlyErrorsPlugin({
-          compilationSuccessInfo: {
-            messages: [`App is running at ${cfg.build.uri}\n`],
-          },
-          clearConsole: true
-        })
-      ]
-    })
+    webpackConfig.plugins.push(
+      new webpack.NoEmitOnErrorsPlugin()
+    )
+    webpackConfig.plugins.push(
+      new FriendlyErrorsPlugin({
+        compilationSuccessInfo: {
+          messages: [`App is running at ${cfg.build.uri}\n`],
+        },
+        clearConsole: true
+      })
+    )
+
+    // generate html file
+    webpackConfig.plugins.push(
+      // https://github.com/ampedandwired/html-webpack-plugin
+      new HtmlWebpackPlugin({
+        filename: 'index.html',
+        template: srcResolve(`index.template.html`),
+        inject: true,
+
+        // custom ones
+        ctx: cfg.ctx,
+        injectQScripts
+      })
+    )
 
     if (cfg.devServer.hot) {
       require('webpack-dev-server').addDevServerEntrypoints(webpackConfig, cfg.devServer)
@@ -155,96 +182,154 @@ module.exports = function (cfg) {
   }
   // PRODUCTION build
   else {
-    const
-      ExtractTextPlugin = require('extract-text-webpack-plugin'),
-      HtmlWebpackPlugin = require('html-webpack-plugin'),
-      OptimizeCSSPlugin = require('optimize-css-assets-webpack-plugin'),
-      CopyWebpackPlugin = require('copy-webpack-plugin')
+    const CopyWebpackPlugin = require('copy-webpack-plugin')
 
-    webpackConfig = merge(webpackConfig, {
-      devtool: cfg.build.debug ? '#source-map' : false,
-      module: {
-        rules: cssUtils.styleLoaders({
-          sourceMap: cfg.build.debug,
-          extract: true
-        })
-      },
-      output: {
-        path: appResolve(cfg.build.distDir),
-        publicPath: cfg.build.publicPath,
-        filename: 'js/[name].js',
-        chunkFilename: 'js/[id].[chunkhash].js'
-      },
-      plugins: [
-        // extract css into its own file
-        new ExtractTextPlugin({
-          filename: '[name].[contenthash].css'
-        }),
-        new HtmlWebpackPlugin({
-          filename: path.join(appResolve(cfg.build.distDir), cfg.build.htmlFilename),
-          template: srcResolve(`index.template.html`),
-          inject: true,
-          minify: cfg.build.debug ? {} : {
+    const
+      vendorAdd = cfg.vendor && cfg.vendor.add ? cfg.vendor.add.filter(v => v) : false,
+      vendorRemove = cfg.vendor && cfg.vendor.remove ? cfg.vendor.remove.filter(v => v) : false
+
+    // generate dist files
+    webpackConfig.output = {
+      path: appResolve(cfg.build.distDir),
+      publicPath: cfg.build.publicPath,
+      filename: `js/[name]${cfg.build.webpackManifest ? '' : '.[chunkhash]'}.js`,
+      chunkFilename: 'js/[id].[chunkhash].js'
+    }
+
+    // generate html file
+    webpackConfig.plugins.push(
+      new HtmlWebpackPlugin({
+        filename: path.join(appResolve(cfg.build.distDir), cfg.build.htmlFilename),
+        template: srcResolve(`index.template.html`),
+        minify: cfg.build.minify
+          ? {
             removeComments: true,
             collapseWhitespace: true,
             removeAttributeQuotes: true
             // more options:
             // https://github.com/kangax/html-minifier#options-quick-reference
-          },
-          // necessary to consistently work with multiple chunks via CommonsChunkPlugin
-          chunksSortMode: 'dependency'
-        }),
-        // keep module.id stable when vender modules does not change
-        new webpack.HashedModuleIdsPlugin(),
-        // split vendor js into its own file
-        new webpack.optimize.CommonsChunkPlugin({
-          name: 'vendor',
-          minChunks: function (module, count) {
-            // any required modules inside node_modules are extracted to vendor
-            return (
-              module.resource &&
-              /\.js$/.test(module.resource) &&
-              (
-                module.resource.indexOf('quasar') > -1 ||
-                module.resource.indexOf('node_modules') > -1
-              )
-            )
           }
-        }),
-        // extract webpack runtime and module manifest to its own file in order to
-        // prevent vendor hash = require(being updated whenever app bundle is updated
+          : undefined,
+        // inject bundles
+        inject: true,
+        // necessary to consistently work with multiple chunks via CommonsChunkPlugin
+        chunksSortMode: 'dependency',
+
+        // custom ones
+        ctx: cfg.ctx,
+        injectQScripts
+      })
+    )
+
+    // keep module.id stable when vender modules does not change
+    webpackConfig.plugins.push(
+      new webpack.HashedModuleIdsPlugin()
+    )
+
+    // split vendor js into its own file
+    webpackConfig.plugins.push(
+      new webpack.optimize.CommonsChunkPlugin({
+        name: 'vendor',
+        minChunks (module) {
+          if (vendorAdd && module.resource && vendorAdd.some(v => module.resource.indexOf(v) > -1)) {
+            return true
+          }
+          if (vendorRemove && module.resource && vendorRemove.some(v => module.resource.indexOf(v) > -1)) {
+            return false
+          }
+          // A module is extracted into the vendor chunk when...
+          return (
+            // It's a JS file
+            /\.js$/.test(module.resource) &&
+            (
+              // If it's inside node_modules
+              /node_modules/.test(module.context) ||
+              // or it's Quasar internals (while developing)
+              /\/quasar\//.test(module.resource)
+            )
+          )
+        }
+      })
+    )
+
+    // extract webpack runtime and module manifest to its own file in order to
+    // prevent vendor hash = require(being updated whenever app bundle is updated
+    if (cfg.build.webpackManifest) {
+      webpackConfig.plugins.push(
         new webpack.optimize.CommonsChunkPlugin({
           name: 'manifest',
           chunks: ['vendor']
-        }),
-        // copy custom static assets
-        new CopyWebpackPlugin([
-          {
-            from: srcResolve(`statics`),
-            to: path.join(appResolve(cfg.build.distDir), 'statics')
-          }
-        ])
-      ]
-    })
+        })
+      )
+    }
 
-    if (!cfg.build.debug) {
+    // copy statics to dist folder
+    webpackConfig.plugins.push(
+      new CopyWebpackPlugin([
+        {
+          from: srcResolve(`statics`),
+          to: path.join(appResolve(cfg.build.distDir), 'statics'),
+          ignore: ['.*']
+        }
+      ])
+    )
+
+    // Scope hoisting ala Rollupjs
+    // https://webpack.js.org/plugins/module-concatenation-plugin/
+    if (cfg.build.scopeHoisting) {
+      webpackConfig.plugins.push(new webpack.optimize.ModuleConcatenationPlugin())
+    }
+
+    if (cfg.build.minify) {
+      const UglifyJSPlugin = require('uglifyjs-webpack-plugin')
+
       webpackConfig.plugins.push(
-        new webpack.optimize.UglifyJsPlugin({
-          compress: {
-            warnings: false
-          },
-          sourceMap: cfg.build.debug
+        new UglifyJSPlugin({
+          parallel: true,
+          sourceMap: cfg.build.sourceMap
         })
       )
+    }
+
+    // configure CSS extraction & optimize
+    if (cfg.build.extractCSS) {
+      const ExtractTextPlugin = require('extract-text-webpack-plugin')
+
+      // extract css into its own file
       webpackConfig.plugins.push(
-        // Compress extracted CSS. We are using this plugin so that possible
-        // duplicated CSS = require(different components can be deduped.
-        new OptimizeCSSPlugin({
-          cssProcessorOptions: {
-            safe: true
-          }
+        new ExtractTextPlugin({
+          filename: '[name].[contenthash].css'
         })
       )
+
+      // dedupe CSS & minimize only if minifying
+      if (cfg.build.minify) {
+        const OptimizeCSSPlugin = require('optimize-css-assets-webpack-plugin')
+
+        webpackConfig.plugins.push(
+          // Compress extracted CSS. We are using this plugin so that possible
+          // duplicated CSS = require(different components) can be deduped.
+          new OptimizeCSSPlugin({
+            cssProcessorOptions: cfg.build.sourceMap
+              ? { safe: true, map: { inline: false } }
+              : { safe: true }
+          })
+        )
+      }
+    }
+
+    // also produce a gzipped version
+    if (cfg.build.gzip) {
+      const CompressionWebpackPlugin = require('compression-webpack-plugin')
+
+      webpackConfig.plugins.push(
+        new CompressionWebpackPlugin(cfg.build.gzip)
+      )
+    }
+
+    if (cfg.build.analyze) {
+      const BundleAnalyzerPlugin = require('webpack-bundle-analyzer').BundleAnalyzerPlugin
+      webpackConfig.plugins.push(new BundleAnalyzerPlugin(Object.assign({}, cfg.build.analyze)))
     }
   }
 

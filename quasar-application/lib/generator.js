@@ -1,4 +1,4 @@
-const debug = require('debug')('qapp:generator')
+const debug = require('debug')('app:generator')
 debug.color = 2 // force green color
 
 const
@@ -17,14 +17,13 @@ class Generator {
   }
 
   build () {
-    debug(`Generating entry point`)
+    debug(`Generating Webpack entry point`)
     const data = this.quasarConfig.getBuildConfig()
     // console.log(this.template(data))
     // process.exit(0)
 
     mkdirp(dirname(appPaths.entryFile))
     fs.writeFileSync(appPaths.entryFile, this.template(data), 'utf-8')
-
 
     const
       now = Date.now() / 1000,

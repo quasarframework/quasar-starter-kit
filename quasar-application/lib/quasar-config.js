@@ -1,4 +1,4 @@
-const debug = require('debug')('qapp:conf')
+const debug = require('debug')('app:conf')
 debug.color = 2 // force green color
 
 const path = require('path')
@@ -36,9 +36,10 @@ function encode (obj) {
 
 function encodeConfig (obj) {
   return [
-    encode(obj.build),
-    encode(obj.devServer),
-    encode(obj.extend)
+    obj.build ? encode(obj.build) : '',
+    obj.devServer ? encode(obj.devServer) : '',
+    obj.extendWebpack ? encode(obj.extendWebpack) : '',
+    obj.vendor ? encode(obj.vendor) : ''
   ].join('')
 }
 
@@ -49,15 +50,16 @@ class QuasarConfig {
     this.ctx = getQuasarConfigCtx(opts)
 
     this.watch = opts.onBuildChange || opts.onAppChange
+    this.refresh()
 
     if (this.watch) {
       // Start watching for quasar.config.js changes
       chokidar
         .watch(this.filename, { watchers: { chokidar: { ignoreInitial: true } } })
         .on('change', debounce(() => {
-          debug(`${opts.filename} changed.`)
+          debug(`${opts.filename} changed`)
           this.refresh()
-          if (this.buildChanged) {
+          if (this.webpackConfigChanged) {
             opts.onBuildChange()
           }
           else {
@@ -65,8 +67,6 @@ class QuasarConfig {
           }
         }), 2500)
     }
-
-    this.refresh()
   }
 
   getBuildConfig () {
@@ -78,6 +78,7 @@ class QuasarConfig {
   }
 
   refresh () {
+    debug(`Parsing ${this.opts.filename}`)
     let config
 
     if (fs.existsSync(this.filename)) {
@@ -90,6 +91,19 @@ class QuasarConfig {
     }
 
     const cfg = config(this.ctx)
+
+    // if watching for changes,
+    // then determine the type (webpack related or not)
+    if (this.watch) {
+      const newConfigSnapshot = encodeConfig(cfg)
+
+      if (this.oldConfigSnapshot) {
+        this.webpackConfigChanged = newConfigSnapshot !== this.oldConfigSnapshot
+      }
+
+      this.oldConfigSnapshot = newConfigSnapshot
+    }
+
     let publicPath = this.ctx.dev ? '' : '/'
 
     if (cfg.build && cfg.build.publicPath) {
@@ -101,21 +115,50 @@ class QuasarConfig {
 
     cfg.build = merge({
       publicPath,
-      debug: this.ctx.dev,
+      debug: this.ctx.debug,
+      extractCSS: this.ctx.prod,
+      sourceMap: this.ctx.dev,
+      minify: this.ctx.prod,
       distDir: `dist-${this.ctx.modeName}`,
       htmlFilename: 'index.html',
-      defines: {
-        'process.env': {
-          NODE_ENV: `"${this.ctx.prod ? 'production' : 'development'}"`,
-          DEV: this.ctx.dev,
-          PROD: this.ctx.prod,
-          THEME: `"${this.ctx.themeName}"`
-        }
+      webpackManifest: this.ctx.prod,
+      env: {
+        NODE_ENV: `"${this.ctx.prod ? 'production' : 'development'}"`,
+        DEV: this.ctx.dev,
+        PROD: this.ctx.prod,
+        THEME: `"${this.ctx.themeName}"`,
+        MODE: `"${this.ctx.modeName}"`
       }
     }, cfg.build || {})
 
+    if (!cfg.build.devtool) {
+      cfg.build.devtool = this.ctx.dev
+        ? '#cheap-module-eval-source-map'
+        : '#source-map'
+    }
+
+    if (cfg.build.gzip) {
+      let gzip = cfg.build.gzip === true
+        ? {}
+        : cfg.build.gzip
+      let ext = ['js', 'css']
+
+      if (gzip.extensions) {
+        ext = gzip.extensions
+        delete gzip.extensions
+      }
+
+      cfg.build.gzip = merge({
+        asset: '[path].gz[query]',
+        algorithm: 'gzip',
+        test: new RegExp('\\.(' + ext.join('|') + ')$'),
+        threshold: 10240,
+        minRatio: 0.8
+      }, gzip)
+    }
+
     cfg.devServer = merge({
-      contentBase: '/work/app/template/frontend/',
+      contentBase: appPaths.srcDir,
       publicPath,
       hot: true,
       inline: true,
@@ -136,24 +179,22 @@ class QuasarConfig {
       cfg.devServer.host = process.env.HOSTNAME
     }
 
-    if (this.watch) {
-      const newBuild = encodeConfig(cfg)
-
-      if (this.oldBuild) {
-        this.buildChanged = newBuild !== this.oldBuild
-      }
-
-      this.oldBuild = newBuild
+    if (this.ctx.dev) {
+      // force some configuration
+      cfg.build.minify = false
+      cfg.build.extractCSS = false
     }
 
     cfg.ctx = this.ctx
     cfg.build.uri = `http${cfg.devServer.https ? 's' : ''}://${cfg.devServer.host}:${cfg.devServer.port}`
 
     this.buildConfig = cfg
+    debug(`Generating Webpack config`)
     let webpackConfig = generateWebpackConfig(cfg)
 
-    if (typeof cfg.extend === 'function') {
-      cfg.extend(webpackConfig)
+    if (typeof cfg.extendWebpack === 'function') {
+      debug(`Extending Webpack config`)
+      cfg.extendWebpack(webpackConfig)
     }
 
     this.webpackConfig = webpackConfig

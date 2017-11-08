@@ -8,7 +8,7 @@
     "clean": "npm run qapp clean",
     "dev": "npm run qapp dev --",
     "start": "npm run dev",
-    "build": "npm run qapp build",
+    "build": "npm run qapp build --",
     "qapp": "node ./node_modules/quasar-application/bin/qapp"
   },
   "dependencies": {

@@ -1,14 +1,13 @@
 #!/usr/bin/env node
 
-// logs
-process.env.DEBUG = process.env.DEBUG || 'qapp:*'
-const debug = require('debug')('qapp:dev')
+const debug = require('debug')('app:dev')
 debug.color = 2 // force green color
 
 // cli deps
 const
   parseArgs = require('minimist'),
-  path = require('path')
+  path = require('path'),
+  chalk = require('chalk')
 
 const
   appPaths = require('../lib/app-paths'),
@@ -43,7 +42,7 @@ if (argv.help) {
       $ npm run dev -p <port number>
     Options
       --theme, -t         App theme (default: mat)
-      --mode, -m          App mode (default: spa)
+      --mode, -m          App mode [spa|pwa|cordova|electron] (default: spa)
       --port, -p          A port number on which to start the application
       --hostname, -h      A hostname to use for serving the application
       --config-file, -c   Path to Quasar config file (default: quasar.config.js)
@@ -51,6 +50,8 @@ if (argv.help) {
   `)
   process.exit(0)
 }
+
+debug(`Mode [ ${chalk.red(argv.mode.toUpperCase())} ] with [ ${chalk.red(argv.theme.toUpperCase())} ] theme`)
 
 const
   DevServer = require('../lib/dev-server'),
@@ -65,7 +66,6 @@ const
     port: argv.port,
     host: argv.hostname,
     dev: true,
-    debug: true,
     onBuildChange () {
       debug(`Rebuilding app...`)
       dev = dev.then(startDev)
@@ -78,11 +78,11 @@ const
   generator = new Generator(quasarConfig)
 
 function startDev (oldDevServer) {
-  generator.build()
   const devServer = new DevServer(quasarConfig)
 
   return Promise.resolve()
     .then(() => oldDevServer ? oldDevServer.stop() : Promise.resolve()) // Close old builder after successful build
+    .then(() => generator.build()) // Update generated files
     .then(() => devServer.listen()) // Start listening
     .then(() => devServer) // Pass new builder to watch chain
 }

@@ -2,11 +2,6 @@
 
 module.exports = function (ctx) {
   return {
-    vendor: [
-      'axios',
-      'vue-i18n',
-      'some-package'
-    ],
     plugins: [
       'axios',
       'i18n',
@@ -23,7 +18,15 @@ module.exports = function (ctx) {
       // 'animate'
     ],
     supportIE: true,
+    vendor: {
+      add: ['404.vue'],
+      remove: []
+    },
     build: {
+      scopeHoisting: true,
+      // gzip: true,
+      // analyze: true,
+      // extractCSS: false,
       test () {
         // console.log('a')
       }
@@ -33,8 +36,8 @@ module.exports = function (ctx) {
       // port: 8080,
       open: false
     },
-    extend (config) {
-      config.module.rules.push({
+    extendWebpack (cfg) {
+      cfg.module.rules.push({
         enforce: 'pre',
         test: /\.(js|vue)$/,
         loader: 'eslint-loader',
