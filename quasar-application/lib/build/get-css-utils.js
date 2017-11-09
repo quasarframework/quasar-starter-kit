@@ -19,9 +19,17 @@ module.exports.cssLoaders = function (options = {}) {
     }
   }
 
+  const postcssLoader = {
+    loader: 'postcss-loader',
+    options: {
+      sourceMap: options.sourceMap
+    }
+  }
+
   // generate loader string to be used with extract text plugin
   function generateLoaders (loader, loaderOptions) {
-    const loaders = [cssLoader]
+    const loaders = [cssLoader, postcssLoader]
+
     if (loader) {
       loaders.push({
         loader: loader + '-loader',
@@ -39,9 +47,8 @@ module.exports.cssLoaders = function (options = {}) {
         fallback: 'vue-style-loader'
       })
     }
-    else {
-      return ['vue-style-loader'].concat(loaders)
-    }
+
+    return ['vue-style-loader'].concat(loaders)
   }
 
   // https://vue-loader.vuejs.org/en/configurations/extract-css.html
@@ -58,15 +65,18 @@ module.exports.cssLoaders = function (options = {}) {
 
 // Generate loaders for standalone style files (outside of .vue)
 module.exports.styleLoaders = function (options) {
-  const output = []
-  const loaders = module.exports.cssLoaders(options)
-  for (const extension in loaders) {
+  const
+    output = [],
+    loaders = module.exports.cssLoaders(options)
+
+  for (let extension in loaders) {
     const loader = loaders[extension]
     output.push({
       test: new RegExp('\\.' + extension + '$'),
       use: loader
     })
   }
+
   return output
 }
 

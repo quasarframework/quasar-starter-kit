@@ -87,11 +87,11 @@ class QuasarConfig {
     // then determine the type (webpack related or not)
     if (this.watch) {
       const newConfigSnapshot = [
-        obj.build ? encode(obj.build) : '',
-        obj.devServer ? encode(obj.devServer) : '',
-        obj.extendWebpack ? encode(obj.extendWebpack) : '',
-        obj.vendor ? encode(obj.vendor) : '',
-        obj.pwaManifest ? encode(obj.pwaManifest) : ''
+        cfg.build ? encode(cfg.build) : '',
+        cfg.devServer ? encode(cfg.devServer) : '',
+        cfg.extendWebpack ? encode(cfg.extendWebpack) : '',
+        cfg.vendor ? encode(cfg.vendor) : '',
+        cfg.pwa ? encode(cfg.pwa) : ''
       ].join('')
 
       if (this.oldConfigSnapshot) {
@@ -119,7 +119,6 @@ class QuasarConfig {
       distDir: `dist-${this.ctx.modeName}`,
       htmlFilename: 'index.html',
       webpackManifest: this.ctx.prod,
-      pwaCacheId: 'quasar-app',
       env: {
         NODE_ENV: `"${this.ctx.prod ? 'production' : 'development'}"`,
         DEV: this.ctx.dev,

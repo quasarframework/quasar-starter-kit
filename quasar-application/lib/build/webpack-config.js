@@ -197,7 +197,7 @@ module.exports = function (cfg) {
     webpackConfig.plugins.push(
       new FriendlyErrorsPlugin({
         compilationSuccessInfo: {
-          messages: [`App is running at ${cfg.build.uri}\n`],
+          messages: [`App [${chalk.bold(cfg.ctx.modeName.toUpperCase())} with ${chalk.bold(cfg.ctx.themeName.toUpperCase())}] at ${cfg.build.uri}\n`],
         },
         clearConsole: true
       })
