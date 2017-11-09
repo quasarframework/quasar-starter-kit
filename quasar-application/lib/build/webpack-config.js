@@ -178,13 +178,6 @@ module.exports = function (cfg) {
     }
   }
 
-  if (cfg.build.useNotifier) {
-    webpackConfig.node = {
-      __filename: true,
-      __dirname: true
-    }
-  }
-
   // inject CSS loaders for outside of .vue
   webpackConfig.module.rules = webpackConfig.module.rules.concat(
     cssUtils.styleLoaders({
