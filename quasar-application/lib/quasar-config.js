@@ -115,7 +115,7 @@ class QuasarConfig {
       extractCSS: this.ctx.prod,
       sourceMap: this.ctx.dev,
       minify: this.ctx.prod,
-      distDir: `dist-${this.ctx.modeName}`,
+      distDir: `dist-${this.ctx.modeName}-${this.ctx.themeName}`,
       htmlFilename: 'index.html',
       webpackManifest: this.ctx.prod,
       useNotifier: true,
