@@ -43,7 +43,10 @@ class DevServer {
         else if (this.notify) {
           notify({
             subtitle: `App is ready for dev`,
-            message: `Listening at ${this.uri}`
+            message: `Listening at ${this.uri}`,
+            onClick: () => {
+              opn(this.uri)
+            }
           })
         }
       })

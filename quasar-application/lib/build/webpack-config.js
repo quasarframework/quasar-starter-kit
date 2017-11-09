@@ -28,7 +28,7 @@ function getHtmlScripts (cfg) {
   if (cfg.ctx.dev) {
     output += `
       <script>
-        console.log('[Quasar] Running on mode ${cfg.ctx.modeName.toUpperCase()} with ${cfg.ctx.themeName.toUpperCase()} theme.')
+        console.info('[Quasar] Running ${cfg.ctx.modeName.toUpperCase()} with ${cfg.ctx.themeName.toUpperCase()} theme.')
       </script>
     `
   }
