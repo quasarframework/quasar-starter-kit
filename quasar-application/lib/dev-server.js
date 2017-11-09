@@ -29,8 +29,14 @@ class DevServer {
     log()
 
     this.compiler = webpack(this.webpackConfig)
-    this.compiler.plugin('done', () => {
+    this.compiler.plugin('done', compiler => {
       if (this.__started) { return }
+
+      // don't start dev server until there are no errors
+      if (compiler.compilation.errors && compiler.compilation.errors.length > 0) {
+        return
+      }
+
       this.__started = true
 
       this.server.listen(this.opts.port, this.opts.host, () => {

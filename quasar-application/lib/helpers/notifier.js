@@ -4,20 +4,22 @@ const
   appPaths = require('../build/app-paths'),
   icon = path.join(appPaths.cliDir, 'assets/quasar-logo.png')
 
-module.exports = function ({ title = 'Quasar', message = '', subtitle = '', onClick }) {
+module.exports = function ({ title = 'Quasar App', message = '', subtitle = '', onClick }) {
   // require it only if necessary
-  const notifier = require('node-notifier')
+  const
+    notifier = require('node-notifier'),
+    hasClick = typeof onClick === 'function'
 
   notifier.notify({
     title,
     message,
     subtitle,
     icon,
-    timeout: onClick ? 5 : null,
+    timeout: hasClick ? 5 : undefined,
     actions: 'Close'
   }, (err, response, metadata) => {
     if (
-      typeof onClick === 'function' &&
+      hasClick &&
       response === 'activate' &&
       metadata.activationValue !== 'Close'
     ) {
