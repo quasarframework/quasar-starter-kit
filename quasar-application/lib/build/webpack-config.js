@@ -7,7 +7,7 @@ const
   HtmlWebpackPlugin = require('html-webpack-plugin')
 
 const
-  appPaths = require('../app-paths'),
+  appPaths = require('./app-paths'),
   cssUtils = require('./get-css-utils')
 
 function appResolve (dir) {
@@ -178,6 +178,13 @@ module.exports = function (cfg) {
     }
   }
 
+  if (cfg.build.useNotifier) {
+    webpackConfig.node = {
+      __filename: true,
+      __dirname: true
+    }
+  }
+
   // inject CSS loaders for outside of .vue
   webpackConfig.module.rules = webpackConfig.module.rules.concat(
     cssUtils.styleLoaders({
@@ -197,8 +204,23 @@ module.exports = function (cfg) {
     webpackConfig.plugins.push(
       new FriendlyErrorsPlugin({
         compilationSuccessInfo: {
-          messages: [`App [${chalk.bold(cfg.ctx.modeName.toUpperCase())} with ${chalk.bold(cfg.ctx.themeName.toUpperCase())}] at ${cfg.build.uri}\n`],
+          messages: [
+            `App [${chalk.bold(cfg.ctx.modeName.toUpperCase())} with ${chalk.bold(cfg.ctx.themeName.toUpperCase())}] at ${cfg.build.uri}\n`
+          ],
         },
+        onErrors: cfg.build.useNotifier
+          ? (severity, errors) => {
+            if (severity !== 'error') {
+              return
+            }
+
+            const error = errors[0]
+            require('../helpers/notifier')({
+              message: `${severity}:${error.name}`,
+              subtitle: error.file.split('!').pop()
+            })
+          }
+          : undefined,
         clearConsole: true
       })
     )

@@ -27,6 +27,7 @@ module.exports = function (ctx) {
       // gzip: true,
       // analyze: true,
       // extractCSS: false,
+      // useNotifier: false,
       test () {
         // console.log('a')
       }

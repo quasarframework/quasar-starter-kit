@@ -1,6 +1,3 @@
-const debug = require('debug')('app:dev-server')
-debug.color = 2 // force green color
-
 const
   chalk = require('chalk'),
   path = require('path'),
@@ -10,7 +7,11 @@ const
   webpackDevServer = require('webpack-dev-server')
 
 const
-  appPaths = require('./app-paths')
+  log = require('./helpers/logger')('app:dev-server'),
+  notify = require('./helpers/notifier'),
+  appPaths = require('./build/app-paths')
+
+let alreadyListening = false
 
 class DevServer {
   constructor (quasarConfig) {
@@ -18,13 +19,14 @@ class DevServer {
 
     const cfg = quasarConfig.getBuildConfig()
     this.ctx = cfg.ctx
+    this.notify = cfg.build.useNotifier
     this.opts = cfg.devServer
     this.uri = cfg.build.uri
   }
 
   listen () {
-    debug(`Booting up...`)
-    console.log()
+    log(`Booting up...`)
+    log()
 
     this.compiler = webpack(this.webpackConfig)
     this.compiler.plugin('done', () => {
@@ -32,8 +34,17 @@ class DevServer {
       this.__started = true
 
       this.server.listen(this.opts.port, this.opts.host, () => {
+        if (alreadyListening) { return }
+        alreadyListening = true
+
         if (this.opts.open) {
           opn(this.uri)
+        }
+        else if (this.notify) {
+          notify({
+            subtitle: `App is ready for dev`,
+            message: `Listening at ${this.uri}`
+          })
         }
       })
     })
@@ -43,7 +54,7 @@ class DevServer {
   }
 
   stop () {
-    debug(`Shutting down`)
+    log(`Shutting down`)
     this.server.close()
   }
 }

@@ -1,12 +1,11 @@
 #!/usr/bin/env node
 
-const debug = require('debug')('app:build')
-debug.color = 2 // force green color
-
-const warn = require('debug')('app:warn')
-warn.color = 1 // force red color
-
 const parseArgs = require('minimist')
+
+const
+  logger = require('../lib/helpers/logger')
+  log = logger('app:build')
+  warn = logger('app:warn', 'red')
 
 const argv = parseArgs(process.argv.slice(2), {
   alias: {
@@ -20,7 +19,6 @@ const argv = parseArgs(process.argv.slice(2), {
   default: {
     t: 'mat',
     m: 'spa',
-    p: process.env.PORT || 8080,
     c: 'quasar.conf.js'
   }
 })
@@ -45,10 +43,10 @@ const
   chalk = require('chalk'),
   webpack = require('webpack')
 
-debug(`Mode [ ${chalk.red(argv.mode.toUpperCase())} ] with [ ${chalk.red(argv.theme.toUpperCase())} ] theme`)
+log(`Mode [ ${chalk.red(argv.mode.toUpperCase())} ] with [ ${chalk.red(argv.theme.toUpperCase())} ] theme`)
 
 const
-  appPaths = require('../lib/app-paths'),
+  appPaths = require('../lib/build/app-paths'),
   QuasarConfig = require('../lib/quasar-config'),
   Generator = require('../lib/generator')
 
@@ -57,7 +55,6 @@ const
     filename: argv['config-file'],
     theme: argv.theme,
     mode: argv.mode,
-    port: argv.port,
     prod: true
   }),
   generator = new Generator(quasarConfig),
@@ -67,10 +64,14 @@ const
 
 generator.build()
 
-debug(chalk.bold(`Building ${mode} with "${argv.theme}" theme...`))
-console.log()
+log(chalk.bold(`Building ${mode} with "${argv.theme}" theme...`))
+log()
 webpack(webpackConfig, (err, stats) => {
   if (err) { throw err }
+
+  const notify = buildConfig.build.useNotifier
+    ? require('../lib/helpers/notifier')
+    : () => {}
 
   process.stdout.write(stats.toString({
     colors: true,
@@ -81,25 +82,31 @@ webpack(webpackConfig, (err, stats) => {
   }) + '\n')
 
   if (stats.hasErrors()) {
+    warn()
     warn(chalk.red('[FAIL] Build failed with errors'))
+    warn()
+
+    notify({ subtitle: '[FAIL] Build has errors', message: appPaths.appDir  })
     process.exit(1)
   }
 
-  console.log()
-  debug(chalk.cyan(
+  log()
+  log(
     `[SUCCESS] ${chalk.bold(mode)} with "${chalk.bold(argv.theme)}" theme in "${chalk.bold(buildConfig.build.distDir)}" folder`
-  ))
-  console.log()
+  )
+  notify({ subtitle: '[Success] Build is ready', message: appPaths.appDir  })
+  log()
+
 
   warn('Do NOT use VueRouter\'s "history" mode if building for Cordova or Electron')
-  console.log()
+  log()
 
   warn('Built files are meant to be served over an HTTP server')
   warn(`Opening ${buildConfig.build.htmlFilename} over file:// won't work`)
-  console.log()
+  log()
 
   if (buildConfig.build.debug) {
     warn(`Built for ${chalk.bold('DEBUG')} - Do NOT deploy this version to production`)
-    console.log()
+    log()
   }
 })

@@ -1,7 +1,14 @@
 #!/usr/bin/env node
 
-process.env.DEBUG = process.env.DEBUG || 'app:*'
-require('../lib/pretty-error')
+const pe = require('pretty-error').start()
+pe.skipPackage('regenerator-runtime')
+pe.skipPackage('babel-runtime')
+pe.skipNodeFiles()
+
+// Console error unhandled promises
+process.on('unhandledRejection', err => {
+  console.error(pe.render(err))
+})
 
 const defaultCommand = 'dev'
 const commands = new Set([

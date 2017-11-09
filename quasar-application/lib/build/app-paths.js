@@ -2,7 +2,7 @@ const resolve = require('path').resolve
 
 const
   appDir = resolve(process.argv[1], '../../../..'),
-  cliDir = resolve(__dirname, '..')
+  cliDir = resolve(__dirname, '../..')
 
 module.exports = {
   cliDir,

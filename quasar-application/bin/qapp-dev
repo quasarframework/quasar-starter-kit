@@ -1,8 +1,5 @@
 #!/usr/bin/env node
 
-const debug = require('debug')('app:dev')
-debug.color = 2 // force green color
-
 // cli deps
 const
   parseArgs = require('minimist'),
@@ -10,7 +7,8 @@ const
   chalk = require('chalk')
 
 const
-  appPaths = require('../lib/app-paths'),
+  log = require('../lib/helpers/logger')('app:dev')
+  appPaths = require('../lib/build/app-paths'),
   resolve = path.resolve
 
 const argv = parseArgs(process.argv.slice(2), {
@@ -51,7 +49,7 @@ if (argv.help) {
   process.exit(0)
 }
 
-debug(`Mode [ ${chalk.red(argv.mode.toUpperCase())} ] with [ ${chalk.red(argv.theme.toUpperCase())} ] theme`)
+log(`Mode [ ${chalk.red(argv.mode.toUpperCase())} ] with [ ${chalk.red(argv.theme.toUpperCase())} ] theme`)
 
 const
   DevServer = require('../lib/dev-server'),
@@ -67,11 +65,11 @@ const
     host: argv.hostname,
     dev: true,
     onBuildChange () {
-      debug(`Rebuilding app...`)
+      log(`Rebuilding app...`)
       dev = dev.then(startDev)
     },
     onAppChange () {
-      debug(`Updating app...`)
+      log(`Updating app...`)
       generator.build()
     }
   }),

@@ -1,13 +1,12 @@
-const debug = require('debug')('app:generator')
-debug.color = 2 // force green color
-
 const
   fs = require('fs'),
   mkdirp = require('mkdirp').sync,
   dirname = require('path').dirname,
   compileTemplate = require('lodash.template')
 
-const appPaths = require('./app-paths')
+const
+  log = require('./helpers/logger')('app:generator')
+  appPaths = require('./build/app-paths')
 
 class Generator {
   constructor (quasarConfig) {
@@ -17,7 +16,7 @@ class Generator {
   }
 
   build () {
-    debug(`Generating Webpack entry point`)
+    log(`Generating Webpack entry point`)
     const data = this.quasarConfig.getBuildConfig()
     // console.log(this.template(data))
     // process.exit(0)

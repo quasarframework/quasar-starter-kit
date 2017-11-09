@@ -1,12 +1,10 @@
-const debug = require('debug')('app:conf')
-debug.color = 2 // force green color
-
 const path = require('path')
+const log = require('./helpers/logger')('app:conf')
 
 const
   fs = require('fs'),
   generateWebpackConfig = require('./build/webpack-config'),
-  appPaths = require('./app-paths'),
+  appPaths = require('./build/app-paths'),
   resolve = require('path').resolve,
   merge = require('webpack-merge'),
   chokidar = require('chokidar'),
@@ -48,7 +46,7 @@ class QuasarConfig {
       chokidar
         .watch(this.filename, { watchers: { chokidar: { ignoreInitial: true } } })
         .on('change', debounce(() => {
-          debug(`${opts.filename} changed`)
+          log(`${opts.filename} changed`)
           this.refresh()
           if (this.webpackConfigChanged) {
             opts.onBuildChange()
@@ -69,8 +67,9 @@ class QuasarConfig {
   }
 
   refresh () {
-    debug(`Parsing ${this.opts.filename}`)
     let config
+
+    log(`Parsing ${this.opts.filename}`)
 
     if (fs.existsSync(this.filename)) {
       delete require.cache[this.filename]
@@ -119,6 +118,7 @@ class QuasarConfig {
       distDir: `dist-${this.ctx.modeName}`,
       htmlFilename: 'index.html',
       webpackManifest: this.ctx.prod,
+      useNotifier: true,
       env: {
         NODE_ENV: `"${this.ctx.prod ? 'production' : 'development'}"`,
         DEV: this.ctx.dev,
@@ -206,11 +206,11 @@ class QuasarConfig {
     cfg.build.uri = `http${cfg.devServer.https ? 's' : ''}://${cfg.devServer.host}:${cfg.devServer.port}`
 
     this.buildConfig = cfg
-    debug(`Generating Webpack config`)
+    log(`Generating Webpack config`)
     let webpackConfig = generateWebpackConfig(cfg)
 
     if (typeof cfg.extendWebpack === 'function') {
-      debug(`Extending Webpack config`)
+      log(`Extending Webpack config`)
       cfg.extendWebpack(webpackConfig)
     }
 
