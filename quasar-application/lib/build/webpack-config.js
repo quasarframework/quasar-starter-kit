@@ -343,8 +343,8 @@ module.exports = function (cfg) {
             const source = JSON.stringify(cfg.pwa.manifest)
 
             compilation.assets['manifest.json'] = {
-              source: function() { return new Buffer(source) },
-              size: function() { return Buffer.byteLength(source) }
+              source: () => new Buffer(source),
+              size: () => Buffer.byteLength(source)
             }
 
             callback()

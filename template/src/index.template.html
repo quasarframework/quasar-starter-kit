@@ -13,7 +13,7 @@
 
     <% if (htmlWebpackPlugin.options.ctx.mode.pwa) { %>
     <!-- Add to home screen for Android and modern mobile browsers -->
-    <link rel="manifest" href="<%= htmlWebpackPlugin.files.publicPath %>statics/manifest.json">
+    <link rel="manifest" href="<%= htmlWebpackPlugin.files.publicPath %>manifest.json">
     <meta name="theme-color" content="<%= htmlWebpackPlugin.options.pwaManifest.theme_color %>">
     <!-- Add to home screen for Safari on iOS -->
     <meta name="apple-mobile-web-app-capable" content="yes">
