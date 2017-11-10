@@ -8,6 +8,7 @@ module.exports = {
   cliDir,
   appDir,
   srcDir: resolve(appDir, 'src'),
+  cordovaDir: resolve(appDir, 'cordova'),
 
   entryTemplateFile: resolve(cliDir, 'lib/templates/entry.js'),
   entryFile: resolve(appDir, '.quasar/entry.js')

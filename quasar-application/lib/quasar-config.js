@@ -1,5 +1,5 @@
 const path = require('path')
-const log = require('./helpers/logger')('app:conf')
+const log = require('./helpers/logger')('app:quasar-conf')
 
 const
   fs = require('fs'),
