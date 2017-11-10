@@ -1,6 +1,5 @@
 <template>
   <q-layout
-    ref="layout"
     view="lHh Lpr fff"
     :left-class="{'bg-grey-2': true}"
   >
@@ -8,7 +7,7 @@
       <q-toolbar color="primary" glossy>
         <q-btn
           flat
-          @click="$refs.layout.toggleLeft()"
+          @click="leftDrawerOpen = !leftDrawerOpen"
         >
           <q-icon name="menu" />
         </q-btn>
@@ -20,26 +19,26 @@
       </q-toolbar>
     </q-layout-header>
 
-    <q-layout-drawer>
+    <q-layout-drawer v-model="leftDrawerOpen">
       <q-list no-border link inset-delimiter>
         <q-list-header>Essential Links</q-list-header>
-        <q-item @click="launch('http://quasar-framework.org')">
+        <q-item @click="openURL('http://quasar-framework.org')">
           <q-item-side icon="school" />
           <q-item-main label="Docs" sublabel="quasar-framework.org" />
         </q-item>
-        <q-item @click="launch('https://nuxtjs.org/')">
+        <q-item @click="openURL('https://nuxtjs.org/')">
           <q-item-side icon="school" />
           <q-item-main label="Nuxt.js Docs" sublabel="nuxtjs.org" />
         </q-item>
-        <q-item @click="launch('http://forum.quasar-framework.org')">
+        <q-item @click="openURL('http://forum.quasar-framework.org')">
           <q-item-side icon="record_voice_over" />
           <q-item-main label="Forum" sublabel="forum.quasar-framework.org" />
         </q-item>
-        <q-item @click="launch('https://gitter.im/quasarframework/Lobby')">
+        <q-item @click="openURL('https://gitter.im/quasarframework/Lobby')">
           <q-item-side icon="chat" />
           <q-item-main label="Gitter Channel" sublabel="Quasar Lobby" />
         </q-item>
-        <q-item @click="launch('https://twitter.com/quasarframework')">
+        <q-item @click="openURL('https://twitter.com/quasarframework')">
           <q-item-side icon="rss feed" />
           <q-item-main label="Twitter" sublabel="@quasarframework" />
         </q-item>
@@ -56,10 +55,13 @@
 import { openURL } from 'quasar'
 
 export default {
-  methods: {
-    launch (url) {
-      openURL(url)
+  data () {
+    return {
+      leftDrawerOpen: false
     }
+  },
+  methods: {
+    openURL
   }
 }
 </script>
