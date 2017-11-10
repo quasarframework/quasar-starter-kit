@@ -29,7 +29,7 @@ module.exports = function (ctx) {
       // extractCSS: false,
       // useNotifier: false,
       test () {
-        // console.log('a')
+        console.log('a')
       }
     },
     devServer: {

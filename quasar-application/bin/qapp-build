@@ -67,7 +67,7 @@ const
   webpackConfig = quasarConfig.getWebpackConfig(),
   buildConfig = quasarConfig.getBuildConfig(),
   mode = argv.mode.toUpperCase(),
-  target = argv.target.toUpperCase()
+  target = argv.target ? argv.target.toUpperCase() : ''
 
 generator.build()
 
