@@ -28,6 +28,7 @@
     "chokidar": "^1.7.0",
     "compression-webpack-plugin": "^1.0.1",
     "copy-webpack-plugin": "^4.2.0",
+    "cross-spawn": "^5.1.0",
     "css-loader": "^0.28.7",
     "elementtree": "^0.1.7",
     "eslint-plugin-html": "^3.2.2",

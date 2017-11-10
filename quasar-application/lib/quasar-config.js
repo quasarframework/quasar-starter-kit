@@ -17,10 +17,15 @@ function getQuasarConfigCtx (opts) {
     theme: {},
     themeName: opts.theme,
     mode: {},
-    modeName: opts.mode
+    modeName: opts.mode,
+    target: {},
+    targetName: opts.target
   }
   ctx.theme[opts.theme] = true
   ctx.mode[opts.mode] = true
+  if (opts.target) {
+    ctx.target[opts.target] = true
+  }
   return ctx
 }
 

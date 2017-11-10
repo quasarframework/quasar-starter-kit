@@ -5,17 +5,19 @@ const parseArgs = require('minimist')
 const
   logger = require('../lib/helpers/logger')
   log = logger('app:build')
-  warn = logger('app:warn', 'red')
+  warn = logger('app:warn', 'red'),
+  ensureArgv = require('../lib/helpers/ensure-argv')
 
 const argv = parseArgs(process.argv.slice(2), {
   alias: {
     t: 'theme',
     m: 'mode',
+    T: 'target',
     c: 'config-file',
     h: 'help'
   },
   boolean: ['h'],
-  string: ['t', 'm', 'c'],
+  string: ['t', 'm', 'T', 'c'],
   default: {
     t: 'mat',
     m: 'spa',
@@ -33,11 +35,14 @@ if (argv.help) {
     Options
       --theme, -t         App theme (default: mat)
       --mode, -m          App mode [spa|pwa|cordova|electron] (default: spa)
+      --target, -T        App target [if cordova mode: android|ios; if electron: darwin|win32|linux]
       --config-file, -c   Path to Quasar config file (default: quasar.config.js)
       --help, -h          Displays this message
   `)
   process.exit(0)
 }
+
+ensureArgv(argv)
 
 const
   chalk = require('chalk'),
@@ -55,6 +60,7 @@ const
     filename: argv['config-file'],
     theme: argv.theme,
     mode: argv.mode,
+    target: argv.target,
     prod: true
   }),
   generator = new Generator(quasarConfig),

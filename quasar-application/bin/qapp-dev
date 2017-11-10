@@ -9,19 +9,21 @@ const
 const
   log = require('../lib/helpers/logger')('app:dev')
   appPaths = require('../lib/build/app-paths'),
-  resolve = path.resolve
+  resolve = path.resolve,
+  ensureArgv = require('../lib/helpers/ensure-argv')
 
 const argv = parseArgs(process.argv.slice(2), {
   alias: {
     t: 'theme',
     m: 'mode',
+    T: 'target',
     p: 'port',
     H: 'hostname',
     c: 'config-file',
     h: 'help'
   },
   boolean: ['h'],
-  string: ['t', 'm', 'H', 'c'],
+  string: ['t', 'm', 'T', 'H', 'c'],
   default: {
     t: 'mat',
     m: 'spa',
@@ -41,6 +43,7 @@ if (argv.help) {
     Options
       --theme, -t         App theme (default: mat)
       --mode, -m          App mode [spa|pwa|cordova|electron] (default: spa)
+      --target, -T        App target [if cordova mode: android|ios; if electron: darwin|win32|linux]
       --port, -p          A port number on which to start the application
       --hostname, -h      A hostname to use for serving the application
       --config-file, -c   Path to Quasar config file (default: quasar.config.js)
@@ -48,6 +51,8 @@ if (argv.help) {
   `)
   process.exit(0)
 }
+
+ensureArgv(argv)
 
 log(`Mode [ ${chalk.red(argv.mode.toUpperCase())} ] with [ ${chalk.red(argv.theme.toUpperCase())} ] theme`)
 
@@ -62,6 +67,7 @@ const
     filename: argv['config-file'],
     theme: argv.theme,
     mode: argv.mode,
+    target: argv.target,
     port: argv.port,
     host: argv.hostname,
     dev: true,
