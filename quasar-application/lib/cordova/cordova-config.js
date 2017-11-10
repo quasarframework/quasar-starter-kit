@@ -1,19 +1,14 @@
-const path = require('path')
-const log = require('./helpers/logger')('app:cordova-conf')
-
 const
   fs = require('fs'),
-  appPaths = require('./build/app-paths'),
+  path = require('path'),
+  appPaths = require('../build/app-paths'),
   resolve = require('path').resolve,
+  log = require('../helpers/logger')('app:cordova-conf')
   et = require('elementtree')
 
 const filePath = resolve(appPaths.cordovaDir, 'config.xml')
 
 class CordovaConfig {
-  constructor () {
-    this.refresh()
-  }
-
   refresh () {
     const content = fs.readFileSync(filePath, 'utf-8')
     this.doc = et.parse(content)
@@ -24,7 +19,7 @@ class CordovaConfig {
     fs.writeFileSync(filePath, content, 'utf8')
   }
 
-  prepareDev (uri) {
+  prepare (uri) {
     const root = this.doc.getroot()
     let el = root.find('content')
 
@@ -32,10 +27,11 @@ class CordovaConfig {
       el = et.SubElement(root, 'content', { src: 'index.html' })
     }
 
-    el.set('original-src', el.get('src'))
     el.set('src', uri)
+    this.uri = uri
 
     this.save()
+    log('Temporary changed Cordova config.xml')
   }
 
   reset () {
@@ -43,11 +39,12 @@ class CordovaConfig {
     let el = root.find('content')
 
     if (!el) {
-      el = et.SubElement(root, 'content', { src: 'index.html' })
+      el = et.SubElement(root, 'content', { src: this.uri })
     }
 
-    el.set('src', el.get('original-src'))
+    el.set('src', 'index.html')
 
+    log('Cordova config.xml was reset')
     this.save()
   }
 }

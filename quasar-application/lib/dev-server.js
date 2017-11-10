@@ -11,7 +11,7 @@ const
   notify = require('./helpers/notifier'),
   appPaths = require('./build/app-paths')
 
-let alreadyListening = false
+let alreadyNotified = false
 
 class DevServer {
   constructor (quasarConfig) {
@@ -28,38 +28,46 @@ class DevServer {
     log(`Booting up...`)
     log()
 
-    this.compiler = webpack(this.webpackConfig)
-    this.compiler.plugin('done', compiler => {
-      if (this.__started) { return }
+    return new Promise((resolve, reject) => {
+      this.compiler = webpack(this.webpackConfig)
+      this.compiler.plugin('done', compiler => {
+        if (this.__started) { return }
 
-      // don't start dev server until there are no errors
-      if (compiler.compilation.errors && compiler.compilation.errors.length > 0) {
-        return
-      }
-
-      this.__started = true
-
-      this.server.listen(this.opts.port, this.opts.host, () => {
-        if (alreadyListening) { return }
-        alreadyListening = true
-
-        if (this.opts.open) {
-          opn(this.uri)
+        // don't start dev server until there are no errors
+        if (compiler.compilation.errors && compiler.compilation.errors.length > 0) {
+          return
         }
-        else if (this.notify) {
-          notify({
-            subtitle: `App is ready for dev`,
-            message: `Listening at ${this.uri}`,
-            onClick: () => {
-              opn(this.uri)
-            }
-          })
-        }
+
+        this.__started = true
+
+        this.server.listen(this.opts.port, this.opts.host, () => {
+          resolve()
+
+          if (alreadyNotified) { return }
+          alreadyNotified = true
+
+          if (this.ctx.mode.cordova) {
+            return
+          }
+
+          if (this.opts.open) {
+            opn(this.uri)
+          }
+          else if (this.notify) {
+            notify({
+              subtitle: `App is ready for dev`,
+              message: `Listening at ${this.uri}`,
+              onClick: () => {
+                opn(this.uri)
+              }
+            })
+          }
+        })
       })
-    })
 
-    // start building & launch server
-    this.server = new webpackDevServer(this.compiler, this.opts)
+      // start building & launch server
+      this.server = new webpackDevServer(this.compiler, this.opts)
+    })
   }
 
   stop () {

@@ -128,6 +128,11 @@ class QuasarConfig {
       }
     }, cfg.build || {})
 
+    if (this.ctx.mode.cordova) {
+      cfg.build.htmlFilename = 'index.html'
+      cfg.build.distDir = resolve(appPaths.cordovaDir, 'www')
+    }
+
     if (!cfg.build.devtool) {
       cfg.build.devtool = this.ctx.dev
         ? '#cheap-module-eval-source-map'
@@ -216,7 +221,6 @@ class QuasarConfig {
 
     this.webpackConfig = webpackConfig
   }
-
 }
 
 module.exports = QuasarConfig

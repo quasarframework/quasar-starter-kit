@@ -3,6 +3,8 @@
 .thumbs.db
 node_modules
 dist-*
+cordova/platforms
+cordova/plugins
 npm-debug.log*
 yarn-debug.log*
 yarn-error.log*

@@ -17,7 +17,7 @@ module.exports = function (ctx) {
       // 'fontawesome',
       // 'animate'
     ],
-    supportIE: true,
+    supportIE: false,
     vendor: {
       add: ['404.vue'],
       remove: []
@@ -29,7 +29,7 @@ module.exports = function (ctx) {
       // extractCSS: false,
       // useNotifier: false,
       test () {
-        console.log('a')
+        // console.log('a')
       }
     },
     devServer: {

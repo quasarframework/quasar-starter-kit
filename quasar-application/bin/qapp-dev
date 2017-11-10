@@ -57,6 +57,7 @@ const
   Generator = require('../lib/generator')
 
 const
+  onCordova = argv.mode === 'cordova',
   quasarConfig = new QuasarConfig({
     filename: argv['config-file'],
     theme: argv.theme,
@@ -79,10 +80,24 @@ function startDev (oldDevServer) {
   const devServer = new DevServer(quasarConfig)
 
   return Promise.resolve()
+    .then(() => cordovaApp ? cordovaApp.stop() : Promise.resolve())
     .then(() => oldDevServer ? oldDevServer.stop() : Promise.resolve()) // Close old builder after successful build
     .then(() => generator.build()) // Update generated files
     .then(() => devServer.listen()) // Start listening
+    .then(() => cordovaApp ? cordovaApp.start(quasarConfig) : Promise.resolve())
     .then(() => devServer) // Pass new builder to watch chain
+}
+
+let cordovaApp = false
+if (argv.mode === 'cordova') {
+  const
+    CordovaApp = require('../lib/cordova/cordova-app'),
+    onShutdown = require('../lib/helpers/on-shutdown')
+
+  cordovaApp = new CordovaApp()
+  onShutdown(() => {
+    cordovaApp.stop()
+  })
 }
 
 let dev = startDev()
