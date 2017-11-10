@@ -1,8 +1,5 @@
 const
-  logger = require('../helpers/logger'),
-  log = logger('app:cordova-runner'),
-  cordovaLog = logger('cordova'),
-  cordovaWarn = logger('cordova', 'red'),
+  log = require('../helpers/logger')('app:cordova-runner'),
   CordovaConfig = require('./cordova-config'),
   spawn = require('cross-spawn'),
   onShutdown = require('../helpers/on-shutdown'),
