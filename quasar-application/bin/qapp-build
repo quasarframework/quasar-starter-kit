@@ -66,12 +66,21 @@ const
   generator = new Generator(quasarConfig),
   webpackConfig = quasarConfig.getWebpackConfig(),
   buildConfig = quasarConfig.getBuildConfig(),
-  mode = argv.mode.toUpperCase()
+  mode = argv.mode.toUpperCase(),
+  target = argv.target.toUpperCase()
 
 generator.build()
 
-log(chalk.bold(`Building ${mode} with "${argv.theme}" theme...`))
+log(chalk.bold(`Building ${mode}${target ? `/${target}` : ''} with "${argv.theme}" theme...`))
 log()
+
+function finalize () {
+  if (buildConfig.build.debug) {
+    warn(`Built for ${chalk.bold('DEBUG')} - Do NOT deploy this version to production`)
+    log()
+  }
+}
+
 webpack(webpackConfig, (err, stats) => {
   if (err) { throw err }
 
@@ -100,19 +109,31 @@ webpack(webpackConfig, (err, stats) => {
   log(
     `[SUCCESS] ${chalk.bold(mode)} with "${chalk.bold(argv.theme)}" theme in "${chalk.bold(buildConfig.build.distDir)}" folder`
   )
-  notify({ subtitle: '[Success] Build is ready', message: appPaths.appDir  })
   log()
 
+  if (argv.mode === 'cordova') {
+    const cordovaRunner = require('../lib/cordova/cordova-runner')
 
-  warn('Do NOT use VueRouter\'s "history" mode if building for Cordova or Electron')
-  log()
+    cordovaRunner.run(quasarConfig, err => {
+      if (err) {
+        notify({ subtitle: '[FAIL] Cordova failed to build' })
+        return
+      }
 
-  warn('Built files are meant to be served over an HTTP server')
-  warn(`Opening ${buildConfig.build.htmlFilename} over file:// won't work`)
-  log()
+      warn(`Do NOT use VueRouter's "history" mode as it will break your app!`)
+      log()
+      finalize()
+      notify({ subtitle: '[Success] App was built'  })
+    })
 
-  if (buildConfig.build.debug) {
-    warn(`Built for ${chalk.bold('DEBUG')} - Do NOT deploy this version to production`)
+    return
+  }
+
+  if (['spa', 'pwa'].includes(argv.mode)) {
+    warn('Built files are meant to be served over an HTTP server')
+    warn(`Opening ${buildConfig.build.htmlFilename} over file:// won't work`)
     log()
   }
+
+  finalize()
 })

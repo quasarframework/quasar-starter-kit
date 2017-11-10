@@ -45,7 +45,7 @@ if (argv.help) {
       --mode, -m          App mode [spa|pwa|cordova|electron] (default: spa)
       --target, -T        App target [if cordova mode: android|ios; if electron: darwin|win32|linux]
       --port, -p          A port number on which to start the application
-      --hostname, -h      A hostname to use for serving the application
+      --hostname, -H      A hostname to use for serving the application
       --config-file, -c   Path to Quasar config file (default: quasar.config.js)
       --help, -h          Displays this message
   `)
@@ -86,24 +86,17 @@ function startDev (oldDevServer) {
   const devServer = new DevServer(quasarConfig)
 
   return Promise.resolve()
-    .then(() => cordovaApp ? cordovaApp.stop() : Promise.resolve())
+    .then(() => cordovaRunner ? cordovaRunner.stop() : Promise.resolve())
     .then(() => oldDevServer ? oldDevServer.stop() : Promise.resolve()) // Close old builder after successful build
     .then(() => generator.build()) // Update generated files
     .then(() => devServer.listen()) // Start listening
-    .then(() => cordovaApp ? cordovaApp.start(quasarConfig) : Promise.resolve())
+    .then(() => cordovaRunner ? cordovaRunner.run(quasarConfig) : Promise.resolve())
     .then(() => devServer) // Pass new builder to watch chain
 }
 
-let cordovaApp = false
+let cordovaRunner = false
 if (argv.mode === 'cordova') {
-  const
-    CordovaApp = require('../lib/cordova/cordova-app'),
-    onShutdown = require('../lib/helpers/on-shutdown')
-
-  cordovaApp = new CordovaApp()
-  onShutdown(() => {
-    cordovaApp.stop()
-  })
+  cordovaRunner = require('../lib/cordova/cordova-runner')
 }
 
 let dev = startDev()

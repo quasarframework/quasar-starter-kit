@@ -24,11 +24,18 @@ class CordovaConfig {
     let el = root.find('content')
 
     if (!el) {
-      el = et.SubElement(root, 'content', { src: 'index.html' })
+      el = et.SubElement(root, 'content', { src: uri })
+      this.originalSrc = 'index.html'
+    }
+    else {
+      this.originalSrc = el.get('src')
+      el.set('src', uri)
     }
 
-    el.set('src', uri)
-    this.uri = uri
+    let nav = root.find(`allow-navigation[@href='${uri}']`)
+    if (!nav) {
+      nav = et.SubElement(root, 'allow-navigation', { href: uri })
+    }
 
     this.save()
     log('Temporary changed Cordova config.xml')
@@ -39,10 +46,11 @@ class CordovaConfig {
     let el = root.find('content')
 
     if (!el) {
-      el = et.SubElement(root, 'content', { src: this.uri })
+      el = et.SubElement(root, 'content', { src: this.originalSrc })
     }
-
-    el.set('src', 'index.html')
+    else {
+      el.set('src', this.originalSrc)
+    }
 
     log('Cordova config.xml was reset')
     this.save()

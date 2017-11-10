@@ -15,8 +15,6 @@ import Quasar from 'quasar'
 import App from '~/App'
 import QuasarOptions from '~/quasar-imports'
 
-Vue.use(Quasar, QuasarOptions)
-
 require(`~/themes/app.<%= ctx.themeName %>.styl`)
 
 <%
@@ -28,6 +26,8 @@ require('quasar-extras/<%= asset %>')
 <% css && css.forEach(asset => { %>
 require('~/css/<%= asset %>')
 <% }) %>
+
+Vue.use(Quasar, QuasarOptions)
 
 import { createRouter } from '~/router'
 import { createStore } from '~/store'
@@ -73,5 +73,13 @@ plugins.push(<%= importName %>)
 plugins.forEach(plugin => plugin({ app, router, store, inject }))
 <% } %>
 
+<% if (ctx.mode.cordova) { %>
+document.addEventListener('deviceready', () => {
+<% } %>
+
 /* eslint-disable no-new */
 new Vue(app)
+
+<% if (ctx.mode.cordova) { %>
+}, false) // on deviceready
+<% } %>

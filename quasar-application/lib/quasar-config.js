@@ -186,6 +186,16 @@ class QuasarConfig {
       if (process.env.HOSTNAME) {
         cfg.devServer.host = process.env.HOSTNAME
       }
+      if (this.ctx.mode.cordova) {
+        cfg.devServer.https = false
+        cfg.devServer.open = false
+
+        // TODO ensure string / array cases
+        cfg.devServer.contentBase = [
+          cfg.devServer.contentBase,
+          resolve(appPaths.cordovaDir, `platforms/${this.ctx.targetName}/platform_www`)
+        ]
+      }
     }
 
     if (this.ctx.dev) {
