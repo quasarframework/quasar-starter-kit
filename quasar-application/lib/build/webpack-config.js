@@ -174,7 +174,8 @@ module.exports = function (cfg) {
       })
     ],
     performance: {
-      hints: false
+      hints: false,
+      maxAssetSize: 500000
     }
   }
 

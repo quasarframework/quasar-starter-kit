@@ -15,7 +15,7 @@ module.exports = function ({ title = 'Quasar App', message = '', subtitle = '', 
     message,
     subtitle,
     icon,
-    timeout: hasClick ? 5 : undefined,
+    timeout: hasClick ? 10 : undefined,
     actions: 'Close'
   }, (err, response, metadata) => {
     if (

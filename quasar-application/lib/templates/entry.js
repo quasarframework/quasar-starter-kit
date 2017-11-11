@@ -3,6 +3,28 @@ function hash (str) {
   const name = str.replace(/\W+/g, '')
   return name.charAt(0).toUpperCase() + name.slice(1)
 }
+
+let QImports, QOptions = []
+if (framework === 'full') {
+  QImports = ', * as All'
+  QOptions = ', {components: All, directives: All, plugins: All}'
+}
+else if (framework !== false) {
+  let options = []
+  ;['components', 'directives', 'plugins'].forEach(type => {
+    if (framework[type]) {
+      let items = framework[type].filter(item => item)
+      if (items.length > 0) {
+        QOptions.push(type + ': {' + items.join(',') + '}')
+        options = options.concat(items)
+      }
+    }
+  })
+  if (options.length) {
+    QImports = ', {' + options.join(',') + '}'
+    QOptions = ', {' + QOptions.join(',') + '}'
+  }
+}
 %>
 
 <% if (supportIE) { %>
@@ -10,10 +32,9 @@ require('quasar-framework/dist/quasar.ie.polyfills.js')
 <% } %>
 
 import Vue from 'vue'
-import Quasar from 'quasar'
+import Quasar<%= QImports || '' %> from 'quasar'
 
 import App from '~/App'
-import QuasarOptions from '~/quasar-imports'
 
 require(`~/themes/app.<%= ctx.themeName %>.styl`)
 
@@ -27,7 +48,7 @@ require('quasar-extras/<%= asset %>')
 require('~/css/<%= asset %>')
 <% }) %>
 
-Vue.use(Quasar, QuasarOptions)
+Vue.use(Quasar<%= QImports ? QOptions : '' %>)
 
 import { createRouter } from '~/router'
 import { createStore } from '~/store'

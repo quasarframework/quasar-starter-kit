@@ -3,9 +3,9 @@
 module.exports = function (ctx) {
   return {
     plugins: [
-      'axios',
-      'i18n',
-      'some-package'
+      // 'axios',
+      // 'i18n',
+      // 'some-package'
     ],
     css: [
       'my-style.styl'
@@ -44,6 +44,27 @@ module.exports = function (ctx) {
         loader: 'eslint-loader',
         exclude: /(node_modules|quasar)/
       })
+    },
+    framework: {
+      components: [
+        'QApp',
+        'QLayout',
+        'QLayoutHeader',
+        'QLayoutDrawer',
+        'QToolbar',
+        'QBtn',
+        'QIcon',
+        'QToolbarTitle',
+        'QList',
+        'QListHeader',
+        'QItem',
+        'QItemMain',
+        'QItemSide',
+        'QPageContainer',
+        'QPage'
+      ],
+      directives: [],
+      plugins: ['Cordova']
     },
     pwa: {
       cacheId: 'my-quasar-pwa-app',

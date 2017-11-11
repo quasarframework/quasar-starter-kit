@@ -54,7 +54,7 @@ class CordovaRunner {
   stop () {
     if (!this.pid) { return }
 
-    log('Shutting down...')
+    log('Shutting down Cordova process...')
     process.kill(this.pid)
     this.cleanup()
   }
