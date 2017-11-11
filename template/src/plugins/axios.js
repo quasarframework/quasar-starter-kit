@@ -1,5 +1,5 @@
 import axios from 'axios'
 
-export default ({ inject }) => {
-  inject('$axios', axios)
+export default ({ Vue }) => {
+  Vue.prototype.$axios = axios
 }

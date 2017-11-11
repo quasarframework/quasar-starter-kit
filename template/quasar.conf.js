@@ -3,7 +3,7 @@
 module.exports = function (ctx) {
   return {
     plugins: [
-      // 'axios',
+      'axios'// ,
       // 'i18n',
       // 'some-package'
     ],

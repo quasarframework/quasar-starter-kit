@@ -64,24 +64,6 @@ const app = {
   ...App
 }
 
-const inject = function (key, value) {
-  if (!key || !value) {
-    throw new Error('inject(key, value) needs both a key and value')
-  }
-
-  key = '$' + key
-  const installKey = '__quasar_' + key + '_installed__'
-
-  if (Vue[installKey]) {
-    return
-  }
-
-  Vue[installKey] = true
-  if (!Vue.prototype.hasOwnProperty(key)) {
-    Object.defineProperty(Vue.prototype, key, value)
-  }
-}
-
 <% if (plugins) { %>
 const plugins = []
 <%
@@ -91,7 +73,7 @@ plugins.filter(asset => asset).forEach(asset => {
 import <%= importName %> from '~/plugins/<%= asset %>'
 plugins.push(<%= importName %>)
 <% }) %>
-plugins.forEach(plugin => plugin({ app, router, store, inject }))
+plugins.forEach(plugin => plugin({ app, router, store, Vue }))
 <% } %>
 
 <% if (ctx.mode.cordova) { %>

@@ -15,6 +15,7 @@
 
 <script>
 export default {
+  name: 'page-index',
   data () {
     return {
       cordovaDetected: this.$q.cordova !== void 0
