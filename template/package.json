@@ -5,10 +5,6 @@
   "author": "Your Name <your@email.com>",
   "private": true,
   "scripts": {
-    "clean": "npm run qapp clean",
-    "dev": "npm run qapp dev --",
-    "start": "npm run dev",
-    "build": "npm run qapp build --",
     "qapp": "node ./node_modules/quasar-application/bin/qapp"
   },
   "dependencies": {
@@ -22,6 +18,12 @@
     "not ie <= 10"
   ],
   "devDependencies": {
+    "devtron": "^1.4.0",
+    "electron": "^1.7.9",
+    "electron-builder": "^19.45.4",
+    "electron-debug": "^1.4.0",
+    "electron-devtools-installer": "^2.2.1",
+    "electron-updater": "^2.16.1",
     "eslint": "^4.10.0",
     "eslint-config-standard": "^10.2.1",
     "eslint-loader": "^1.9.0",
@@ -29,40 +31,7 @@
     "eslint-plugin-import": "^2.8.0",
     "eslint-plugin-node": "^5.2.1",
     "eslint-plugin-promise": "^3.6.0",
-    "eslint-plugin-standard": "^3.0.1"
-  },
-  "build": {
-    "productName": "Quasar Electron",
-    "appId": "org.quasar.electron",
-    "directories": {
-      "output": "DIST"
-    },
-    "files": [
-      "dist-electron-mat/**/*"
-    ],
-    "dmg": {
-      "contents": [
-        {
-          "x": 410,
-          "y": 150,
-          "type": "link",
-          "path": "/Applications"
-        },
-        {
-          "x": 130,
-          "y": 150,
-          "type": "file"
-        }
-      ]
-    },
-    "mac": {
-      "icon": "electron/icons/icon.icns"
-    },
-    "win": {
-      "icon": "electron/icons/icon.ico"
-    },
-    "linux": {
-      "icon": "electron/icons"
-    }
+    "eslint-plugin-standard": "^3.0.1",
+    "node-loader": "^0.6.0"
   }
 }

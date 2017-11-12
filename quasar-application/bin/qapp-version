@@ -7,11 +7,14 @@ const
   chalk = require('chalk')
 
 const
-  log = require('../lib/helpers/logger')('app:info')
+  log = require('../lib/helpers/logger')('app:version')
   appPaths = require('../lib/build/app-paths')
 
 const argv = parseArgs(process.argv.slice(2), {
-  // TODO
+  alias: {
+    h: 'help'
+  },
+  boolean: ['h']
 })
 
 if (argv.help) {
@@ -19,7 +22,11 @@ if (argv.help) {
     Description
       Displays information about your Quasar App.
     Usage
-      $ npm run info
+      $ npm run qapp version
   `)
   process.exit(0)
 }
+
+// TODO
+// show Node, NPM, CLI & Quasar versions
+// show OS

@@ -1,0 +1,54 @@
+#!/usr/bin/env node
+
+// cli deps
+const
+  parseArgs = require('minimist'),
+  path = require('path'),
+  chalk = require('chalk')
+
+const
+  log = require('../lib/helpers/logger')('app:mode')
+  appPaths = require('../lib/build/app-paths')
+
+const argv = parseArgs(process.argv.slice(2), {
+  alias: {
+    a: 'add',
+    r: 'remove',
+    h: 'help'
+  },
+  string: [
+    'a', 'r',
+    'cordovaId', 'cordovaName'
+  ],
+  boolean: ['h']
+})
+
+if (argv.help) {
+  console.log(`
+    Description
+      Add/Remove support for Cordova / Electron modes.
+    Usage
+      $ npm run qapp mode
+  `)
+  process.exit(0)
+}
+
+const getMode = require('../lib/mode')
+
+if (argv.add) {
+  getMode(argv.add).add(argv)
+  process.exit(0)
+}
+else if (argv.remove) {
+  getMode(argv.remove).remove()
+  process.exit(0)
+}
+
+log(`Detecting installed modes...`)
+;['pwa', 'cordova', 'electron'].forEach(mode => {
+  const QuasarMode = getMode(mode)
+  log(
+    `[${getMode(mode).isInstalled() ? ' yes ' : '  -  '}] Mode ${mode.toUpperCase()}`
+  )
+})
+log()

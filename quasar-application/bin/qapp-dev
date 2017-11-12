@@ -1,6 +1,5 @@
 #!/usr/bin/env node
 
-// cli deps
 const
   parseArgs = require('minimist'),
   path = require('path'),
@@ -9,8 +8,7 @@ const
 const
   log = require('../lib/helpers/logger')('app:dev')
   appPaths = require('../lib/build/app-paths'),
-  resolve = path.resolve,
-  ensureArgv = require('../lib/helpers/ensure-argv')
+  resolve = path.resolve
 
 const argv = parseArgs(process.argv.slice(2), {
   alias: {
@@ -52,7 +50,10 @@ if (argv.help) {
   process.exit(0)
 }
 
-ensureArgv(argv)
+require('../lib/helpers/ensure-argv')(argv)
+if (argv.mode !== 'spa') {
+  require('../lib/mode/install-missing')(argv.mode)
+}
 
 log(`Mode [ ${chalk.red(argv.mode.toUpperCase())} ] with [ ${chalk.red(argv.theme.toUpperCase())} ] theme`)
 

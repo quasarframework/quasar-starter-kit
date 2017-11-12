@@ -7,23 +7,26 @@ const
   appDir = resolve(process.argv[1], '../../../..'),
   cliDir = resolve(__dirname, '../..'),
   srcDir = resolve(appDir, 'src'),
-  cordovaDir = resolve(appDir, 'cordova'),
-  electronDir = resolve(appDir, 'electron')
+  pwaDir = resolve(appDir, 'src-pwa'),
+  cordovaDir = resolve(appDir, 'src-cordova'),
+  electronDir = resolve(appDir, 'src-electron')
 
 module.exports = {
   cliDir,
   appDir,
   srcDir,
+  pwaDir,
   cordovaDir,
   electronDir,
 
-  entryTemplateFile: resolve(cliDir, 'lib/templates/entry.js'),
+  entryTemplateFile: resolve(cliDir, 'templates/app/entry.js'),
   entryFile: resolve(appDir, '.quasar/entry.js'),
 
   resolve: {
     cli: dir => join(cliDir, dir),
     app: dir => join(appDir, dir),
     src: dir => join(srcDir, dir),
+    pwa: dir => join(pwaDir, dir),
     cordova: dir => join(cordovaDir, dir),
     electron: dir => join(electronDir, dir)
   }

@@ -26,7 +26,7 @@ function getHtmlScripts (cfg) {
     if (cfg.ctx.dev) {
       output += `
         <script>
-          ${fs.readFileSync(appPaths.resolve.cli('lib/templates/service-worker-dev.js'), 'utf-8')}
+          ${fs.readFileSync(appPaths.resolve.pwa('service-worker-dev.js'), 'utf-8')}
         </script>
       `
     }
@@ -34,7 +34,7 @@ function getHtmlScripts (cfg) {
       const loadMinified = require('./load-minified')
       output += `
         <script>
-          ${loadMinified(appPaths.resolve.cli('lib/templates/service-worker-prod.js'))}
+          ${loadMinified(appPaths.resolve.pwa('service-worker-prod.js'))}
         </script>
       `
     }

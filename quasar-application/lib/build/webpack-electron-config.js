@@ -20,7 +20,9 @@ module.exports = function (cfg) {
     output: {
       filename: 'electron-main.js',
       libraryTarget: 'commonjs2',
-      path: appPaths.resolve.cli(cfg.build.distDir)
+      path: cfg.ctx.dev
+        ? appPaths.resolve.app('.quasar/electron')
+        : cfg.build.distDir
     },
     externals: [
       ...Object.keys(cliDeps),

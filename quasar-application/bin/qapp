@@ -14,7 +14,7 @@ const defaultCommand = 'dev'
 const commands = new Set([
   defaultCommand,
   'build',
-  'add',
+  'mode',
   'info',
   'help'
 ])
@@ -28,4 +28,4 @@ else {
   cmd = defaultCommand
 }
 
-require(require('path').join(__dirname, 'qapp-' + cmd))
+require(`./qapp-${cmd}`)

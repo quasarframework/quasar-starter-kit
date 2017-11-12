@@ -1,0 +1,68 @@
+const
+  fs = require('fs'),
+  fse = require('fs-extra'),
+  appPaths = require('../build/app-paths'),
+  logger = require('../helpers/logger'),
+  log = logger('app:mode-electron'),
+  warn = logger('app:mode-electron', 'red'),
+  spawn = require('../helpers/spawn')
+
+const
+  electronDeps = {
+    'electron': '1.7.9',
+    'electron-builder': '19.45.4',
+    'electron-debug': '1.4.0',
+    'electron-devtools-installer': '2.2.1',
+    'electron-updater': '2.16.1',
+    'devtron': '1.4.0',
+    'node-loader': '^0.6.0'
+  }
+
+class Mode {
+  isInstalled () {
+    return fs.existsSync(appPaths.electronDir)
+  }
+
+  add (params) {
+    if (this.isInstalled()) {
+      warn(`Electron support detected already. Aborting.`)
+      return
+    }
+
+    log(`Installing Electron dependencies...`)
+    spawn(
+      'npm',
+      ['install', '--save-dev'].concat(Object.keys(electronDeps).map(dep => {
+        return `${dep}@${electronDeps[dep]}`
+      })),
+      appPaths.appDir,
+      () => warn('Failed to install Electron dependencies')
+    )
+
+    log(`Creating Electron source folder...`)
+    fse.copySync(appPaths.resolve.cli('templates/electron'), appPaths.electronDir)
+    log(`Electron support was addedd`)
+  }
+
+  remove () {
+    if (!this.isInstalled()) {
+      warn(`No Electron support detected. Aborting.`)
+      return
+    }
+
+    log(`Removing Electron source folder`)
+    fse.removeSync(appPaths.electronDir)
+
+    log(`Uninstalling Electron dependencies...`)
+    spawn(
+      'npm',
+      ['uninstall', '--save-dev'].concat(Object.keys(electronDeps)),
+      appPaths.appDir,
+      () => warn('Failed to uninstall Electron dependencies')
+    )
+
+    log(`Electron support was removed`)
+  }
+}
+
+module.exports = Mode

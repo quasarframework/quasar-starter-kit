@@ -1,6 +1,6 @@
 const
   fs = require('fs'),
-  mkdirp = require('mkdirp').sync,
+  mkdirp = require('fs-extra').mkdirpSync,
   dirname = require('path').dirname,
   compileTemplate = require('lodash.template')
 

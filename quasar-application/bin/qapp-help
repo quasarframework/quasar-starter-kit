@@ -19,7 +19,7 @@ if (argv.help) {
     Description
       Displays information about your Quasar App.
     Usage
-      $ npm run help
+      $ npm run qapp help
   `)
   process.exit(0)
 }

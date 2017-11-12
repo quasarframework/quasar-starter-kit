@@ -3,7 +3,6 @@ const
   webpack = require('webpack'),
   onShutdown = require('../helpers/on-shutdown'),
   log = require('../helpers/logger')('app:electron-runner'),
-  electron = require('electron'),
   path = require('path')
 
 class ElectronRunner {
@@ -46,9 +45,9 @@ class ElectronRunner {
     this.stop()
 
     log(`Starting Electron process`)
-    const runner = spawn(electron, [
+    const runner = spawn(require(appPaths.resolve.app('node_modules/electron')), [
       '--inspect=5858',
-      appPaths.resolve.cli(path.join(this.buildConfig.build.distDir, 'electron-main.js'))
+      appPaths.resolve.app('.quasar/electron/electron-main.js')
     ], {
       stdio: 'inherit',
       stdout: 'inherit',
