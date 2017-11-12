@@ -83,9 +83,6 @@ const
 
 function startDev (oldDevServer) {
   const devServer = new DevServer(quasarConfig)
-  log(`DDD run`)
-  electronRunner.run(quasarConfig)
-  log(`DDD after run`)
 
   return Promise.resolve()
     .then(() => cordovaRunner ? cordovaRunner.stop() : Promise.resolve())
@@ -107,6 +104,7 @@ if (argv.mode === 'cordova') {
 }
 else if (argv.mode === 'electron') {
   electronRunner = require('../lib/electron/electron-runner')
+  electronRunner.run(quasarConfig)
 }
 
 let dev = startDev()

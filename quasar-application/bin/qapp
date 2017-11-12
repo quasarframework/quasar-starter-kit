@@ -13,7 +13,10 @@ process.on('unhandledRejection', err => {
 const defaultCommand = 'dev'
 const commands = new Set([
   defaultCommand,
-  'build'
+  'build',
+  'add',
+  'info',
+  'help'
 ])
 
 var cmd = process.argv[2]
