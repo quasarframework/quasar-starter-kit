@@ -15,7 +15,7 @@ module.exports = function (cfg) {
   const webpackConfig = {
     target: 'electron-main',
     entry: {
-      'electron-main': appPaths.resolve.electron(`index${cfg.ctx.dev ? '.dev' : ''}.js`)
+      'electron-main': appPaths.resolve.electron(`electron-main{cfg.ctx.dev ? '.dev' : ''}.js`)
     },
     output: {
       filename: 'electron-main.js',
