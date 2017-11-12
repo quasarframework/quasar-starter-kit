@@ -39,7 +39,7 @@ if (argv.help) {
       Starts the app in development mode (hot-code reloading, error
       reporting, etc)
     Usage
-      $ npm run dev -p <port number>
+      $ npm run dev -- -p <port number>
     Options
       --theme, -t         App theme (default: mat)
       --mode, -m          App mode [spa|pwa|cordova|electron] (default: spa)
@@ -62,7 +62,6 @@ const
   Generator = require('../lib/generator')
 
 const
-  onCordova = argv.mode === 'cordova',
   quasarConfig = new QuasarConfig({
     filename: argv['config-file'],
     theme: argv.theme,
@@ -84,19 +83,30 @@ const
 
 function startDev (oldDevServer) {
   const devServer = new DevServer(quasarConfig)
+  log(`DDD run`)
+  electronRunner.run(quasarConfig)
+  log(`DDD after run`)
 
   return Promise.resolve()
     .then(() => cordovaRunner ? cordovaRunner.stop() : Promise.resolve())
+    // .then(() => electronRunner ? electronRunner.stop() : Promise.resolve())
     .then(() => oldDevServer ? oldDevServer.stop() : Promise.resolve()) // Close old builder after successful build
     .then(() => generator.build()) // Update generated files
     .then(() => devServer.listen()) // Start listening
     .then(() => cordovaRunner ? cordovaRunner.run(quasarConfig) : Promise.resolve())
+    // .then(() => electronRunner ? electronRunner.run(quasarConfig) : Promise.resolve())
     .then(() => devServer) // Pass new builder to watch chain
 }
 
-let cordovaRunner = false
+let
+  cordovaRunner = false,
+  electronRunner = false
+
 if (argv.mode === 'cordova') {
   cordovaRunner = require('../lib/cordova/cordova-runner')
+}
+else if (argv.mode === 'electron') {
+  electronRunner = require('../lib/electron/electron-runner')
 }
 
 let dev = startDev()

@@ -29,7 +29,7 @@ module.exports = function (ctx) {
       // extractCSS: false,
       // useNotifier: false,
       test () {
-        console.log('a')
+        // console.log('a')
       }
     },
     devServer: {
@@ -88,6 +88,16 @@ module.exports = function (ctx) {
         background_color: '#ffffff',
         theme_color: '#027be3'
       }
+    },
+    electron: {
+      arch: 'x64',
+      asar: true,
+      dir: '',
+      icon: 'electron/icons/icon',
+      ignore: /(^\/(src|cordova|test|\.[a-z]+|README|yarn|dist-*))|\.gitkeep/,
+      out: 'dist-electron',
+      overwrite: true,
+      platform: process.env.BUILD_TARGET || 'all'
     }
   }
 }

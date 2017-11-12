@@ -30,5 +30,39 @@
     "eslint-plugin-node": "^5.2.1",
     "eslint-plugin-promise": "^3.6.0",
     "eslint-plugin-standard": "^3.0.1"
+  },
+  "build": {
+    "productName": "Quasar Electron",
+    "appId": "org.quasar.electron",
+    "directories": {
+      "output": "DIST"
+    },
+    "files": [
+      "dist-electron-mat/**/*"
+    ],
+    "dmg": {
+      "contents": [
+        {
+          "x": 410,
+          "y": 150,
+          "type": "link",
+          "path": "/Applications"
+        },
+        {
+          "x": 130,
+          "y": 150,
+          "type": "file"
+        }
+      ]
+    },
+    "mac": {
+      "icon": "electron/icons/icon.icns"
+    },
+    "win": {
+      "icon": "electron/icons/icon.ico"
+    },
+    "linux": {
+      "icon": "electron/icons"
+    }
   }
 }

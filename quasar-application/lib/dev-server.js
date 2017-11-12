@@ -31,6 +31,7 @@ class DevServer {
     return new Promise((resolve, reject) => {
       this.compiler = webpack(this.webpackConfig)
       this.compiler.plugin('done', compiler => {
+        console.log('DONE')
         if (this.__started) { return }
 
         // don't start dev server until there are no errors

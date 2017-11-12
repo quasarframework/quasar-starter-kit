@@ -5,7 +5,6 @@ const
   fs = require('fs'),
   generateWebpackConfig = require('./build/webpack-config'),
   appPaths = require('./build/app-paths'),
-  resolve = require('path').resolve,
   merge = require('webpack-merge'),
   chokidar = require('chokidar'),
   debounce = require('lodash.debounce')
@@ -39,7 +38,7 @@ function encode (obj) {
 
 class QuasarConfig {
   constructor (opts) {
-    this.filename = resolve(appPaths.appDir, opts.filename)
+    this.filename = appPaths.resolve.app(opts.filename)
     this.opts = opts
     this.ctx = getQuasarConfigCtx(opts)
 
@@ -69,6 +68,10 @@ class QuasarConfig {
 
   getWebpackConfig () {
     return this.webpackConfig
+  }
+
+  getElectronWebpackConfig () {
+    return this.electronWebpackConfig
   }
 
   refresh () {
@@ -135,7 +138,7 @@ class QuasarConfig {
 
     if (this.ctx.mode.cordova) {
       cfg.build.htmlFilename = 'index.html'
-      cfg.build.distDir = resolve(appPaths.cordovaDir, 'www')
+      cfg.build.distDir = appPaths.resolve.cordova('www')
     }
 
     if (!cfg.build.devtool) {
@@ -193,7 +196,7 @@ class QuasarConfig {
         // TODO ensure string / array cases
         cfg.devServer.contentBase = [
           cfg.devServer.contentBase,
-          resolve(appPaths.cordovaDir, `platforms/${this.ctx.targetName}/platform_www`)
+          appPaths.resolve.cordova(`platforms/${this.ctx.targetName}/platform_www`)
         ]
       }
     }
@@ -225,7 +228,6 @@ class QuasarConfig {
     cfg.ctx = this.ctx
     cfg.build.uri = `http${cfg.devServer.https ? 's' : ''}://${cfg.devServer.host}:${cfg.devServer.port}`
 
-    this.buildConfig = cfg
     log(`Generating Webpack config`)
     let webpackConfig = generateWebpackConfig(cfg)
 
@@ -235,6 +237,22 @@ class QuasarConfig {
     }
 
     this.webpackConfig = webpackConfig
+
+    if (this.ctx.mode.electron) {
+      log(`Generating Electron Webpack config`)
+      const
+        electronWebpack = require('./build/webpack-electron-config'),
+        electronWebpackConfig = electronWebpack(cfg)
+
+      if (typeof cfg.extendElectronWebpack === 'function') {
+        log(`Extending Electron Webpack config`)
+        cfg.extendElectronWebpack(electronWebpackConfig)
+      }
+
+      this.electronWebpackConfig = electronWebpackConfig
+    }
+
+    this.buildConfig = cfg
   }
 }
 

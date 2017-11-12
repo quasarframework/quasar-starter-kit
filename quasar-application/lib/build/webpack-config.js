@@ -10,16 +10,6 @@ const
   appPaths = require('./app-paths'),
   cssUtils = require('./get-css-utils')
 
-function appResolve (dir) {
-  return path.join(appPaths.appDir, dir)
-}
-function srcResolve (dir) {
-  return path.join(appPaths.srcDir, dir)
-}
-function cliResolve (dir) {
-  return path.join(appPaths.cliDir, dir)
-}
-
 function getHtmlScripts (cfg) {
   let output = ''
   if (cfg.ctx.mode.cordova) {
@@ -36,7 +26,7 @@ function getHtmlScripts (cfg) {
     if (cfg.ctx.dev) {
       output += `
         <script>
-          ${fs.readFileSync(cliResolve('lib/templates/service-worker-dev.js'), 'utf-8')}
+          ${fs.readFileSync(appPaths.resolve.cli('lib/templates/service-worker-dev.js'), 'utf-8')}
         </script>
       `
     }
@@ -44,7 +34,7 @@ function getHtmlScripts (cfg) {
       const loadMinified = require('./load-minified')
       output += `
         <script>
-          ${loadMinified(cliResolve('lib/templates/service-worker-prod.js'))}
+          ${loadMinified(appPaths.resolve.cli('lib/templates/service-worker-prod.js'))}
         </script>
       `
     }
@@ -63,24 +53,24 @@ module.exports = function (cfg) {
         '.js', '.vue', '.json'
       ],
       modules: [
-        appResolve('node_modules'),
-        cliResolve('node_modules')
+        appPaths.resolve.app('node_modules'),
+        appPaths.resolve.cli('node_modules')
       ],
       alias: {
-        quasar: cliResolve(`node_modules/quasar-framework/dist/quasar.${cfg.ctx.themeName}.esm.js`),
-        'quasar-styl': cliResolve(`node_modules/quasar-framework/dist/quasar.${cfg.ctx.themeName}.styl`),
-        variables: srcResolve(`themes/app.variables.styl`),
+        quasar: appPaths.resolve.cli(`node_modules/quasar-framework/dist/quasar.${cfg.ctx.themeName}.esm.js`),
+        'quasar-styl': appPaths.resolve.cli(`node_modules/quasar-framework/dist/quasar.${cfg.ctx.themeName}.styl`),
+        variables: appPaths.resolve.src(`themes/app.variables.styl`),
         '~': appPaths.srcDir,
-        '@': srcResolve(`components`),
-        layouts: srcResolve(`layouts`),
-        pages: srcResolve(`pages`),
-        assets: srcResolve(`assets`)
+        '@': appPaths.resolve.src(`components`),
+        layouts: appPaths.resolve.src(`layouts`),
+        pages: appPaths.resolve.src(`pages`),
+        assets: appPaths.resolve.src(`assets`)
       }
     },
     resolveLoader: {
       modules: [
-        appResolve('node_modules'),
-        cliResolve('node_modules')
+        appPaths.resolve.app('node_modules'),
+        appPaths.resolve.cli('node_modules')
       ]
     },
     module: {
@@ -151,8 +141,8 @@ module.exports = function (cfg) {
       new HtmlWebpackPlugin({
         filename: cfg.ctx.dev
           ? 'index.html'
-          : path.join(appResolve(cfg.build.distDir), cfg.build.htmlFilename),
-        template: srcResolve(`index.template.html`),
+          : path.join(appPaths.resolve.app(cfg.build.distDir), cfg.build.htmlFilename),
+        template: appPaths.resolve.src(`index.template.html`),
         minify: cfg.build.minify
           ? {
             removeComments: true,
@@ -170,7 +160,13 @@ module.exports = function (cfg) {
         // custom ones
         ctx: cfg.ctx,
         pwaManifest: cfg.pwa.manifest,
-        injectQScripts: getHtmlScripts(cfg)
+        injectQScripts: getHtmlScripts(cfg),
+        appNodeModules: cfg.ctx.electron && cfg.ctx.dev
+          ? appPaths.resolve.app('node_modules')
+          : false,
+        cliNodeModules: cfg.ctx.electron && cfg.ctx.dev
+          ? appPaths.resolve.cli('node_modules')
+          : false
       })
     ],
     performance: {
@@ -187,6 +183,14 @@ module.exports = function (cfg) {
       minimize: cfg.build.minify
     })
   )
+
+  if (cfg.ctx.mode.electron) {
+    webpackConfig.node = {
+      __dirname: cfg.ctx.dev,
+      __filename: cfg.ctx.dev
+    }
+    webpackConfig.target = 'electron-renderer'
+  }
 
   // DEVELOPMENT build
   if (cfg.ctx.dev) {
@@ -235,10 +239,13 @@ module.exports = function (cfg) {
 
     // generate dist files
     webpackConfig.output = {
-      path: appResolve(cfg.build.distDir),
+      path: appPaths.resolve.app(cfg.build.distDir),
       publicPath: cfg.build.publicPath,
       filename: `js/[name]${cfg.build.webpackManifest ? '' : '.[chunkhash]'}.js`,
-      chunkFilename: 'js/[id].[chunkhash].js'
+      chunkFilename: 'js/[id].[chunkhash].js',
+      libraryTarget: cfg.ctx.mode.electron
+        ? 'commonjs2'
+        : undefined
     }
 
     // keep module.id stable when vender modules does not change
@@ -287,8 +294,8 @@ module.exports = function (cfg) {
     webpackConfig.plugins.push(
       new CopyWebpackPlugin([
         {
-          from: srcResolve(`statics`),
-          to: path.join(appResolve(cfg.build.distDir), 'statics'),
+          from: appPaths.resolve.src(`statics`),
+          to: path.join(appPaths.resolve.app(cfg.build.distDir), 'statics'),
           ignore: ['.*']
         }
       ])
