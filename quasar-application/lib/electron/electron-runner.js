@@ -1,5 +1,5 @@
 const
-  spawn = require('cross-spawn'),
+  spawn = require('../helpers/spawn'),
   webpack = require('webpack'),
   onShutdown = require('../helpers/on-shutdown'),
   log = require('../helpers/logger')('app:electron-runner'),
@@ -45,21 +45,17 @@ class ElectronRunner {
     this.stop()
 
     log(`Starting Electron process`)
-    const runner = spawn(require(appPaths.resolve.app('node_modules/electron')), [
-      '--inspect=5858',
-      appPaths.resolve.app('.quasar/electron/electron-main.js')
-    ], {
-      stdio: 'inherit',
-      stdout: 'inherit',
-      stderr: 'inherit',
-      cwd: appPaths.appDir
-    })
-
-    this.pid = runner.pid
-
-    runner.on('close', () => {
-      this.cleanup()
-    })
+    this.pid = spawn(
+      require(appPaths.resolve.app('node_modules/electron')),
+      [
+        '--inspect=5858',
+        appPaths.resolve.app('.quasar/electron/electron-main.js')
+      ],
+      appPaths.appDir,
+      () => {
+        this.cleanup()
+      }
+    )
   }
 
   cleanup () {

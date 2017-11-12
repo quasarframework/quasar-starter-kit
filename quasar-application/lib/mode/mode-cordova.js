@@ -20,7 +20,7 @@ class Mode {
 
     log('Creating Cordova source folder...')
 
-    spawn(
+    spawn.sync(
       'cordova',
       ['create', 'src-cordova', cordovaId, cordovaName],
       appPaths.appDir,

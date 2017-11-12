@@ -1,7 +1,7 @@
 const
   log = require('../helpers/logger')('app:cordova-runner'),
   CordovaConfig = require('./cordova-config'),
-  spawn = require('cross-spawn'),
+  spawn = require('../helpers/spawn'),
   onShutdown = require('../helpers/on-shutdown'),
   appPaths = require('../build/app-paths')
 
@@ -29,19 +29,15 @@ class CordovaRunner {
       this.config.prepare(buildConfig.build.uri)
     }
 
-    log(`Starting Cordova process`)
-    const runner = spawn(
+    this.pid = spawn(
       'cordova',
       [this.ctx.dev ? 'run' : 'build', this.ctx.targetName],
-      { stdio: 'inherit', stderr: 'inherit', cwd: appPaths.cordovaDir }
+      appPaths.cordovaDir,
+      () => {
+        this.cleanup()
+        callback && callback(code)
+      }
     )
-    this.pid = runner.pid
-
-    runner.on('close', code => {
-      log(`Cordova process ended.${code ? chalk.red(` Exit code: ${code}`) : ''}`)
-      this.cleanup()
-      callback && callback(code)
-    })
   }
 
   cleanup () {

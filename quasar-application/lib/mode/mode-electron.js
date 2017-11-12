@@ -30,7 +30,7 @@ class Mode {
     }
 
     log(`Installing Electron dependencies...`)
-    spawn(
+    spawn.sync(
       'npm',
       ['install', '--save-dev'].concat(Object.keys(electronDeps).map(dep => {
         return `${dep}@${electronDeps[dep]}`
@@ -54,7 +54,7 @@ class Mode {
     fse.removeSync(appPaths.electronDir)
 
     log(`Uninstalling Electron dependencies...`)
-    spawn(
+    spawn.sync(
       'npm',
       ['uninstall', '--save-dev'].concat(Object.keys(electronDeps)),
       appPaths.appDir,
