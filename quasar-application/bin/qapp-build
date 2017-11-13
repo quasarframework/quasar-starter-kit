@@ -116,12 +116,24 @@ webpack(webpackConfig, (err, stats) => {
   if (argv.mode === 'cordova') {
     const cordovaRunner = require('../lib/cordova/cordova-runner')
 
-    cordovaRunner.run(quasarConfig, err => {
-      if (err) {
+    cordovaRunner.run(quasarConfig).then(exitCode => {
+      if (exitCode) {
         notify({ subtitle: '[FAIL] Cordova failed to build' })
         return
       }
 
+      warn(`Do NOT use VueRouter's "history" mode as it will break your app!`)
+      log()
+      finalize()
+      notify({ subtitle: '[Success] App was built'  })
+    })
+
+    return
+  }
+  else if (argv.mode === 'electron') {
+    const electronRunner = require('../lib/electron/electron-runner')
+
+    electronRunner.build(quasarConfig).then(() => {
       warn(`Do NOT use VueRouter's "history" mode as it will break your app!`)
       log()
       finalize()

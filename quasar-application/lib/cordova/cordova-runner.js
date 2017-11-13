@@ -15,7 +15,7 @@ class CordovaRunner {
     })
   }
 
-  run (quasarConfig, callback) {
+  run (quasarConfig) {
     if (this.pid) {
       this.stop()
     }
@@ -29,15 +29,17 @@ class CordovaRunner {
       this.config.prepare(buildConfig.build.uri)
     }
 
-    this.pid = spawn(
-      'cordova',
-      [this.ctx.dev ? 'run' : 'build', this.ctx.targetName],
-      appPaths.cordovaDir,
-      () => {
-        this.cleanup()
-        callback && callback(code)
-      }
-    )
+    return new Promise((resolve, reject) => {
+      this.pid = spawn(
+        'cordova',
+        [this.ctx.dev ? 'run' : 'build', this.ctx.targetName],
+        appPaths.cordovaDir,
+        code => {
+          this.cleanup()
+          resolve(code)
+        }
+      )
+    })
   }
 
   cleanup () {

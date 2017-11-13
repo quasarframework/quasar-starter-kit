@@ -87,12 +87,12 @@ function startDev (oldDevServer) {
 
   return Promise.resolve()
     .then(() => cordovaRunner ? cordovaRunner.stop() : Promise.resolve())
-    // .then(() => electronRunner ? electronRunner.stop() : Promise.resolve())
+    .then(() => electronRunner ? electronRunner.stop() : Promise.resolve())
     .then(() => oldDevServer ? oldDevServer.stop() : Promise.resolve()) // Close old builder after successful build
     .then(() => generator.build()) // Update generated files
     .then(() => devServer.listen()) // Start listening
     .then(() => cordovaRunner ? cordovaRunner.run(quasarConfig) : Promise.resolve())
-    // .then(() => electronRunner ? electronRunner.run(quasarConfig) : Promise.resolve())
+    .then(() => electronRunner ? electronRunner.run(quasarConfig) : Promise.resolve())
     .then(() => devServer) // Pass new builder to watch chain
 }
 
@@ -105,7 +105,6 @@ if (argv.mode === 'cordova') {
 }
 else if (argv.mode === 'electron') {
   electronRunner = require('../lib/electron/electron-runner')
-  electronRunner.run(quasarConfig)
 }
 
 let dev = startDev()

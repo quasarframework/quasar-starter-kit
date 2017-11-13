@@ -43,7 +43,7 @@ function getHtmlScripts (cfg) {
 }
 
 module.exports = function (cfg) {
-  let webpackConfig = {
+  const webpackConfig = {
     entry: {
       app: [ appPaths.entryFile ]
     },

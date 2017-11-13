@@ -48,7 +48,7 @@ log(`Detecting installed modes...`)
 ;['pwa', 'cordova', 'electron'].forEach(mode => {
   const QuasarMode = getMode(mode)
   log(
-    `[${getMode(mode).isInstalled() ? ' yes ' : '  -  '}] Mode ${mode.toUpperCase()}`
+    `[${getMode(mode).isInstalled ? ' yes ' : '  -  '}] Mode ${mode.toUpperCase()}`
   )
 })
 log()

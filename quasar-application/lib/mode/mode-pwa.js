@@ -7,12 +7,12 @@ const
   warn = logger('app:mode-pwa', 'red')
 
 class Mode {
-  isInstalled () {
+  get isInstalled () {
     return fs.existsSync(appPaths.pwaDir)
   }
 
   add (params) {
-    if (this.isInstalled()) {
+    if (this.isInstalled) {
       warn(`PWA support detected already. Aborting.`)
       return
     }
@@ -23,7 +23,7 @@ class Mode {
   }
 
   remove () {
-    if (!this.isInstalled()) {
+    if (!this.isInstalled) {
       warn(`No PWA support detected. Aborting.`)
       return
     }

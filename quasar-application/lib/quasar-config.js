@@ -98,7 +98,8 @@ class QuasarConfig {
         cfg.devServer ? encode(cfg.devServer) : '',
         cfg.extendWebpack ? encode(cfg.extendWebpack) : '',
         cfg.vendor ? encode(cfg.vendor) : '',
-        cfg.pwa ? encode(cfg.pwa) : ''
+        cfg.pwa ? encode(cfg.pwa) : '',
+        cfg.electron ? encode(cfg.electron) : ''
       ].join('')
 
       if (this.oldConfigSnapshot) {
@@ -115,7 +116,9 @@ class QuasarConfig {
     }
 
     // make sure it exists
-    cfg.supportIE = cfg.supportIE || false
+    cfg.supportIE = this.ctx.mode.electron
+      ? false
+      : (cfg.supportIE || false)
 
     cfg.build = merge({
       publicPath,
@@ -239,6 +242,10 @@ class QuasarConfig {
     this.webpackConfig = webpackConfig
 
     if (this.ctx.mode.electron) {
+      cfg.build.env.ELECTRON_RENDERER_URL = cfg.ctx.dev
+        ? `"${cfg.build.uri}"`
+        : '"file://" + __dirname + "/index.html"'
+
       log(`Generating Electron Webpack config`)
       const
         electronWebpack = require('./build/webpack-electron-config'),
@@ -248,6 +255,19 @@ class QuasarConfig {
         log(`Extending Electron Webpack config`)
         cfg.extendElectronWebpack(electronWebpackConfig)
       }
+
+      cfg.electron = merge({
+        packager: {
+          arch: 'x64',
+          asar: true,
+          dir: appPaths.resolve.app('.quasar/electron'),
+          ignore: /(^\/(src|test|\.[a-z]+|README|yarn|static|dist\/web))/,
+          icon: appPaths.resolve.electron('icons/icon'),
+          out: appPaths.resolve.app(cfg.build.distDir),
+          overwrite: true,
+          platform: cfg.ctx.targetName
+        }
+      }, cfg.electron || {})
 
       this.electronWebpackConfig = electronWebpackConfig
     }

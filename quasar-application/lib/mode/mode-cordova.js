@@ -8,12 +8,12 @@ const
   spawn = require('../helpers/spawn')
 
 class Mode {
-  isInstalled () {
+  get isInstalled () {
     return fs.existsSync(appPaths.cordovaDir)
   }
 
   add ({ cordovaId = 'org.quasar.cordova.app', cordovaName = 'QuasarApp' }) {
-    if (this.isInstalled()) {
+    if (this.isInstalled) {
       warn(`Cordova support detected already. Aborting.`)
       return
     }
@@ -31,7 +31,7 @@ class Mode {
   }
 
   remove () {
-    if (!this.isInstalled()) {
+    if (!this.isInstalled) {
       warn(`No Cordova support detected. Aborting.`)
       return
     }

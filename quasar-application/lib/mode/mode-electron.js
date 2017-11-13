@@ -10,21 +10,19 @@ const
 const
   electronDeps = {
     'electron': '1.7.9',
-    'electron-builder': '19.45.4',
+    'electron-packager': '9.1.0',
     'electron-debug': '1.4.0',
     'electron-devtools-installer': '2.2.1',
-    'electron-updater': '2.16.1',
-    'devtron': '1.4.0',
-    'node-loader': '^0.6.0'
+    'devtron': '1.4.0'
   }
 
 class Mode {
-  isInstalled () {
+  get isInstalled () {
     return fs.existsSync(appPaths.electronDir)
   }
 
   add (params) {
-    if (this.isInstalled()) {
+    if (this.isInstalled) {
       warn(`Electron support detected already. Aborting.`)
       return
     }
@@ -45,7 +43,7 @@ class Mode {
   }
 
   remove () {
-    if (!this.isInstalled()) {
+    if (!this.isInstalled) {
       warn(`No Electron support detected. Aborting.`)
       return
     }

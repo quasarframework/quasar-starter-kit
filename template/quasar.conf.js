@@ -90,14 +90,9 @@ module.exports = function (ctx) {
       }
     },
     electron: {
-      arch: 'x64',
-      asar: true,
-      dir: '',
-      icon: 'electron/icons/icon',
-      ignore: /(^\/(src|cordova|test|\.[a-z]+|README|yarn|dist-*))|\.gitkeep/,
-      out: 'dist-electron',
-      overwrite: true,
-      platform: process.env.BUILD_TARGET || 'all'
+      packager: {
+        ignore: /(^\/(src|test|\.[a-z]+|README|yarn|static|dist\/web))/
+      }
     }
   }
 }

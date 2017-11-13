@@ -7,7 +7,7 @@ const
 module.exports = function (mode) {
   const Mode = getMode(mode)
 
-  if (Mode.isInstalled()) {
+  if (Mode.isInstalled) {
     return
   }
 

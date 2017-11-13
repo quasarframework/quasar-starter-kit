@@ -2,7 +2,8 @@ const
   fs = require('fs'),
   path = require('path'),
   chalk = require('chalk'),
-  webpack = require('webpack')
+  webpack = require('webpack'),
+  ProgressBarPlugin = require('progress-bar-webpack-plugin')
 
 const
   appPaths = require('./app-paths')
@@ -15,14 +16,14 @@ module.exports = function (cfg) {
   const webpackConfig = {
     target: 'electron-main',
     entry: {
-      'electron-main': appPaths.resolve.electron(`electron-main{cfg.ctx.dev ? '.dev' : ''}.js`)
+      'electron-main': appPaths.resolve.electron(
+        `main-process/electron-main${cfg.ctx.dev ? '.dev' : ''}.js`
+      )
     },
     output: {
       filename: 'electron-main.js',
       libraryTarget: 'commonjs2',
-      path: cfg.ctx.dev
-        ? appPaths.resolve.app('.quasar/electron')
-        : cfg.build.distDir
+      path: appPaths.resolve.app('.quasar/electron')
     },
     externals: [
       ...Object.keys(cliDeps),
@@ -43,8 +44,7 @@ module.exports = function (cfg) {
     },
     resolve: {
       modules: [
-        appPaths.resolve.app('node_modules'),
-        appPaths.resolve.cli('node_modules')
+        appPaths.resolve.app('node_modules')
       ],
       extensions: ['.js', '.json', '.node']
     },
@@ -55,10 +55,13 @@ module.exports = function (cfg) {
       ]
     },
     plugins: [
-      new webpack.NoEmitOnErrorsPlugin()/* ,
+      new ProgressBarPlugin({
+        format: ` [:bar] ${chalk.bold(':percent')} (:msg)`
+      }),
+      new webpack.NoEmitOnErrorsPlugin(),
       new webpack.DefinePlugin({
         'process.env': cfg.build.env
-      }) */
+      })
     ]
   }
 
