@@ -24,6 +24,12 @@
     <meta name="msapplication-TileImage" content="<%= htmlWebpackPlugin.files.publicPath %>statics/icons/ms-icon-144x144.png">
     <meta name="msapplication-TileColor" content="<%= htmlWebpackPlugin.options.pwaManifest.background_color %>">
     <% } %>
+    <% if (htmlWebpackPlugin.options.ctx.mode.electron && htmlWebpackPlugin.options.appNodeModules) { %>
+      <!-- Add `node_modules/` to global paths so `require` works properly in development -->
+      <script>
+        require('module').globalPaths.push('<%= htmlWebpackPlugin.options.appNodeModules.replace(/\\/g, '\\\\') %>')
+      </script>
+    <% } %>
 
     <!--
       The following is optional if you DON'T build for PWA.

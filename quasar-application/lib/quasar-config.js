@@ -231,6 +231,15 @@ class QuasarConfig {
     cfg.ctx = this.ctx
     cfg.build.uri = `http${cfg.devServer.https ? 's' : ''}://${cfg.devServer.host}:${cfg.devServer.port}`
 
+    if (this.ctx.mode.electron) {
+      cfg.build.webpackManifest = false
+      cfg.build.env.ELECTRON_RENDERER_URL = this.ctx.dev
+        ? `"${cfg.build.uri}"`
+        : '"file://" + __dirname + "/index.html"'
+      cfg.build.packagedElectronDist = cfg.build.distDir
+      cfg.build.distDir = path.join(cfg.build.distDir, 'unpackaged')
+    }
+
     log(`Generating Webpack config`)
     let webpackConfig = generateWebpackConfig(cfg)
 
@@ -242,10 +251,6 @@ class QuasarConfig {
     this.webpackConfig = webpackConfig
 
     if (this.ctx.mode.electron) {
-      cfg.build.env.ELECTRON_RENDERER_URL = cfg.ctx.dev
-        ? `"${cfg.build.uri}"`
-        : '"file://" + __dirname + "/index.html"'
-
       log(`Generating Electron Webpack config`)
       const
         electronWebpack = require('./build/webpack-electron-config'),
@@ -260,10 +265,10 @@ class QuasarConfig {
         packager: {
           arch: 'x64',
           asar: true,
-          dir: appPaths.resolve.app('.quasar/electron'),
-          ignore: /(^\/(src|test|\.[a-z]+|README|yarn|static|dist\/web))/,
+          dir: appPaths.resolve.app(cfg.build.distDir),
+          ignore: /(^\/(src|test|README|yarn|static|dist\/web))/,
           icon: appPaths.resolve.electron('icons/icon'),
-          out: appPaths.resolve.app(cfg.build.distDir),
+          out: appPaths.resolve.app(cfg.build.packagedElectronDist),
           overwrite: true,
           platform: cfg.ctx.targetName
         }

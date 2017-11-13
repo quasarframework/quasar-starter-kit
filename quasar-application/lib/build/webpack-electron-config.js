@@ -23,7 +23,9 @@ module.exports = function (cfg) {
     output: {
       filename: 'electron-main.js',
       libraryTarget: 'commonjs2',
-      path: appPaths.resolve.app('.quasar/electron')
+      path: cfg.ctx.dev
+        ? appPaths.resolve.app('.quasar/electron')
+        : appPaths.resolve.app(cfg.build.distDir)
     },
     externals: [
       ...Object.keys(cliDeps),
@@ -73,13 +75,44 @@ module.exports = function (cfg) {
   }
 
   if (cfg.ctx.prod) {
-    const UglifyJSPlugin = require('uglifyjs-webpack-plugin')
+    const
+      UglifyJSPlugin = require('uglifyjs-webpack-plugin')/* ,
+      CopyWebpackPlugin = require('copy-webpack-plugin') */
 
     webpackConfig.plugins.push(
+      // minify code
       new UglifyJSPlugin({
         parallel: true,
         sourceMap: cfg.build.sourceMap
-      })
+      }),
+
+      /*
+      new CopyWebpackPlugin([
+        {
+          from: appPaths.resolve.app(`node_modules`),
+          to: path.join(appPaths.resolve.app(cfg.build.distDir), 'node_modules')
+        }
+      ]), */
+
+      // write package.json file
+      {
+        apply (compiler) {
+          compiler.plugin('emit', (compilation, callback) => {
+            const pkg = require(appPaths.resolve.app('package.json'))
+
+            pkg.main = './electron-main.js'
+            pkg.productName = pkg.name
+
+            const source = JSON.stringify(pkg)
+            compilation.assets['package.json'] = {
+              source: () => new Buffer(source),
+              size: () => Buffer.byteLength(source)
+            }
+
+            callback()
+          })
+        }
+      }
     )
   }
 

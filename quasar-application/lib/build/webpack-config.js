@@ -39,6 +39,14 @@ function getHtmlScripts (cfg) {
       `
     }
   }
+  if (cfg.ctx.mode.electron && cfg.ctx.prod) {
+    // set `__static` path to static files in production
+    output += `
+      <script>
+        window.__static = require('path').join(__dirname, '/statics').replace(/\\/g, '\\\\')
+      </script>
+    `
+  }
   return output
 }
 
@@ -163,9 +171,6 @@ module.exports = function (cfg) {
         injectQScripts: getHtmlScripts(cfg),
         appNodeModules: cfg.ctx.electron && cfg.ctx.dev
           ? appPaths.resolve.app('node_modules')
-          : false,
-        cliNodeModules: cfg.ctx.electron && cfg.ctx.dev
-          ? appPaths.resolve.cli('node_modules')
           : false
       })
     ],
@@ -189,6 +194,7 @@ module.exports = function (cfg) {
       __dirname: cfg.ctx.dev,
       __filename: cfg.ctx.dev
     }
+    webpackConfig.resolve.extensions.push('.node')
     webpackConfig.target = 'electron-renderer'
   }
 
@@ -197,9 +203,7 @@ module.exports = function (cfg) {
     const FriendlyErrorsPlugin = require('friendly-errors-webpack-plugin')
 
     webpackConfig.plugins.push(
-      new webpack.NoEmitOnErrorsPlugin()
-    )
-    webpackConfig.plugins.push(
+      new webpack.NoEmitOnErrorsPlugin(),
       new FriendlyErrorsPlugin({
         compilationSuccessInfo: {
           messages: [
@@ -225,14 +229,22 @@ module.exports = function (cfg) {
 
     if (cfg.devServer.hot) {
       require('webpack-dev-server').addDevServerEntrypoints(webpackConfig, cfg.devServer)
-      webpackConfig.plugins.push(new webpack.NamedModulesPlugin()) // HMR shows filenames in console on update
-      webpackConfig.plugins.push(new webpack.HotModuleReplacementPlugin())
+      webpackConfig.plugins.push(
+        new webpack.NamedModulesPlugin(), // HMR shows filenames in console on update
+        new webpack.HotModuleReplacementPlugin()
+      )
+    }
+
+    if (cfg.ctx.mode.electron) {
+      webpackConfig.plugins.push(
+        new webpack.DefinePlugin({
+          '__static': `"${appPaths.resolve.src('statics').replace(/\\/g, '\\\\')}"`
+        })
+      )
     }
   }
   // PRODUCTION build
   else {
-    const CopyWebpackPlugin = require('copy-webpack-plugin')
-
     const
       vendorAdd = cfg.vendor && cfg.vendor.add ? cfg.vendor.add.filter(v => v) : false,
       vendorRemove = cfg.vendor && cfg.vendor.remove ? cfg.vendor.remove.filter(v => v) : false
@@ -291,6 +303,7 @@ module.exports = function (cfg) {
     }
 
     // copy statics to dist folder
+    const CopyWebpackPlugin = require('copy-webpack-plugin')
     webpackConfig.plugins.push(
       new CopyWebpackPlugin([
         {
@@ -348,32 +361,32 @@ module.exports = function (cfg) {
     if (cfg.ctx.mode.pwa) {
       const SWPrecacheWebpackPlugin = require('sw-precache-webpack-plugin')
 
-      // service worker caching
       webpackConfig.plugins.push(
+        // service worker caching
         new SWPrecacheWebpackPlugin({
           cacheId: cfg.pwa.cacheId,
           filename: cfg.pwa.filename,
           staticFileGlobs: [`${cfg.build.distDir}/**/*.{${cfg.pwa.cacheExt}}`],
           minify: true,
           stripPrefix: cfg.build.distDir + '/'
-        })
-      )
+        }),
 
-      // write manifest.json file
-      webpackConfig.plugins.push({
-        apply (compiler) {
-          compiler.plugin('emit', (compilation, callback) => {
-            const source = JSON.stringify(cfg.pwa.manifest)
+        // write manifest.json file
+        {
+          apply (compiler) {
+            compiler.plugin('emit', (compilation, callback) => {
+              const source = JSON.stringify(cfg.pwa.manifest)
 
-            compilation.assets['manifest.json'] = {
-              source: () => new Buffer(source),
-              size: () => Buffer.byteLength(source)
-            }
+              compilation.assets['manifest.json'] = {
+                source: () => new Buffer(source),
+                size: () => Buffer.byteLength(source)
+              }
 
-            callback()
-          })
+              callback()
+            })
+          }
         }
-      })
+      )
     }
 
     // also produce a gzipped version
@@ -387,7 +400,9 @@ module.exports = function (cfg) {
 
     if (cfg.build.analyze) {
       const BundleAnalyzerPlugin = require('webpack-bundle-analyzer').BundleAnalyzerPlugin
-      webpackConfig.plugins.push(new BundleAnalyzerPlugin(Object.assign({}, cfg.build.analyze)))
+      webpackConfig.plugins.push(
+        new BundleAnalyzerPlugin(Object.assign({}, cfg.build.analyze))
+      )
     }
   }
 
