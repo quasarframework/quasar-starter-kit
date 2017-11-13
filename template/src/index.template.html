@@ -24,6 +24,7 @@
     <meta name="msapplication-TileImage" content="<%= htmlWebpackPlugin.files.publicPath %>statics/icons/ms-icon-144x144.png">
     <meta name="msapplication-TileColor" content="<%= htmlWebpackPlugin.options.pwaManifest.background_color %>">
     <% } %>
+
     <% if (htmlWebpackPlugin.options.ctx.mode.electron && htmlWebpackPlugin.options.appNodeModules) { %>
       <!-- Add `node_modules/` to global paths so `require` works properly in development -->
       <script>
@@ -35,17 +36,19 @@
       The following is optional if you DON'T build for PWA.
       Preloads/prefetches chunks/assets.
     -->
-    <% if (htmlWebpackPlugin.options.ctx.prod) {
+    <% if (!htmlWebpackPlugin.options.ctx.mode.electron && htmlWebpackPlugin.options.ctx.prod) {
         for (var chunk of webpack.chunks) {
           for (var file of chunk.files) {
             if (file.match(/\.(js|css)$/)) { %>
-    <link rel="<%= chunk.initial ? 'preload' : 'prefetch' %>" href="<%= htmlWebpackPlugin.files.publicPath + file %>" as="<%= file.match(/\.css$/)?'style':'script' %>">
+      <link rel="<%= chunk.initial ? 'preload' : 'prefetch' %>" href="<%= htmlWebpackPlugin.files.publicPath + file %>" as="<%= file.match(/\.css$/)?'style':'script' %>">
     <% }}}} %>
   </head>
   <body>
-    <noscript>
-      This is your fallback content in case JavaScript fails to load.
-    </noscript>
+    <% if (!htmlWebpackPlugin.options.ctx.mode.electron) { %>
+      <noscript>
+        This is your fallback content in case JavaScript fails to load.
+      </noscript>
+    <% } %>
 
     <!-- DO NOT touch the following <div> -->
     <div id="q-app"></div>

@@ -10,7 +10,7 @@ if (process.env.PROD) {
 
 let mainWindow
 
-app.on('ready', () => {
+function createWindow () {
   /**
    * Initial window options
    */
@@ -25,7 +25,9 @@ app.on('ready', () => {
   mainWindow.on('closed', () => {
     mainWindow = null
   })
-})
+}
+
+app.on('ready', createWindow)
 
 app.on('window-all-closed', () => {
   if (process.platform !== 'darwin') {

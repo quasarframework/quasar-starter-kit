@@ -15,6 +15,10 @@ module.exports = function (cfg) {
 
   const webpackConfig = {
     target: 'electron-main',
+    node: {
+      __dirname: cfg.ctx.dev,
+      __filename: cfg.ctx.dev
+    },
     entry: {
       'electron-main': appPaths.resolve.electron(
         `main-process/electron-main${cfg.ctx.dev ? '.dev' : ''}.js`
@@ -67,17 +71,9 @@ module.exports = function (cfg) {
     ]
   }
 
-  if (cfg.ctx.dev) {
-    webpackConfig.node = {
-      __dirname: cfg.ctx.dev,
-      __filename: cfg.ctx.dev
-    }
-  }
-
   if (cfg.ctx.prod) {
     const
-      UglifyJSPlugin = require('uglifyjs-webpack-plugin')/* ,
-      CopyWebpackPlugin = require('copy-webpack-plugin') */
+      UglifyJSPlugin = require('uglifyjs-webpack-plugin')
 
     webpackConfig.plugins.push(
       // minify code
@@ -85,14 +81,6 @@ module.exports = function (cfg) {
         parallel: true,
         sourceMap: cfg.build.sourceMap
       }),
-
-      /*
-      new CopyWebpackPlugin([
-        {
-          from: appPaths.resolve.app(`node_modules`),
-          to: path.join(appPaths.resolve.app(cfg.build.distDir), 'node_modules')
-        }
-      ]), */
 
       // write package.json file
       {
