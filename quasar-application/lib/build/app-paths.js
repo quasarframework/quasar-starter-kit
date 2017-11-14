@@ -18,6 +18,7 @@ module.exports = {
   pwaDir,
   cordovaDir,
   electronDir,
+  appPackageJson: resolve(appDir, 'package.json'),
 
   entryTemplateFile: resolve(cliDir, 'templates/app/entry.js'),
   entryFile: resolve(appDir, '.quasar/entry.js'),

@@ -67,7 +67,6 @@ module.exports = function (ctx) {
       plugins: ['Cordova']
     },
     pwa: {
-      cacheId: 'my-quasar-pwa-app',
       cacheExt: 'js,html,css,woff,ttf,eot,otf,woff,woff2,json,svg,gif,jpg,jpeg,png,wav,ogg,webm,flac,aac,mp4,mp3',
       manifest: {
         name: 'Quasar App',

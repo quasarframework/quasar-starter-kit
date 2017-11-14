@@ -88,10 +88,11 @@ module.exports = function (cfg) {
           compiler.plugin('emit', (compilation, callback) => {
             const
               extend = cfg.electron.extendPackageJson,
-              pkg = require(appPaths.resolve.app('package.json'))
+              pkg = require(appPaths.appPackageJson)
 
             pkg.main = './electron-main.js'
             pkg.productName = pkg.name
+            delete pkg.scripts
 
             if (typeof extend === 'function') {
               extend(pkg)

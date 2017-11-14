@@ -204,6 +204,7 @@ class QuasarConfig {
       cfg.build.minify = false
       cfg.build.extractCSS = false
     }
+
     if (this.ctx.mode.pwa) {
       cfg.build.webpackManifest = false
 
