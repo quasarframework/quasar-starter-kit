@@ -16,42 +16,53 @@ class CordovaConfig {
   save () {
     const content = this.doc.write({ indent: 4 })
     fs.writeFileSync(filePath, content, 'utf8')
+    log('Updated Cordova config.xml')
   }
 
-  prepare (uri) {
+  prepare (APP_URL) {
+    this.refresh()
+    this.APP_URL = APP_URL
+
     const root = this.doc.getroot()
     let el = root.find('content')
 
     if (!el) {
-      el = et.SubElement(root, 'content', { src: uri })
-      this.originalSrc = 'index.html'
+      el = et.SubElement(root, 'content', { src: APP_URL })
     }
     else {
-      this.originalSrc = el.get('src')
-      el.set('src', uri)
+      if (el.get('src') === APP_URL) {
+        // no need to update anything
+        return
+      }
+      el.set('src', APP_URL)
     }
 
-    let nav = root.find(`allow-navigation[@href='${uri}']`)
+    let nav = root.find(`allow-navigation[@href='${APP_URL}']`)
     if (!nav) {
-      nav = et.SubElement(root, 'allow-navigation', { href: uri })
+      nav = et.SubElement(root, 'allow-navigation', { href: APP_URL })
     }
 
     this.save()
-    log('Temporary changed Cordova config.xml')
   }
 
   reset () {
+    if (!this.APP_URL || this.APP_URL === 'index.html') {
+      return
+    }
+
     const root = this.doc.getroot()
     let el = root.find('content')
 
     if (!el) {
-      el = et.SubElement(root, 'content', { src: this.originalSrc })
+      el = et.SubElement(root, 'content', { src: 'index.html' })
     }
     else {
-      el.set('src', this.originalSrc)
+      el.set('src', 'index.html')
     }
 
-    log('Cordova config.xml was reset')
+    let nav = root.find(`allow-navigation[@href='${this.APP_URL}']`)
+    root.remove(nav)
+
     this.save()
   }
 }

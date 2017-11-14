@@ -23,11 +23,7 @@ class CordovaRunner {
     const buildConfig = quasarConfig.getBuildConfig()
     this.ctx = buildConfig.ctx
     this.buildConfig = buildConfig
-    this.config.refresh()
-
-    if (this.ctx.dev) {
-      this.config.prepare(buildConfig.build.uri)
-    }
+    this.config.prepare(buildConfig.build.APP_URL)
 
     return new Promise((resolve, reject) => {
       this.pid = spawn(

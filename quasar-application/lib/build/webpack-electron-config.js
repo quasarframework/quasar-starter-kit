@@ -72,43 +72,43 @@ module.exports = function (cfg) {
   }
 
   if (cfg.ctx.prod) {
-    const
-      UglifyJSPlugin = require('uglifyjs-webpack-plugin')
+    if (cfg.build.minify) {
+      const UglifyJSPlugin = require('uglifyjs-webpack-plugin')
 
-    webpackConfig.plugins.push(
-      // minify code
-      new UglifyJSPlugin({
-        parallel: true,
-        sourceMap: cfg.build.sourceMap
-      }),
+      webpackConfig.plugins.push(
+        new UglifyJSPlugin({
+          parallel: true,
+          sourceMap: cfg.build.sourceMap
+        })
+      )
+    }
 
-      // write package.json file
-      {
-        apply (compiler) {
-          compiler.plugin('emit', (compilation, callback) => {
-            const
-              extend = cfg.electron.extendPackageJson,
-              pkg = require(appPaths.appPackageJson)
+    // write package.json file
+    webpackConfig.plugins.push({
+      apply (compiler) {
+        compiler.plugin('emit', (compilation, callback) => {
+          const
+            extend = cfg.electron.extendPackageJson,
+            pkg = require(appPaths.resolve.app('package.json'))
 
-            pkg.main = './electron-main.js'
-            pkg.productName = pkg.name
-            delete pkg.scripts
+          pkg.main = './electron-main.js'
+          pkg.productName = pkg.name
+          delete pkg.scripts
 
-            if (typeof extend === 'function') {
-              extend(pkg)
-            }
+          if (typeof extend === 'function') {
+            extend(pkg)
+          }
 
-            const source = JSON.stringify(pkg)
-            compilation.assets['package.json'] = {
-              source: () => new Buffer(source),
-              size: () => Buffer.byteLength(source)
-            }
+          const source = JSON.stringify(pkg)
+          compilation.assets['package.json'] = {
+            source: () => new Buffer(source),
+            size: () => Buffer.byteLength(source)
+          }
 
-            callback()
-          })
-        }
+          callback()
+        })
       }
-    )
+    })
   }
 
   return webpackConfig

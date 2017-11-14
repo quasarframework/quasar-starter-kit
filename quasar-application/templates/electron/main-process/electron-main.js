@@ -20,7 +20,7 @@ function createWindow () {
     width: 1000
   })
 
-  mainWindow.loadURL(process.env.ELECTRON_RENDERER_URL)
+  mainWindow.loadURL(process.env.APP_URL)
 
   mainWindow.on('closed', () => {
     mainWindow = null

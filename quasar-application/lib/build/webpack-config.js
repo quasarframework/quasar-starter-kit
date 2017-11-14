@@ -207,7 +207,7 @@ module.exports = function (cfg) {
       new FriendlyErrorsPlugin({
         compilationSuccessInfo: {
           messages: [
-            `App [${chalk.red(cfg.ctx.modeName.toUpperCase())}${cfg.ctx.targetName ? `/${chalk.red(cfg.ctx.targetName.toUpperCase())}` : ''} with ${chalk.red(cfg.ctx.themeName.toUpperCase())} theme] at ${cfg.build.uri}\n`
+            `App [${chalk.red(cfg.ctx.modeName.toUpperCase())}${cfg.ctx.targetName ? `/${chalk.red(cfg.ctx.targetName.toUpperCase())}` : ''} with ${chalk.red(cfg.ctx.themeName.toUpperCase())} theme] at ${cfg.build.APP_URL}\n`
           ],
         },
         onErrors: cfg.build.useNotifier

@@ -21,7 +21,7 @@ class DevServer {
     this.ctx = cfg.ctx
     this.notify = cfg.build.useNotifier
     this.opts = cfg.devServer
-    this.uri = cfg.build.uri
+    this.APP_URL = cfg.build.APP_URL
   }
 
   listen () {
@@ -66,9 +66,9 @@ class DevServer {
           else if (this.notify) {
             notify({
               subtitle: `App is ready for dev`,
-              message: `Listening at ${this.uri}`,
+              message: `Listening at ${this.APP_URL}`,
               onClick: () => {
-                opn(this.uri)
+                opn(this.APP_URL)
               }
             })
           }
