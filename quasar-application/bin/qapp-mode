@@ -26,9 +26,12 @@ const argv = parseArgs(process.argv.slice(2), {
 if (argv.help) {
   console.log(`
     Description
-      Add/Remove support for Cordova / Electron modes.
+      Add/Remove support for PWA / Cordova / Electron modes.
     Usage
-      $ npm run qapp mode
+      $ npm run qapp mode -- -r|-a pwa|cordova|electron 
+    Options 
+      --add, -a           Add support for mode [pwa|cordova|electron] 
+      --remove, -r        Remove support for mode [pwa|cordova|electron]
   `)
   process.exit(0)
 }
