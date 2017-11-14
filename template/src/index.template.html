@@ -32,7 +32,7 @@
       The following is optional if you DON'T build for PWA.
       Preloads/prefetches chunks/assets.
     -->
-    <% if (!htmlWebpackPlugin.options.ctx.mode.electron && htmlWebpackPlugin.options.ctx.prod) {
+    <% if (!['cordova', 'electron'].includes(htmlWebpackPlugin.options.ctx.modeName) && htmlWebpackPlugin.options.ctx.prod) {
         for (var chunk of webpack.chunks) {
           for (var file of chunk.files) {
             if (file.match(/\.(js|css)$/)) { %>
