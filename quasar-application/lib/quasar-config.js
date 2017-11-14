@@ -1,13 +1,16 @@
-const path = require('path')
-const log = require('./helpers/logger')('app:quasar-conf')
-
 const
+  path = require('path')
   fs = require('fs'),
-  generateWebpackConfig = require('./build/webpack-config'),
-  appPaths = require('./build/app-paths'),
   merge = require('webpack-merge'),
   chokidar = require('chokidar'),
   debounce = require('lodash.debounce')
+
+const
+  generateWebpackConfig = require('./build/webpack-config'),
+  appPaths = require('./build/app-paths'),
+  logger = require('./helpers/logger'),
+  log = logger('app:quasar-conf'),
+  warn = logger('app:quasar-conf', 'red')
 
 function getQuasarConfigCtx (opts) {
   const ctx = {
@@ -38,7 +41,7 @@ function encode (obj) {
 
 class QuasarConfig {
   constructor (opts) {
-    this.filename = appPaths.resolve.app(opts.filename)
+    this.filename = appPaths.resolve.app('quasar.conf.js')
     this.opts = opts
     this.ctx = getQuasarConfigCtx(opts)
 
@@ -50,7 +53,7 @@ class QuasarConfig {
       chokidar
         .watch(this.filename, { watchers: { chokidar: { ignoreInitial: true } } })
         .on('change', debounce(() => {
-          log(`${opts.filename} changed`)
+          log(`quasar.conf.js changed`)
           this.refresh()
           if (this.webpackConfigChanged) {
             opts.onBuildChange()
@@ -77,14 +80,14 @@ class QuasarConfig {
   refresh () {
     let config
 
-    log(`Parsing ${this.opts.filename}`)
+    log(`Parsing quasar.conf.js`)
 
     if (fs.existsSync(this.filename)) {
       delete require.cache[this.filename]
       config = require(this.filename)
     }
     else {
-      console.error(`> Could not load config file ${this.filename}`)
+      warn(`[FAIL] Could not load quasar.conf.js config file`)
       process.exit(1)
     }
 

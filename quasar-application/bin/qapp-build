@@ -12,15 +12,13 @@ const argv = parseArgs(process.argv.slice(2), {
     t: 'theme',
     m: 'mode',
     T: 'target',
-    c: 'config-file',
     h: 'help'
   },
   boolean: ['h'],
-  string: ['t', 'm', 'T', 'c'],
+  string: ['t', 'm', 'T'],
   default: {
     t: 'mat',
-    m: 'spa',
-    c: 'quasar.conf.js'
+    m: 'spa'
   }
 })
 
@@ -35,7 +33,6 @@ if (argv.help) {
       --theme, -t         App theme (default: mat)
       --mode, -m          App mode [spa|pwa|cordova|electron] (default: spa)
       --target, -T        App target [if cordova mode: android|ios; if electron: darwin|win32|linux]
-      --config-file, -c   Path to Quasar config file (default: quasar.config.js)
       --help, -h          Displays this message
   `)
   process.exit(0)
@@ -59,7 +56,6 @@ const
 
 const
   quasarConfig = new QuasarConfig({
-    filename: argv['config-file'],
     theme: argv.theme,
     mode: argv.mode,
     target: argv.target,
@@ -114,16 +110,14 @@ webpack(webpackConfig, (err, stats) => {
   log()
 
   if (argv.mode === 'cordova') {
-    const cordovaRunner = require('../lib/cordova/cordova-runner')
+    const Cordova = require('../lib/cordova')
 
-    cordovaRunner.run(quasarConfig).then(exitCode => {
+    Cordova.run(quasarConfig).then(exitCode => {
       if (exitCode) {
         notify({ subtitle: '[FAIL] Cordova failed to build' })
         return
       }
 
-      warn(`Do NOT use VueRouter's "history" mode as it will break your app!`)
-      log()
       finalize()
       notify({ subtitle: '[Success] App was built'  })
     })
@@ -131,11 +125,9 @@ webpack(webpackConfig, (err, stats) => {
     return
   }
   else if (argv.mode === 'electron') {
-    const electronRunner = require('../lib/electron/electron-runner')
+    const Electron = require('../lib/electron')
 
-    electronRunner.build(quasarConfig).then(() => {
-      warn(`Do NOT use VueRouter's "history" mode as it will break your app!`)
-      log()
+    Electron.build(quasarConfig).then(() => {
       finalize()
       notify({ subtitle: '[Success] App was built'  })
     })
@@ -143,11 +135,9 @@ webpack(webpackConfig, (err, stats) => {
     return
   }
 
-  if (['spa', 'pwa'].includes(argv.mode)) {
-    warn('Built files are meant to be served over an HTTP server')
-    warn(`Opening ${buildConfig.build.htmlFilename} over file:// won't work`)
-    log()
-  }
-
+  log()
+  warn('Built files are meant to be served over an HTTP server')
+  warn(`Opening ${buildConfig.build.htmlFilename} over file:// won't work`)
+  log()
   finalize()
 })

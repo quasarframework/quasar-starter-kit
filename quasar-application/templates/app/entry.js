@@ -34,6 +34,7 @@ require('quasar-framework/dist/quasar.ie.polyfills.js')
 import Vue from 'vue'
 import Quasar<%= QImports || '' %> from 'quasar'
 
+Vue.config.productionTip = false
 import App from '~/App'
 
 require(`~/themes/app.<%= ctx.themeName %>.styl`)

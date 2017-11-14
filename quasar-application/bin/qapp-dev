@@ -17,17 +17,15 @@ const argv = parseArgs(process.argv.slice(2), {
     T: 'target',
     p: 'port',
     H: 'hostname',
-    c: 'config-file',
     h: 'help'
   },
   boolean: ['h'],
-  string: ['t', 'm', 'T', 'H', 'c'],
+  string: ['t', 'm', 'T', 'H'],
   default: {
     t: 'mat',
     m: 'spa',
     p: process.env.PORT || 8080,
-    H: 'localhost',
-    c: 'quasar.conf.js'
+    H: 'localhost'
   }
 })
 
@@ -44,7 +42,6 @@ if (argv.help) {
       --target, -T        App target [if cordova mode: android|ios; if electron: darwin|win32|linux]
       --port, -p          A port number on which to start the application
       --hostname, -H      A hostname to use for serving the application
-      --config-file, -c   Path to Quasar config file (default: quasar.config.js)
       --help, -h          Displays this message
   `)
   process.exit(0)
@@ -64,7 +61,6 @@ const
 
 const
   quasarConfig = new QuasarConfig({
-    filename: argv['config-file'],
     theme: argv.theme,
     mode: argv.mode,
     target: argv.target,
@@ -86,25 +82,18 @@ function startDev (oldDevServer) {
   const devServer = new DevServer(quasarConfig)
 
   return Promise.resolve()
-    .then(() => cordovaRunner ? cordovaRunner.stop() : Promise.resolve())
-    .then(() => electronRunner ? electronRunner.stop() : Promise.resolve())
+    .then(() => Cordova ? Cordova.stop() : Promise.resolve())
+    .then(() => Electron ? Electron.stop() : Promise.resolve())
     .then(() => oldDevServer ? oldDevServer.stop() : Promise.resolve()) // Close old builder after successful build
     .then(() => generator.build()) // Update generated files
     .then(() => devServer.listen()) // Start listening
-    .then(() => cordovaRunner ? cordovaRunner.run(quasarConfig) : Promise.resolve())
-    .then(() => electronRunner ? electronRunner.run(quasarConfig) : Promise.resolve())
+    .then(() => Cordova ? Cordova.run(quasarConfig) : Promise.resolve())
+    .then(() => Electron ? Electron.run(quasarConfig) : Promise.resolve())
     .then(() => devServer) // Pass new builder to watch chain
 }
 
-let
-  cordovaRunner = false,
-  electronRunner = false
-
-if (argv.mode === 'cordova') {
-  cordovaRunner = require('../lib/cordova/cordova-runner')
-}
-else if (argv.mode === 'electron') {
-  electronRunner = require('../lib/electron/electron-runner')
-}
+const
+  Cordova = argv.mode === 'cordova' ? require('../lib/cordova') : false,
+  Electron = argv.mode === 'electron' ? require('../lib/electron') : false
 
 let dev = startDev()

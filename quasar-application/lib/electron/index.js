@@ -2,8 +2,8 @@ const
   spawn = require('../helpers/spawn'),
   webpack = require('webpack'),
   logger = require('../helpers/logger'),
-  log = logger('app:electron-runner'),
-  warn = logger('app:electron-runner', 'red'),
+  log = logger('app:electron'),
+  warn = logger('app:electron', 'red'),
   path = require('path'),
   fse = require('fs-extra'),
   appPaths = require('../build/app-paths')
