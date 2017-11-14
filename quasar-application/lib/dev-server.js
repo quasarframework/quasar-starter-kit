@@ -61,7 +61,7 @@ class DevServer {
           }
 
           if (this.opts.open) {
-            opn(this.uri)
+            opn(this.APP_URL)
           }
           else if (this.notify) {
             notify({

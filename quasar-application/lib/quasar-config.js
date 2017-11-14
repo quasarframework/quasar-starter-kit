@@ -125,7 +125,6 @@ class QuasarConfig {
 
     cfg.build = merge({
       publicPath,
-      debug: this.ctx.debug,
       extractCSS: this.ctx.prod,
       sourceMap: this.ctx.dev,
       minify: this.ctx.prod,
@@ -133,13 +132,13 @@ class QuasarConfig {
       htmlFilename: 'index.html',
       webpackManifest: this.ctx.prod,
       useNotifier: true,
+      vueRouterMode: 'hash',
       env: {
         NODE_ENV: `"${this.ctx.prod ? 'production' : 'development'}"`,
         DEV: this.ctx.dev,
         PROD: this.ctx.prod,
         THEME: `"${this.ctx.themeName}"`,
-        MODE: `"${this.ctx.modeName}"`,
-        VUE_ROUTER_MODE: `"hash"`
+        MODE: `"${this.ctx.modeName}"`
       }
     }, cfg.build || {})
 
@@ -231,7 +230,7 @@ class QuasarConfig {
     if (this.ctx.mode.cordova || this.ctx.mode.electron) {
       cfg.build.publicPath = ''
       cfg.build.htmlFilename = 'index.html'
-      cfg.build.env.VUE_ROUTER_MODE = '"hash"'
+      cfg.build.vueRouterMode = 'hash'
     }
     if (this.ctx.mode.cordova) {
       cfg.build.distDir = appPaths.resolve.cordova('www')
@@ -245,7 +244,7 @@ class QuasarConfig {
     cfg.ctx = this.ctx
 
     if (this.ctx.dev) {
-      cfg.build.APP_URL = `http${cfg.devServer.https ? 's' : ''}://${cfg.devServer.host}:${cfg.devServer.port}/${cfg.build.htmlFilename}`
+      cfg.build.APP_URL = `http${cfg.devServer.https ? 's' : ''}://${cfg.devServer.host}:${cfg.devServer.port}/${cfg.build.vueRouterMode === 'hash' ? cfg.build.htmlFilename : ''}`
     }
     else if (this.ctx.mode.cordova) {
       cfg.build.APP_URL = 'index.html'
@@ -253,7 +252,14 @@ class QuasarConfig {
     else if (this.ctx.mode.electron) {
       cfg.build.APP_URL = `file://" + __dirname + "/index.html`
     }
-    cfg.build.env.APP_URL = `"${cfg.build.APP_URL}"`
+
+    cfg.build.env = merge(cfg.build.env, {
+      VUE_ROUTER_MODE: `"${cfg.build.vueRouterMode}"`,
+      VUE_ROUTER_BASE: this.ctx.prod && cfg.build.vueRouterMode === 'history'
+        ? `"${cfg.build.publicPath}"`
+        : `"/"`,
+      APP_URL: `"${cfg.build.APP_URL}"`
+    })
 
     cfg.build.env = {
       'process.env': cfg.build.env

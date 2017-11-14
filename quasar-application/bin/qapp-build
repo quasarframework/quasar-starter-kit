@@ -72,13 +72,6 @@ generator.build()
 log(chalk.bold(`Building ${mode}${target ? `/${target}` : ''} with "${argv.theme}" theme...`))
 log()
 
-function finalize () {
-  if (buildConfig.build.debug) {
-    warn(`Built for ${chalk.bold('DEBUG')} - Do NOT deploy this version to production`)
-    log()
-  }
-}
-
 webpack(webpackConfig, (err, stats) => {
   if (err) { throw err }
 
@@ -118,7 +111,6 @@ webpack(webpackConfig, (err, stats) => {
         return
       }
 
-      finalize()
       notify({ subtitle: '[Success] App was built'  })
     })
 
@@ -128,7 +120,6 @@ webpack(webpackConfig, (err, stats) => {
     const Electron = require('../lib/electron')
 
     Electron.build(quasarConfig).then(() => {
-      finalize()
       notify({ subtitle: '[Success] App was built'  })
     })
 
@@ -139,5 +130,4 @@ webpack(webpackConfig, (err, stats) => {
   warn('Built files are meant to be served over an HTTP server')
   warn(`Opening ${buildConfig.build.htmlFilename} over file:// won't work`)
   log()
-  finalize()
 })
