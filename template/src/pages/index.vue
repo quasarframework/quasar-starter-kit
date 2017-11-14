@@ -1,10 +1,11 @@
 <template>
   <q-page class="text-center">
     <div class="my-class my-extra-class gigi">The logo</div>
-    <img src="/statics/quasar-logo-full.svg">
+    <img :src="src">
     <div>{{$q.platform.is}}</div>
     <div v-if="$q.platform.is.cordova">Cordova detected: {{ cordovaDetected }}</div>
     <div v-if="$q.platform.is.electron">Electron statics is "{{ statics }}"</div>
+    <router-link to="/index2">To index 2</router-link>
   </q-page>
 </template>
 
@@ -20,7 +21,8 @@ export default {
   data () {
     return {
       cordovaDetected: this.$q.cordova !== void 0,
-      statics: __statics
+      statics: __statics,
+      src: '/statics/quasar-logo-full.svg'
     }
   }
 }

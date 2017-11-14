@@ -20,6 +20,7 @@ function createWindow () {
     width: 1000
   })
 
+  mainWindow.webContents.openDevTools()
   mainWindow.loadURL(process.env.APP_URL)
 
   mainWindow.on('closed', () => {

@@ -112,9 +112,9 @@ class QuasarConfig {
       this.oldConfigSnapshot = newConfigSnapshot
     }
 
-    let publicPath = this.ctx.dev ? '' : '/'
+    let publicPath = ''
 
-    if (cfg.build && cfg.build.publicPath) {
+    if (this.ctx.prod && cfg.build && cfg.build.publicPath) {
       publicPath = cfg.build.publicPath
     }
 
@@ -264,7 +264,7 @@ class QuasarConfig {
       }
     }
     else {
-      cfg.build.env.__statics = `"${cfg.build.publicPath || '/'}statics"`
+      cfg.build.env.__statics = this.ctx.dev ? '"/"' : `"${cfg.build.publicPath || '/'}statics"`
     }
 
     log(`Generating Webpack config`)
