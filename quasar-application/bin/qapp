@@ -15,7 +15,7 @@ const commands = new Set([
   defaultCommand,
   'build',
   'mode',
-  'info',
+  'version',
   'help'
 ])
 
