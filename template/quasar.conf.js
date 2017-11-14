@@ -90,6 +90,9 @@ module.exports = function (ctx) {
       }
     },
     electron: {
+      extendPackageJson (pkg) {
+        // do something with pkg -- add/remove/change props from package.json
+      },
       packager: {
         ignore: /(^\/(src|test|\.[a-z]+|README|yarn|static|dist\/web))/
       }

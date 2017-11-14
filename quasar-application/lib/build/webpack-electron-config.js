@@ -86,10 +86,16 @@ module.exports = function (cfg) {
       {
         apply (compiler) {
           compiler.plugin('emit', (compilation, callback) => {
-            const pkg = require(appPaths.resolve.app('package.json'))
+            const
+              extend = cfg.electron.extendPackageJson,
+              pkg = require(appPaths.resolve.app('package.json'))
 
             pkg.main = './electron-main.js'
             pkg.productName = pkg.name
+
+            if (typeof extend === 'function') {
+              extend(pkg)
+            }
 
             const source = JSON.stringify(pkg)
             compilation.assets['package.json'] = {

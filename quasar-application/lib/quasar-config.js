@@ -135,14 +135,10 @@ class QuasarConfig {
         DEV: this.ctx.dev,
         PROD: this.ctx.prod,
         THEME: `"${this.ctx.themeName}"`,
-        MODE: `"${this.ctx.modeName}"`
+        MODE: `"${this.ctx.modeName}"`,
+        VUE_ROUTER_MODE: `"hash"`
       }
     }, cfg.build || {})
-
-    if (this.ctx.mode.cordova) {
-      cfg.build.htmlFilename = 'index.html'
-      cfg.build.distDir = appPaths.resolve.cordova('www')
-    }
 
     if (!cfg.build.devtool) {
       cfg.build.devtool = this.ctx.dev
@@ -231,13 +227,23 @@ class QuasarConfig {
     cfg.ctx = this.ctx
     cfg.build.uri = `http${cfg.devServer.https ? 's' : ''}://${cfg.devServer.host}:${cfg.devServer.port}`
 
+    if (this.ctx.mode.cordova) {
+      cfg.build.publicPath = ''
+      cfg.build.htmlFilename = 'index.html'
+      cfg.build.env.VUE_ROUTER_MODE = '"hash"'
+      cfg.build.distDir = appPaths.resolve.cordova('www')
+    }
+
     if (this.ctx.mode.electron) {
       cfg.build.webpackManifest = false
+      cfg.build.publicPath = ''
+      cfg.build.htmlFilename = 'index.html'
+      cfg.build.env.VUE_ROUTER_MODE = '"hash"'
       cfg.build.env.ELECTRON_RENDERER_URL = this.ctx.dev
-        ? `"${cfg.build.uri}"`
+        ? `"${cfg.build.uri}/index.html"`
         : '"file://" + __dirname + "/index.html"'
       cfg.build.packagedElectronDist = cfg.build.distDir
-      cfg.build.distDir = path.join(cfg.build.distDir, 'unpackaged')
+      cfg.build.distDir = path.join(cfg.build.distDir, 'UnPackaged')
     }
 
     log(`Generating Webpack config`)
