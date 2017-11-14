@@ -1,7 +1,7 @@
 import { app, BrowserWindow } from 'electron'
 
 /**
- * Set `__static` path to static files in production;
+ * Set `__statics` path to static files in production;
  * The reason we are setting it here is that the path needs to be evaluated at runtime
  */
 if (process.env.PROD) {
