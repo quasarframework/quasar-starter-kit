@@ -215,11 +215,11 @@ module.exports = function (cfg) {
     webpackConfig.plugins.push(
       new webpack.NoEmitOnErrorsPlugin(),
       new FriendlyErrorsPlugin({
-        compilationSuccessInfo: {
+        compilationSuccessInfo: ['spa', 'pwa'].includes(cfg.ctx.modeName) ? {
           messages: [
             `App [${chalk.red(cfg.ctx.modeName.toUpperCase())}${cfg.ctx.targetName ? `/${chalk.red(cfg.ctx.targetName.toUpperCase())}` : ''} with ${chalk.red(cfg.ctx.themeName.toUpperCase())} theme] at ${cfg.build.APP_URL}\n`
           ],
-        },
+        } : undefined,
         onErrors: cfg.build.useNotifier
           ? (severity, errors) => {
             if (severity !== 'error') {

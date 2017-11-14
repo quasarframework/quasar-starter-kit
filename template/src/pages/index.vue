@@ -4,7 +4,7 @@
     <img :src="src">
     <div>{{$q.platform.is}}</div>
     <div v-if="$q.platform.is.cordova">Cordova detected: {{ cordovaDetected }}</div>
-    <div v-if="$q.platform.is.electron">Electron statics is "{{ statics }}"</div>
+    <div>Statics is "{{ statics }}"</div>
     <router-link to="/index2">To index 2</router-link>
   </q-page>
 </template>
@@ -22,7 +22,7 @@ export default {
     return {
       cordovaDetected: this.$q.cordova !== void 0,
       statics: __statics,
-      src: '/statics/quasar-logo-full.svg'
+      src: `${__statics}/quasar-logo-full.svg`
     }
   }
 }

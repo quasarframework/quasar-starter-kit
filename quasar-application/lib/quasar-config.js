@@ -270,7 +270,7 @@ class QuasarConfig {
       }
     }
     else {
-      cfg.build.env.__statics = this.ctx.dev ? '"/"' : `"${cfg.build.publicPath || '/'}statics"`
+      cfg.build.env.__statics = `"${this.ctx.dev ? '/' : cfg.build.publicPath || '/'}statics"`
     }
 
     log(`Generating Webpack config`)
@@ -299,7 +299,6 @@ class QuasarConfig {
           arch: 'x64',
           asar: true,
           dir: appPaths.resolve.app(cfg.build.distDir),
-          ignore: /(^\/(src|test|README|yarn|static|dist\/web))/,
           icon: appPaths.resolve.electron('icons/icon'),
           out: appPaths.resolve.app(cfg.build.packagedElectronDist),
           overwrite: true,
