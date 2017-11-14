@@ -255,6 +255,18 @@ class QuasarConfig {
     }
     cfg.build.env.APP_URL = `"${cfg.build.APP_URL}"`
 
+    cfg.build.env = {
+      'process.env': cfg.build.env
+    }
+    if (this.ctx.mode.electron) {
+      if (this.ctx.dev) {
+        cfg.build.env.__statics = `"${appPaths.resolve.src('statics').replace(/\\/g, '\\\\')}"`
+      }
+    }
+    else {
+      cfg.build.env.__statics = `"${cfg.build.publicPath || '/'}statics"`
+    }
+
     log(`Generating Webpack config`)
     let webpackConfig = generateWebpackConfig(cfg)
 

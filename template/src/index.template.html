@@ -7,6 +7,7 @@
     <meta name="viewport" content="user-scalable=no, initial-scale=1, maximum-scale=1, minimum-scale=1, width=device-width">
 
     <title>Quasar App</title>
+
     <link rel="icon" href="<%= htmlWebpackPlugin.files.publicPath %>statics/quasar-logo.png" type="image/x-icon">
     <link rel="icon" type="image/png" sizes="32x32" href="<%= htmlWebpackPlugin.files.publicPath %>statics/icons/favicon-32x32.png">
     <link rel="icon" type="image/png" sizes="16x16" href="<%= htmlWebpackPlugin.files.publicPath %>statics/icons/favicon-16x16.png">
@@ -25,12 +26,7 @@
     <meta name="msapplication-TileColor" content="<%= htmlWebpackPlugin.options.pwaManifest.background_color %>">
     <% } %>
 
-    <% if (htmlWebpackPlugin.options.ctx.mode.electron && htmlWebpackPlugin.options.appNodeModules) { %>
-      <!-- Add `node_modules/` to global paths so `require` works properly in development -->
-      <script>
-        require('module').globalPaths.push('<%= htmlWebpackPlugin.options.appNodeModules.replace(/\\/g, '\\\\') %>')
-      </script>
-    <% } %>
+    <%= htmlWebpackPlugin.options.injectTopQScripts %>
 
     <!--
       The following is optional if you DON'T build for PWA.
@@ -54,7 +50,7 @@
     <div id="q-app"></div>
 
     <!-- DO NOT touch the following -->
-    <%= htmlWebpackPlugin.options.injectQScripts %>
+    <%= htmlWebpackPlugin.options.injectBottomQScripts %>
 
     <!-- built files will be auto injected here -->
   </body>

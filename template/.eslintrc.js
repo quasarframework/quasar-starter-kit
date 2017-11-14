@@ -18,7 +18,8 @@ module.exports = {
   ],
   globals: {
     'ga': true, // Google Analytics
-    'cordova': true
+    'cordova': true,
+    '__statics': true
   },
   // add your custom rules here
   'rules': {

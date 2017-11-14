@@ -10,7 +10,19 @@ const
   appPaths = require('./app-paths'),
   cssUtils = require('./get-css-utils')
 
-function getHtmlScripts (cfg) {
+function getTopScripts (cfg) {
+  let output = ''
+  if (cfg.ctx.mode.electron && cfg.ctx.dev) {
+    output += `
+      <script>
+        require('module').globalPaths.push('${appPaths.resolve.app('node_modules').replace(/\\/g, '\\\\')}')
+      </script>
+    `
+  }
+  return output
+}
+
+function getBottomScripts (cfg) {
   let output = ''
   if (cfg.ctx.mode.cordova) {
     output += `<script type="text/javascript" src="cordova.js"></script>`
@@ -40,10 +52,12 @@ function getHtmlScripts (cfg) {
     }
   }
   if (cfg.ctx.mode.electron && cfg.ctx.prod) {
-    // set `__static` path to static files in production
+    // set statics path in production;
+    // the reason we add this is here is because the folder path
+    // needs to be evaluated at runtime
     output += `
       <script>
-        window.__static = require('path').join(__dirname, '/statics').replace(/\\/g, '\\\\')
+        window.__statics = require('path').join(__dirname, 'statics').replace(/\\\\/g, '\\\\')
       </script>
     `
   }
@@ -139,9 +153,7 @@ module.exports = function (cfg) {
       ]
     },
     plugins: [
-      new webpack.DefinePlugin({
-        'process.env': cfg.build.env
-      }),
+      new webpack.DefinePlugin(cfg.build.env),
       new ProgressBarPlugin({
         format: ` [:bar] ${chalk.bold(':percent')} (:msg)`
       }),
@@ -168,10 +180,8 @@ module.exports = function (cfg) {
         // custom ones
         ctx: cfg.ctx,
         pwaManifest: cfg.pwa.manifest,
-        injectQScripts: getHtmlScripts(cfg),
-        appNodeModules: cfg.ctx.electron && cfg.ctx.dev
-          ? appPaths.resolve.app('node_modules')
-          : false
+        injectTopQScripts: getTopScripts(cfg),
+        injectBottomQScripts: getBottomScripts(cfg)
       })
     ],
     performance: {
@@ -234,14 +244,6 @@ module.exports = function (cfg) {
         new webpack.HotModuleReplacementPlugin()
       )
     }
-
-    if (cfg.ctx.mode.electron) {
-      webpackConfig.plugins.push(
-        new webpack.DefinePlugin({
-          '__static': `"${appPaths.resolve.src('statics').replace(/\\/g, '\\\\')}"`
-        })
-      )
-    }
   }
   // PRODUCTION build
   else {
@@ -260,13 +262,11 @@ module.exports = function (cfg) {
         : undefined
     }
 
-    // keep module.id stable when vender modules does not change
     webpackConfig.plugins.push(
-      new webpack.HashedModuleIdsPlugin()
-    )
+      // keep module.id stable when vender modules does not change
+      new webpack.HashedModuleIdsPlugin(),
 
-    // split vendor js into its own file
-    webpackConfig.plugins.push(
+      // split vendor js into its own file
       new webpack.optimize.CommonsChunkPlugin({
         name: 'vendor',
         minChunks (module) {

@@ -65,9 +65,7 @@ module.exports = function (cfg) {
         format: ` [:bar] ${chalk.bold(':percent')} (:msg)`
       }),
       new webpack.NoEmitOnErrorsPlugin(),
-      new webpack.DefinePlugin({
-        'process.env': cfg.build.env
-      })
+      new webpack.DefinePlugin(cfg.build.env)
     ]
   }
 
