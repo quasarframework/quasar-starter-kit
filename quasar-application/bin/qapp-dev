@@ -39,7 +39,7 @@ if (argv.help) {
     Options
       --theme, -t         App theme (default: mat)
       --mode, -m          App mode [spa|pwa|cordova|electron] (default: spa)
-      --target, -T        App target [if cordova mode: android|ios; if electron: darwin|win32|linux|all]
+      --target, -T        App target [if cordova mode: android|ios|blackberry10|browser|osx|ubuntu|webos|windows|www; if electron: darwin|win32|linux|mas|all]
       --port, -p          A port number on which to start the application
       --hostname, -H      A hostname to use for serving the application
       --help, -h          Displays this message
