@@ -35,11 +35,11 @@ if (argv.help) {
       Starts the app in development mode (hot-code reloading, error
       reporting, etc)
     Usage
-      $ npm run dev -- -p <port number>
+      $ npm run qapp dev -- -p <port number>
     Options
       --theme, -t         App theme (default: mat)
       --mode, -m          App mode [spa|pwa|cordova|electron] (default: spa)
-      --target, -T        App target [if cordova mode: android|ios; if electron: darwin|win32|linux]
+      --target, -T        App target [if cordova mode: android|ios|blackberry10|browser|osx|ubuntu|webos|windows; if electron: darwin|win32|linux|mas|all]
       --port, -p          A port number on which to start the application
       --hostname, -H      A hostname to use for serving the application
       --help, -h          Displays this message
@@ -47,7 +47,7 @@ if (argv.help) {
   process.exit(0)
 }
 
-require('../lib/helpers/ensure-argv')(argv)
+require('../lib/helpers/ensure-argv')(argv, 'dev')
 if (argv.mode !== 'spa') {
   require('../lib/mode/install-missing')(argv.mode)
 }

@@ -28,14 +28,15 @@ if (argv.help) {
     Description
       Add/Remove support for PWA / Cordova / Electron modes.
     Usage
-      $ npm run qapp mode -- -r|-a pwa|cordova|electron 
-    Options 
-      --add, -a           Add support for mode [pwa|cordova|electron] 
+      $ npm run qapp mode -- -r|-a pwa|cordova|electron
+    Options
+      --add, -a           Add support for mode [pwa|cordova|electron]
       --remove, -r        Remove support for mode [pwa|cordova|electron]
   `)
   process.exit(0)
 }
 
+require('../lib/helpers/ensure-argv')(argv, 'mode')
 const getMode = require('../lib/mode')
 
 if (argv.add) {

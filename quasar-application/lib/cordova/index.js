@@ -28,7 +28,7 @@ class CordovaRunner {
     return new Promise((resolve, reject) => {
       this.pid = spawn(
         'cordova',
-        [this.ctx.dev ? 'run' : 'build', this.ctx.targetName],
+        this.ctx.targetName ? [this.ctx.dev ? 'run' : 'build', this.ctx.targetName] : [this.ctx.dev ? 'run' : 'build'],
         appPaths.cordovaDir,
         code => {
           this.cleanup()

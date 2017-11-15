@@ -4,6 +4,7 @@ const pe = require('pretty-error').start()
 pe.skipPackage('regenerator-runtime')
 pe.skipPackage('babel-runtime')
 pe.skipNodeFiles()
+const warn = require('../lib/helpers/logger')('app', 'red')
 
 // Console error unhandled promises
 process.on('unhandledRejection', err => {
@@ -23,6 +24,10 @@ var cmd = process.argv[2]
 
 if (commands.has(cmd)) {
   process.argv.splice(2, 1)
+}
+else if (cmd !== undefined && cmd.indexOf('-') !== 0) {
+  warn(`Unknown command "${cmd}"`)
+  process.exit(1)
 }
 else {
   cmd = defaultCommand
