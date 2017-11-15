@@ -10,16 +10,16 @@ Use Vue CLI to generate a new project using this template:
 
 ``` bash
 # install Vue CLI if you don't have it already
-$ npm install -g vue-cli
+$ yarn global add vue-cli
 
 # generate a project folder with this template
 $ vue init quasarframework/app my-project
 
 $ cd my-project
-$ npm install
+$ yarn
 
 # start developing your app
-$ npm run dev
+$ yarn dev
 ```
 
 # Quasar Framework
