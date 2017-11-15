@@ -4,33 +4,33 @@ const pe = require('pretty-error').start()
 pe.skipPackage('regenerator-runtime')
 pe.skipPackage('babel-runtime')
 pe.skipNodeFiles()
-const warn = require('../lib/helpers/logger')('app', 'red')
 
 // Console error unhandled promises
 process.on('unhandledRejection', err => {
   console.error(pe.render(err))
 })
 
-const defaultCommand = 'dev'
 const commands = new Set([
-  defaultCommand,
+  'dev',
   'build',
   'mode',
   'version',
   'help'
 ])
 
-var cmd = process.argv[2]
+let cmd = process.argv[2]
 
-if (commands.has(cmd)) {
-  process.argv.splice(2, 1)
-}
-else if (cmd !== undefined && cmd.indexOf('-') !== 0) {
-  warn(`Unknown command "${cmd}"`)
-  process.exit(1)
+if (cmd) {
+  if (commands.has(cmd)) {
+    process.argv.splice(2, 1)
+  }
+  else {
+    require('../lib/helpers/logger')('app', 'red')(`Unknown command "${cmd}"`)
+    process.exit(1)
+  }
 }
 else {
-  cmd = defaultCommand
+  cmd = 'help'
 }
 
 require(`./qapp-${cmd}`)

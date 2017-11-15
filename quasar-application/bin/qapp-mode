@@ -28,7 +28,7 @@ if (argv.help) {
     Description
       Add/Remove support for PWA / Cordova / Electron modes.
     Usage
-      $ npm run qapp mode -- -r|-a pwa|cordova|electron
+      $ quasar mode -- -r|-a pwa|cordova|electron
     Options
       --add, -a           Add support for mode [pwa|cordova|electron]
       --remove, -r        Remove support for mode [pwa|cordova|electron]

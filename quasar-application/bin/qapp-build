@@ -29,12 +29,14 @@ if (argv.help) {
       Starts the app in development mode (hot-code reloading, error
       reporting, etc)
     Usage
-      $ npm run qapp build -- -p <port number>
+      $ quasar build -- -p <port number>
     Options
       --theme, -t         App theme (default: mat)
       --mode, -m          App mode [spa|pwa|cordova|electron] (default: spa)
-      --target, -T        App target [if cordova mode: android|ios|blackberry10|browser|osx|ubuntu|webos|windows; if electron: darwin|win32|linux|mas|all]
-      --arch, -A          App target architecture for electron [ia32|x64|armv7l|arm64|all]
+      --target, -T        App target (default: android)
+                           - Cordova: android|ios|blackberry10|browser|osx|ubuntu|webos|windows
+                           - Electron: darwin|win32|linux|mas|all
+      --arch, -A          Electron arch [ia32|x64|armv7l|arm64|all] (default: yours)
       --help, -h          Displays this message
   `)
   process.exit(0)
@@ -50,6 +52,7 @@ const
   webpack = require('webpack')
 
 log(`Mode [ ${chalk.red(argv.mode.toUpperCase())} ] with [ ${chalk.red(argv.theme.toUpperCase())} ] theme`)
+log()
 
 const
   appPaths = require('../lib/build/app-paths'),

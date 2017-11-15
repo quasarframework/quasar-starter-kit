@@ -1,25 +1,17 @@
 #!/usr/bin/env node
 
-// cli deps
-const
-  parseArgs = require('minimist'),
-  path = require('path'),
-  chalk = require('chalk')
+console.log(
+  require('fs').readFileSync(
+    require('path').join(__dirname, '../assets/logo.art'),
+    'utf8'
+  )
+)
 
-const
-  log = require('../lib/helpers/logger')('app:info')
-  appPaths = require('../lib/build/app-paths')
+console.log(`
+  Description
+    Displays information about your Quasar App.
+  Usage
+    $ quasar help
+`)
 
-const argv = parseArgs(process.argv.slice(2), {
-  // TODO
-})
-
-if (argv.help) {
-  console.log(`
-    Description
-      Displays information about your Quasar App.
-    Usage
-      $ npm run qapp help
-  `)
-  process.exit(0)
-}
+// TODO fill in all commands

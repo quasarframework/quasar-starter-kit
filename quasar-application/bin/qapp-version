@@ -22,7 +22,7 @@ if (argv.help) {
     Description
       Displays information about your Quasar App.
     Usage
-      $ npm run qapp version
+      $ quasar version
   `)
   process.exit(0)
 }
