@@ -43,10 +43,13 @@ function getBodyScripts (cfg) {
       `
     }
     else {
-      const loadMinified = require('./load-minified')
+      const load = cfg.build.minify
+        ? require('./load-minified')
+        : file => fs.readFileSync(file, 'utf-8')
+
       output += `
         <script>
-          ${loadMinified(appPaths.resolve.pwa('service-worker-prod.js'))}
+          ${load(appPaths.resolve.pwa('service-worker-prod.js'))}
         </script>
       `
     }
