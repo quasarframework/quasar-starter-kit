@@ -13,10 +13,7 @@ module.exports = function (argv, command) {
     }
 
     if (argv.mode === 'cordova') {
-      if (!argv.target) {
-        argv.target = 'android'
-      }
-      else if (!['android', 'ios', 'blackberry10', 'browser', 'osx', 'ubuntu', 'webos', 'windows', 'www'].includes(argv.target)) {
+      if (![undefined, 'android', 'ios', 'blackberry10', 'browser', 'osx', 'ubuntu', 'webos', 'windows'].includes(argv.target)) {
         warn(`Unknown target "${ argv.target }" for cordova`)
         process.exit(1)
       }
@@ -27,21 +24,22 @@ module.exports = function (argv, command) {
     }
 
     if (argv.mode === 'electron') {
-      if (!argv.target) {
-        argv.target = 'all'
-      }
-      else if (!['all', 'darwin', 'win32', 'linux', 'mas'].includes(argv.target)) {
+      if (![undefined, 'all', 'darwin', 'win32', 'linux', 'mas'].includes(argv.target)) {
         warn(`Unknown target "${ argv.target }" for electron`)
+        process.exit(1)
+      }
+      if (command === 'build' && ![undefined, 'ia32', 'x64', 'armv7l', 'arm64', 'all'].includes(argv.arch)) {
+        warn(`Unknown architecture "${ argv.arch }" for electron`)
         process.exit(1)
       }
     }
   }
   else if (command === 'mode') {
-    if (argv.add !== undefined && !['pwa', 'cordova', 'electron'].includes(argv.add)) {
+    if (![undefined, 'pwa', 'cordova', 'electron'].includes(argv.add)) {
       warn(`Unknown mode "${ argv.add }" to add`)
       process.exit(1)
     }
-    if (argv.remove !== undefined && !['pwa', 'cordova', 'electron'].includes(argv.remove)) {
+    if (![undefined, 'pwa', 'cordova', 'electron'].includes(argv.remove)) {
       warn(`Unknown mode "${ argv.remove }" to remove`)
       process.exit(1)
     }
