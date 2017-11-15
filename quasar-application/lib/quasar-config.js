@@ -117,6 +117,9 @@ class QuasarConfig {
     if (this.ctx.prod && cfg.build && cfg.build.publicPath) {
       publicPath = cfg.build.publicPath
     }
+    if (!this.ctx.prod && !this.ctx.mode.cordova && !this.ctx.mode.electron) {
+      publicPath = '/'
+    }
 
     // make sure it exists
     cfg.supportIE = this.ctx.mode.electron
