@@ -10,7 +10,7 @@ const
   appPaths = require('./app-paths'),
   cssUtils = require('./get-css-utils')
 
-function getTopScripts (cfg) {
+function getHeadScripts (cfg) {
   let output = ''
   if (cfg.ctx.mode.electron && cfg.ctx.dev) {
     output += `
@@ -22,7 +22,7 @@ function getTopScripts (cfg) {
   return output
 }
 
-function getBottomScripts (cfg) {
+function getBodyScripts (cfg) {
   let output = ''
   if (cfg.ctx.mode.cordova) {
     output += `<script type="text/javascript" src="cordova.js"></script>`
@@ -179,9 +179,10 @@ module.exports = function (cfg) {
 
         // custom ones
         ctx: cfg.ctx,
+        appBase: cfg.build.appBase,
         pwaManifest: cfg.pwa.manifest,
-        injectTopQScripts: getTopScripts(cfg),
-        injectBottomQScripts: getBottomScripts(cfg)
+        headScripts: getHeadScripts(cfg),
+        bodyScripts: getBodyScripts(cfg)
       })
     ],
     performance: {

@@ -112,7 +112,7 @@ class QuasarConfig {
       this.oldConfigSnapshot = newConfigSnapshot
     }
 
-    let publicPath = ''
+    let publicPath = '', appBase = './'
 
     if (this.ctx.prod && cfg.build && cfg.build.publicPath) {
       publicPath = cfg.build.publicPath
@@ -232,6 +232,9 @@ class QuasarConfig {
       cfg.build.htmlFilename = 'index.html'
       cfg.build.vueRouterMode = 'hash'
     }
+
+    cfg.build.appBase = cfg.build.publicPath || './'
+
     if (this.ctx.mode.cordova) {
       cfg.build.distDir = appPaths.resolve.cordova('www')
     }

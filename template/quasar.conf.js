@@ -28,7 +28,7 @@ module.exports = function (ctx) {
       // analyze: true,
       // extractCSS: false,
       // useNotifier: false,
-      vueRouterMode: 'history',
+      // vueRouterMode: 'history',
       test () {
         console.log('a')
       }

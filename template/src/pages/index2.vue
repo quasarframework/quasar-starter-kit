@@ -18,7 +18,7 @@ export default {
   name: 'page-index2',
   data () {
     return {
-      src: '/statics/quasar-logo-full.svg'
+      src: 'statics/quasar-logo-full.svg'
     }
   }
 }
