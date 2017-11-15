@@ -28,7 +28,8 @@ module.exports = function (ctx) {
       // analyze: true,
       // extractCSS: false,
       // useNotifier: false,
-      // vueRouterMode: 'history',
+      publicPath: '/test/',
+      vueRouterMode: 'history',
       test () {
         console.log('a')
       }
@@ -55,6 +56,7 @@ module.exports = function (ctx) {
         'QToolbar',
         'QBtn',
         'QIcon',
+        'QInput',
         'QToolbarTitle',
         'QList',
         'QListHeader',
