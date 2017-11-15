@@ -7,7 +7,7 @@
     <div>Statics is "{{ statics }}"</div>
     <img src="statics/quasar-logo-full.svg">
     <div>
-      <router-link to="/index2">To index 2</router-link>
+      <router-link to="/index2/test">To index 2</router-link>
     </div>
   </q-page>
 </template>
