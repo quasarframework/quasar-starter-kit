@@ -34,7 +34,7 @@ module.exports = function (argv, cmd) {
       warn()
       process.exit(1)
     }
-    if (cmd === 'dev' && (argv.hostname === undefined || ['localhost', '127.0.0.1', '::1'].includes(argv.hostname.toLowerCase()))) {
+    if (cmd === 'dev' && (['localhost', '127.0.0.1', '::1'].includes(argv.hostname.toLowerCase()))) {
       warn(`Cordova DEV requires you to specify your machine's external IP address or HOSTNAME as -H IP|HOSTNAME"`)
       warn()
       process.exit(1)
