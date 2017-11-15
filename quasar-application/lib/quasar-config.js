@@ -39,6 +39,12 @@ function encode (obj) {
   })
 }
 
+function ensureSlashEnding (path) {
+  return !path || path.endsWith('/')
+    ? path
+    : `${path}/`
+}
+
 class QuasarConfig {
   constructor (opts) {
     this.filename = appPaths.resolve.app('quasar.conf.js')
@@ -92,6 +98,7 @@ class QuasarConfig {
     }
 
     const cfg = config(this.ctx)
+    cfg.ctx = this.ctx
 
     // if watching for changes,
     // then determine the type (webpack related or not)
@@ -112,15 +119,6 @@ class QuasarConfig {
       this.oldConfigSnapshot = newConfigSnapshot
     }
 
-    let publicPath = ''
-
-    if (this.ctx.prod && cfg.build && cfg.build.publicPath) {
-      publicPath = cfg.build.publicPath
-    }
-    if (!this.ctx.prod && !this.ctx.mode.cordova && !this.ctx.mode.electron) {
-      publicPath = '/'
-    }
-
     // make sure it exists
     cfg.supportIE = this.ctx.mode.electron
       ? false
@@ -135,6 +133,9 @@ class QuasarConfig {
       webpackManifest: this.ctx.prod,
       useNotifier: true,
       vueRouterMode: 'hash',
+      devtool: this.ctx.dev
+        ? '#cheap-module-eval-source-map'
+        : '#source-map',
       env: {
         NODE_ENV: `"${this.ctx.prod ? 'production' : 'development'}"`,
         DEV: this.ctx.dev,
@@ -142,40 +143,38 @@ class QuasarConfig {
         THEME: `"${this.ctx.themeName}"`,
         MODE: `"${this.ctx.modeName}"`
       }
-    }, cfg.build || {}, {
-      publicPath
-    })
+    }, cfg.build || {})
 
-    if (!cfg.build.devtool) {
-      cfg.build.devtool = this.ctx.dev
-        ? '#cheap-module-eval-source-map'
-        : '#source-map'
+    if (this.ctx.mode.cordova || this.ctx.mode.electron) {
+      cfg.build.htmlFilename = 'index.html'
+      cfg.build.vueRouterMode = 'hash'
     }
 
-    if (this.ctx.prod && cfg.build.gzip) {
-      let gzip = cfg.build.gzip === true
-        ? {}
-        : cfg.build.gzip
-      let ext = ['js', 'css']
-
-      if (gzip.extensions) {
-        ext = gzip.extensions
-        delete gzip.extensions
-      }
-
-      cfg.build.gzip = merge({
-        asset: '[path].gz[query]',
-        algorithm: 'gzip',
-        test: new RegExp('\\.(' + ext.join('|') + ')$'),
-        threshold: 10240,
-        minRatio: 0.8
-      }, gzip)
+    if (this.ctx.mode.cordova) {
+      cfg.build.distDir = path.join('src-cordova', 'www')
     }
+    if (this.ctx.mode.electron) {
+      cfg.build.webpackManifest = false
+      cfg.build.packagedElectronDist = cfg.build.distDir
+      cfg.build.distDir = path.join(cfg.build.distDir, 'UnPackaged')
+    }
+
+    if (this.ctx.dev) {
+      cfg.build.minify = false
+      cfg.build.extractCSS = false
+      cfg.build.gzip = false
+    }
+
+    cfg.build.publicPath =
+      this.ctx.prod && cfg.build.publicPath && !['cordova', 'electron'].includes(this.ctx.modeName)
+        ? ensureSlashEnding(cfg.build.publicPath)
+        : (cfg.build.vueRouterMode !== 'hash' ? '/' : '')
+    cfg.build.appBase = cfg.build.publicPath || './'
 
     if (this.ctx.dev) {
       cfg.devServer = merge({
         contentBase: appPaths.srcDir,
-        publicPath,
+        publicPath: cfg.build.publicPath,
         hot: true,
         inline: true,
         overlay: true,
@@ -206,9 +205,24 @@ class QuasarConfig {
       }
     }
 
-    if (this.ctx.dev) {
-      cfg.build.minify = false
-      cfg.build.extractCSS = false
+    if (cfg.build.gzip) {
+      let gzip = cfg.build.gzip === true
+        ? {}
+        : cfg.build.gzip
+      let ext = ['js', 'css']
+
+      if (gzip.extensions) {
+        ext = gzip.extensions
+        delete gzip.extensions
+      }
+
+      cfg.build.gzip = merge({
+        asset: '[path].gz[query]',
+        algorithm: 'gzip',
+        test: new RegExp('\\.(' + ext.join('|') + ')$'),
+        threshold: 10240,
+        minRatio: 0.8
+      }, gzip)
     }
 
     if (this.ctx.mode.pwa) {
@@ -221,34 +235,15 @@ class QuasarConfig {
       }, cfg.pwa || {})
 
       cfg.pwa.manifest = merge({
-        start_url: `${publicPath}${cfg.build.htmlFilename}`,
+        start_url: `${cfg.build.publicPath}${cfg.build.htmlFilename}`,
         display: 'standalone'
       }, cfg.pwa.manifest || {})
 
       cfg.pwa.manifest.icons = cfg.pwa.manifest.icons.map(icon => {
-        icon.src = `${publicPath}${icon.src}`
+        icon.src = `${cfg.build.publicPath}${icon.src}`
         return icon
       })
     }
-
-    if (this.ctx.mode.cordova || this.ctx.mode.electron) {
-      cfg.build.publicPath = ''
-      cfg.build.htmlFilename = 'index.html'
-      cfg.build.vueRouterMode = 'hash'
-    }
-
-    cfg.build.appBase = cfg.build.publicPath || './'
-
-    if (this.ctx.mode.cordova) {
-      cfg.build.distDir = appPaths.resolve.cordova('www')
-    }
-    if (this.ctx.mode.electron) {
-      cfg.build.webpackManifest = false
-      cfg.build.packagedElectronDist = cfg.build.distDir
-      cfg.build.distDir = path.join(cfg.build.distDir, 'UnPackaged')
-    }
-
-    cfg.ctx = this.ctx
 
     if (this.ctx.dev) {
       cfg.build.APP_URL = `http${cfg.devServer.https ? 's' : ''}://${cfg.devServer.host}:${cfg.devServer.port}/${cfg.build.vueRouterMode === 'hash' ? cfg.build.htmlFilename : ''}`
