@@ -13,9 +13,10 @@ const argv = parseArgs(process.argv.slice(2), {
     m: 'mode',
     T: 'target',
     A: 'arch',
+    d: 'debug',
     h: 'help'
   },
-  boolean: ['h'],
+  boolean: ['h', 'd'],
   string: ['t', 'm', 'T'],
   default: {
     t: 'mat',
@@ -31,18 +32,19 @@ if (argv.help) {
     Usage
       $ quasar build -- -p <port number>
     Options
-      --theme, -t         App theme (default: mat)
-      --mode, -m          App mode [spa|pwa|cordova|electron] (default: spa)
-      --target, -T        App target
-                           - Cordova (default: all installed)
-                              [android|ios|blackberry10|browser|osx|ubuntu|webos|windows]
-                           - Electron (default: yours)
-                              [darwin|win32|linux|mas|all]
-      --help, -h          Displays this message
+      --theme, -t    App theme (default: mat)
+      --mode, -m     App mode [spa|pwa|cordova|electron] (default: spa)
+      --target, -T   App target
+                       - Cordova (default: all installed)
+                          [android|ios|blackberry10|browser|osx|ubuntu|webos|windows]
+                       - Electron (default: yours)
+                          [darwin|win32|linux|mas|all]
+      --debug, -d    Build for debugging purposes
+      --help, -h     Displays this message
 
-      Only for Electron mode:
-      --arch, -A          App architecture (default: yours)
-                            [ia32|x64|armv7l|arm64|all]
+      ONLY for Electron mode:
+      --arch, -A     App architecture (default: yours)
+                       [ia32|x64|armv7l|arm64|all]
   `)
   process.exit(0)
 }
@@ -56,7 +58,7 @@ const
   chalk = require('chalk'),
   webpack = require('webpack')
 
-log(`Mode [ ${chalk.red(argv.mode.toUpperCase())} ] with [ ${chalk.red(argv.theme.toUpperCase())} ] theme`)
+log(`${argv.debug ? chalk.red('[ DEBUG ] ') : ''}Mode [ ${chalk.red(argv.mode.toUpperCase())} ] with [ ${chalk.red(argv.theme.toUpperCase())} ] theme`)
 log()
 
 const
@@ -70,6 +72,7 @@ const
     mode: argv.mode,
     target: argv.target,
     arch: argv.arch,
+    debug: argv.debug,
     prod: true
   }),
   generator = new Generator(quasarConfig),

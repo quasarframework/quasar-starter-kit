@@ -218,7 +218,7 @@ module.exports = function (cfg) {
       new FriendlyErrorsPlugin({
         compilationSuccessInfo: ['spa', 'pwa'].includes(cfg.ctx.modeName) ? {
           messages: [
-            `App [${chalk.red(cfg.ctx.modeName.toUpperCase())}${cfg.ctx.targetName ? `/${chalk.red(cfg.ctx.targetName.toUpperCase())}` : ''} with ${chalk.red(cfg.ctx.themeName.toUpperCase())} theme] at ${cfg.build.APP_URL}\n`
+            `App [${chalk.red(cfg.ctx.modeName.toUpperCase())} with ${chalk.red(cfg.ctx.themeName.toUpperCase())} theme] at ${cfg.build.APP_URL}\n`
           ],
         } : undefined,
         onErrors: cfg.build.useNotifier
@@ -264,7 +264,7 @@ module.exports = function (cfg) {
     }
 
     webpackConfig.plugins.push(
-      // keep module.id stable when vender modules does not change
+      // keep module.id stable when vendor modules does not change
       new webpack.HashedModuleIdsPlugin(),
 
       // split vendor js into its own file
@@ -368,7 +368,7 @@ module.exports = function (cfg) {
           cacheId: cfg.pwa.cacheId,
           filename: cfg.pwa.filename,
           staticFileGlobs: [`${cfg.build.distDir}/**/*.{${cfg.pwa.cacheExt}}`],
-          minify: true,
+          minify: cfg.build.minify,
           stripPrefix: cfg.build.distDir + '/'
         }),
 

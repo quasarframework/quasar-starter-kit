@@ -37,15 +37,15 @@ if (argv.help) {
     Usage
       $ quasar dev -- -p <port number>
     Options
-      --theme, -t         App theme (default: mat)
-      --mode, -m          App mode [spa|pwa|cordova|electron] (default: spa)
-      --port, -p          A port number on which to start the application
-      --hostname, -H      A hostname to use for serving the application
-      --help, -h          Displays this message
+      --theme, -t      App theme (default: mat)
+      --mode, -m       App mode [spa|pwa|cordova|electron] (default: spa)
+      --port, -p       A port number on which to start the application
+      --hostname, -H   A hostname to use for serving the application
+      --help, -h       Displays this message
 
       Only for Cordova mode:
-      --target, -T        App target (default: all installed)
-                            [android|ios|blackberry10|browser|osx|ubuntu|webos|windows]
+      --target, -T     App target (default: all installed)
+                         [android|ios|blackberry10|browser|osx|ubuntu|webos|windows]
   `)
   process.exit(0)
 }

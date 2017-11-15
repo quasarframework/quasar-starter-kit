@@ -41,8 +41,8 @@ class ElectronRunner {
           return
         }
 
-        this.stopElectron()
-        this.startElectron()
+        this.__stopElectron()
+        this.__startElectron()
 
         resolve()
       })
@@ -102,26 +102,10 @@ class ElectronRunner {
     })
   }
 
-  startElectron () {
-    log(`Booting up Electron...`)
-    this.pid = spawn(
-      require(appPaths.resolve.app('node_modules/electron')),
-      [
-        '--inspect=5858',
-        appPaths.resolve.app('.quasar/electron/electron-main.js')
-      ],
-      appPaths.appDir
-    )
-  }
-
-  cleanup () {
-    this.pid = 0
-  }
-
   stop () {
     return new Promise((resolve, reject) => {
       const finalize = () => {
-        this.stopElectron()
+        this.__stopElectron()
         resolve()
       }
 
@@ -135,12 +119,28 @@ class ElectronRunner {
     })
   }
 
-  stopElectron () {
+  __startElectron () {
+    log(`Booting up Electron...`)
+    this.pid = spawn(
+      require(appPaths.resolve.app('node_modules/electron')),
+      [
+        '--inspect=5858',
+        appPaths.resolve.app('.quasar/electron/electron-main.js')
+      ],
+      appPaths.appDir
+    )
+  }
+
+  __cleanup () {
+    this.pid = 0
+  }
+
+  __stopElectron () {
     if (!this.pid) { return }
 
     log('Shutting down Electron process...')
     process.kill(this.pid)
-    this.cleanup()
+    this.__cleanup()
   }
 }
 

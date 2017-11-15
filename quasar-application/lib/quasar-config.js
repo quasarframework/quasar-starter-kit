@@ -23,7 +23,8 @@ function getQuasarConfigCtx (opts) {
     target: {},
     targetName: opts.target,
     arch: {},
-    archName: opts.arch
+    archName: opts.arch,
+    debug: opts.debug
   }
   ctx.theme[opts.theme] = true
   ctx.mode[opts.mode] = true
@@ -103,6 +104,7 @@ class QuasarConfig {
     }
 
     const cfg = config(this.ctx)
+
     cfg.ctx = this.ctx
 
     // if watching for changes,
@@ -150,25 +152,29 @@ class QuasarConfig {
       }
     }, cfg.build || {})
 
+    if (this.ctx.dev || this.ctx.debug) {
+      cfg.build.minify = false
+      cfg.build.extractCSS = false
+      cfg.build.gzip = false
+    }
+    if (this.ctx.debug) {
+      cfg.build.sourceMap = true
+      cfg.build.extractCSS = true
+    }
+
     if (this.ctx.mode.cordova || this.ctx.mode.electron) {
       cfg.build.htmlFilename = 'index.html'
       cfg.build.vueRouterMode = 'hash'
       cfg.build.gzip = false
+      cfg.build.webpackManifest = false
     }
 
     if (this.ctx.mode.cordova) {
       cfg.build.distDir = path.join('src-cordova', 'www')
     }
     if (this.ctx.mode.electron) {
-      cfg.build.webpackManifest = false
       cfg.build.packagedElectronDist = cfg.build.distDir
       cfg.build.distDir = path.join(cfg.build.distDir, 'UnPackaged')
-    }
-
-    if (this.ctx.dev) {
-      cfg.build.minify = false
-      cfg.build.extractCSS = false
-      cfg.build.gzip = false
     }
 
     cfg.build.publicPath =

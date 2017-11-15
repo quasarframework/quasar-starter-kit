@@ -29,7 +29,7 @@ module.exports = function (ctx) {
       // extractCSS: false,
       // useNotifier: false,
       vueRouterMode: 'history',
-      publicPath: '/test',
+      // publicPath: '/test',
       test () {
         console.log('a')
       }

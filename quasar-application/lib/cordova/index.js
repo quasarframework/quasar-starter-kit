@@ -33,7 +33,7 @@ class CordovaRunner {
 
   build (quasarConfig, cordovaArgs) {
     const cfg = quasarConfig.getBuildConfig()
-    let args = ['build']
+    let args = ['build', cfg.ctx.debug ? '--debug' : '--release']
 
     if (cfg.ctx.targetName) {
       args.push(cfg.ctx.targetName)
