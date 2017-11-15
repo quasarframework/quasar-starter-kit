@@ -112,10 +112,13 @@ class QuasarConfig {
       this.oldConfigSnapshot = newConfigSnapshot
     }
 
-    let publicPath = '', appBase = './'
+    let publicPath = ''
 
     if (this.ctx.prod && cfg.build && cfg.build.publicPath) {
       publicPath = cfg.build.publicPath
+    }
+    if (!this.ctx.prod && !this.ctx.mode.cordova && !this.ctx.mode.electron) {
+      publicPath = '/'
     }
 
     // make sure it exists
@@ -124,7 +127,6 @@ class QuasarConfig {
       : (cfg.supportIE || false)
 
     cfg.build = merge({
-      publicPath,
       extractCSS: this.ctx.prod,
       sourceMap: this.ctx.dev,
       minify: this.ctx.prod,
@@ -140,7 +142,9 @@ class QuasarConfig {
         THEME: `"${this.ctx.themeName}"`,
         MODE: `"${this.ctx.modeName}"`
       }
-    }, cfg.build || {})
+    }, cfg.build || {}, {
+      publicPath
+    })
 
     if (!cfg.build.devtool) {
       cfg.build.devtool = this.ctx.dev
