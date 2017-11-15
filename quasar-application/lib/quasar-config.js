@@ -148,6 +148,7 @@ class QuasarConfig {
     if (this.ctx.mode.cordova || this.ctx.mode.electron) {
       cfg.build.htmlFilename = 'index.html'
       cfg.build.vueRouterMode = 'hash'
+      cfg.build.gzip = false
     }
 
     if (this.ctx.mode.cordova) {
