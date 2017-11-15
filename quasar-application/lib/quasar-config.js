@@ -21,12 +21,17 @@ function getQuasarConfigCtx (opts) {
     mode: {},
     modeName: opts.mode,
     target: {},
-    targetName: opts.target
+    targetName: opts.target,
+    arch: {},
+    archName: opts.arch
   }
   ctx.theme[opts.theme] = true
   ctx.mode[opts.mode] = true
   if (opts.target) {
     ctx.target[opts.target] = true
+  }
+  if (opts.arch) {
+    ctx.arch[opts.arch] = true
   }
   return ctx
 }
@@ -292,22 +297,27 @@ class QuasarConfig {
         electronWebpack = require('./build/webpack-electron-config'),
         electronWebpackConfig = electronWebpack(cfg)
 
-      if (typeof cfg.extendElectronWebpack === 'function') {
-        log(`Extending Electron Webpack config`)
-        cfg.extendElectronWebpack(electronWebpackConfig)
-      }
-
       cfg.electron = merge({
         packager: {
-          arch: 'x64',
           asar: true,
           dir: appPaths.resolve.app(cfg.build.distDir),
           icon: appPaths.resolve.electron('icons/icon'),
           out: appPaths.resolve.app(cfg.build.packagedElectronDist),
-          overwrite: true,
-          platform: cfg.ctx.targetName
+          overwrite: true
         }
       }, cfg.electron || {})
+
+      if (cfg.ctx.targetName) {
+        cfg.electron.packager.platform = cfg.ctx.targetName
+      }
+      if (cfg.ctx.archName) {
+        cfg.electron.packager.arch = cfg.ctx.archName
+      }
+
+      if (typeof cfg.electron.extendWebpack === 'function') {
+        log(`Extending Electron Webpack config`)
+        cfg.electron.extendWebpack(electronWebpackConfig)
+      }
 
       this.electronWebpackConfig = electronWebpackConfig
     }

@@ -94,6 +94,9 @@ module.exports = function (ctx) {
       extendPackageJson (pkg) {
         // do something with pkg -- add/remove/change props from package.json
       },
+      extendWebpack (cfg) {
+        // do something with cfg
+      },
       packager: {
       }
     }

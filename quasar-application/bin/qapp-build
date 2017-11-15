@@ -33,11 +33,16 @@ if (argv.help) {
     Options
       --theme, -t         App theme (default: mat)
       --mode, -m          App mode [spa|pwa|cordova|electron] (default: spa)
-      --target, -T        App target (default: android)
-                           - Cordova: android|ios|blackberry10|browser|osx|ubuntu|webos|windows
-                           - Electron: darwin|win32|linux|mas|all
-      --arch, -A          Electron arch [ia32|x64|armv7l|arm64|all] (default: yours)
+      --target, -T        App target
+                           - Cordova (default: all installed)
+                              [android|ios|blackberry10|browser|osx|ubuntu|webos|windows]
+                           - Electron (default: yours)
+                              [darwin|win32|linux|mas|all]
       --help, -h          Displays this message
+
+      Only for Electron mode:
+      --arch, -A          App architecture (default: yours)
+                            [ia32|x64|armv7l|arm64|all]
   `)
   process.exit(0)
 }
@@ -64,6 +69,7 @@ const
     theme: argv.theme,
     mode: argv.mode,
     target: argv.target,
+    arch: argv.arch,
     prod: true
   }),
   generator = new Generator(quasarConfig),
@@ -74,7 +80,7 @@ const
 
 generator.build()
 
-log(chalk.bold(`Building ${mode}${target ? `/${target}` : ''} with "${argv.theme}" theme...`))
+log(chalk.bold(`Building...`))
 log()
 
 webpack(webpackConfig, (err, stats) => {
@@ -110,7 +116,7 @@ webpack(webpackConfig, (err, stats) => {
   if (argv.mode === 'cordova') {
     const Cordova = require('../lib/cordova')
 
-    Cordova.run(quasarConfig).then(exitCode => {
+    Cordova.build(quasarConfig).then(exitCode => {
       if (exitCode) {
         notify({ subtitle: '[FAIL] Cordova failed to build' })
         return

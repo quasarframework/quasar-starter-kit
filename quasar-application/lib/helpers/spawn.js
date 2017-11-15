@@ -9,6 +9,7 @@ const
  */
 module.exports = function (cmd, params, cwd, onClose) {
   log(`Running "${cmd} ${params.join(' ')}"`)
+  log()
 
   const runner = spawn(
     cmd,
@@ -18,7 +19,7 @@ module.exports = function (cmd, params, cwd, onClose) {
 
   runner.on('close', code => {
     if (code) {
-      log(`Command "${cmd}" failed with exit code: ${runner.status}`)
+      log(`Command "${cmd}" failed with exit code: ${code}`)
     }
 
     onClose && onClose(code)
@@ -32,6 +33,7 @@ module.exports = function (cmd, params, cwd, onClose) {
  */
 module.exports.sync = function (cmd, params, cwd, onFail) {
   log(`[sync] Running "${cmd} ${params.join(' ')}"`)
+  log()
 
   const runner = spawn.sync(
     cmd,

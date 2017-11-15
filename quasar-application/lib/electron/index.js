@@ -52,7 +52,7 @@ class ElectronRunner {
   build (quasarConfig) {
     const
       webpackConfig = quasarConfig.getElectronWebpackConfig(),
-      buildConfig = quasarConfig.getBuildConfig()
+      packagerConfig = quasarConfig.getBuildConfig().electron.packager
 
     return new Promise((resolve, reject) => {
       log(`Building main Electron process...`)
@@ -79,10 +79,13 @@ class ElectronRunner {
       })
     }).then(() => {
       return new Promise((resolve, reject) => {
-        log(`Packing app with Electron packager...`)
+        log(`Packaging app with Electron packager...`)
+        log()
 
         const packager = require(appPaths.resolve.app('node_modules/electron-packager'))
-        packager(buildConfig.electron.packager, (err, appPaths) => {
+        packager(packagerConfig, (err, appPaths) => {
+          log()
+
           if (err) {
             warn(`[FAIL] Electron packager could not build`)
             console.log(err + '\n')
@@ -90,7 +93,9 @@ class ElectronRunner {
             return
           }
 
-          log(`[SUCCESS] Electron packager built the app: ${appPaths}`)
+          log(`[SUCCESS] Electron packager built the app`)
+          log(`Built path(s): ${appPaths.join(', ')}`)
+          log()
           resolve()
         })
       })

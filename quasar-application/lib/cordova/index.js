@@ -20,29 +20,30 @@ class CordovaRunner {
       this.stop()
     }
 
-    const buildConfig = quasarConfig.getBuildConfig()
-    this.ctx = buildConfig.ctx
-    this.buildConfig = buildConfig
-    this.config.prepare(buildConfig.build.APP_URL)
+    const
+      cfg = quasarConfig.getBuildConfig(),
+      args = ['run']
 
-    return new Promise((resolve, reject) => {
-      this.pid = spawn(
-        'cordova',
-        this.ctx.targetName ? [this.ctx.dev ? 'run' : 'build', this.ctx.targetName] : [this.ctx.dev ? 'run' : 'build'],
-        appPaths.cordovaDir,
-        code => {
-          this.cleanup()
-          resolve(code)
-        }
-      )
-    })
+    if (cfg.ctx.targetName) {
+      args.push(cfg.ctx.targetName)
+    }
+
+    return this.__runCordovaCommand(cfg.build.APP_URL, args)
   }
 
-  cleanup () {
-    this.pid = 0
-    if (this.ctx.dev) {
-      this.config.reset()
+  build (quasarConfig, cordovaArgs) {
+    const cfg = quasarConfig.getBuildConfig()
+    let args = ['build']
+
+    if (cfg.ctx.targetName) {
+      args.push(cfg.ctx.targetName)
     }
+    if (cordovaArgs) {
+      const cArg = cordovaArgs.replace(/  /g, ' ').split(' ')
+      args = args.concat(cArg)
+    }
+
+    return this.__runCordovaCommand(cfg.build.APP_URL, args)
   }
 
   stop () {
@@ -50,7 +51,28 @@ class CordovaRunner {
 
     log('Shutting down Cordova process...')
     process.kill(this.pid)
-    this.cleanup()
+    this.__cleanup()
+  }
+
+  __runCordovaCommand (url, args) {
+    this.config.prepare(url)
+
+    return new Promise((resolve, reject) => {
+      this.pid = spawn(
+        'cordova',
+        args,
+        appPaths.cordovaDir,
+        code => {
+          this.__cleanup()
+          resolve(code)
+        }
+      )
+    })
+  }
+
+  __cleanup () {
+    this.pid = 0
+    this.config.reset()
   }
 }
 

@@ -4,7 +4,7 @@ module.exports = function (argv, cmd) {
   if (cmd === 'mode') {
     if (![undefined, 'pwa', 'cordova', 'electron'].includes(argv.add)) {
       warn(`Unknown mode "${ argv.add }" to add`)
-      wanr()
+      warn()
       process.exit(1)
     }
     if (![undefined, 'pwa', 'cordova', 'electron'].includes(argv.remove)) {
@@ -35,19 +35,19 @@ module.exports = function (argv, cmd) {
       process.exit(1)
     }
     if (cmd === 'dev' && (argv.hostname === undefined || ['localhost', '127.0.0.1', '::1'].includes(argv.hostname.toLowerCase()))) {
-      warn('Cordova DEV requires you to specify external IP address or HOSTNAME as -H IP|HOSTNAME"')
+      warn(`Cordova DEV requires you to specify your machine's external IP address or HOSTNAME as -H IP|HOSTNAME"`)
       warn()
       process.exit(1)
     }
   }
 
-  if (argv.mode === 'electron') {
+  if (cmd === 'build' && argv.mode === 'electron') {
     if (![undefined, 'all', 'darwin', 'win32', 'linux', 'mas'].includes(argv.target)) {
       warn(`Unknown target "${ argv.target }" for Electron`)
       warn()
       process.exit(1)
     }
-    if (cmd === 'build' && ![undefined, 'ia32', 'x64', 'armv7l', 'arm64', 'all'].includes(argv.arch)) {
+    if (![undefined, 'ia32', 'x64', 'armv7l', 'arm64', 'all'].includes(argv.arch)) {
       warn(`Unknown architecture "${ argv.arch }" for Electron`)
       warn()
       process.exit(1)
