@@ -10,23 +10,29 @@ process.on('unhandledRejection', err => {
   console.error(pe.render(err))
 })
 
-const commands = new Set([
+const commands = [
   'dev',
   'build',
   'mode',
   'version',
   'help'
-])
+]
 
 let cmd = process.argv[2]
 
 if (cmd) {
-  if (commands.has(cmd)) {
+  if (commands.includes(cmd)) {
     process.argv.splice(2, 1)
   }
   else {
-    require('../lib/helpers/logger')('app', 'red')(`Unknown command "${cmd}"`)
-    process.exit(1)
+    if (cmd.indexOf('-') === 0) {
+      require('../lib/helpers/logger')('app', 'red')(`You must provide one command from [${ commands.join('|') }]`)
+      cmd = 'help'
+    }
+    else {
+      require('../lib/helpers/logger')('app', 'red')(`Unknown command "${ cmd }"`)
+      process.exit(1)
+    }
   }
 }
 else {
