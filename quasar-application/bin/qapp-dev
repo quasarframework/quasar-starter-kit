@@ -51,53 +51,63 @@ if (argv.help) {
 }
 
 require('../lib/helpers/ensure-argv')(argv, 'dev')
-if (argv.mode !== 'spa') {
-  require('../lib/mode/install-missing')(argv.mode, argv.target)
-}
 
 log(`Running: Mode [ ${chalk.red(argv.mode.toUpperCase())} ] with [ ${chalk.red(argv.theme.toUpperCase())} ] theme`)
 log()
 
-const
-  DevServer = require('../lib/dev-server'),
-  QuasarConfig = require('../lib/quasar-config'),
-  Generator = require('../lib/generator')
-
-const
-  quasarConfig = new QuasarConfig({
-    theme: argv.theme,
-    mode: argv.mode,
-    target: argv.target,
-    port: argv.port,
-    host: argv.hostname,
-    dev: true,
-    onBuildChange () {
-      log(`Rebuilding app...`)
-      dev = dev.then(startDev)
-    },
-    onAppChange () {
-      log(`Updating app...`)
-      generator.build()
-    }
-  }),
-  generator = new Generator(quasarConfig)
-
-function startDev (oldDevServer) {
-  const devServer = new DevServer(quasarConfig)
-
-  return Promise.resolve()
-    .then(() => Cordova ? Cordova.stop() : Promise.resolve())
-    .then(() => Electron ? Electron.stop() : Promise.resolve())
-    .then(() => oldDevServer ? oldDevServer.stop() : Promise.resolve()) // Close old builder after successful build
-    .then(() => generator.build()) // Update generated files
-    .then(() => devServer.listen()) // Start listening
-    .then(() => Cordova ? Cordova.run(quasarConfig) : Promise.resolve())
-    .then(() => Electron ? Electron.run(quasarConfig) : Promise.resolve())
-    .then(() => devServer) // Pass new builder to watch chain
+if (argv.mode !== 'spa') {
+  require('../lib/mode/install-missing')(argv.mode, argv.target)
 }
 
-const
-  Cordova = argv.mode === 'cordova' ? require('../lib/cordova') : false,
-  Electron = argv.mode === 'electron' ? require('../lib/electron') : false
+async function goLive () {
+  if (argv.mode === 'cordova' && ['localhost', '127.0.0.1', '::1'].includes(argv.hostname.toLowerCase())) {
+    const getExternalIP = require('../lib/helpers/get-external-ip')
+    argv.hostname = await getExternalIP()
+  }
 
-let dev = startDev()
+  const
+    DevServer = require('../lib/dev-server'),
+    QuasarConfig = require('../lib/quasar-config'),
+    Generator = require('../lib/generator')
+
+  const
+    quasarConfig = new QuasarConfig({
+      theme: argv.theme,
+      mode: argv.mode,
+      target: argv.target,
+      port: argv.port,
+      host: argv.hostname,
+      dev: true,
+      onBuildChange () {
+        log(`Rebuilding app...`)
+        dev = dev.then(startDev)
+      },
+      onAppChange () {
+        log(`Updating app...`)
+        generator.build()
+      }
+    }),
+    generator = new Generator(quasarConfig)
+
+  function startDev (oldDevServer) {
+    const devServer = new DevServer(quasarConfig)
+
+    return Promise.resolve()
+      .then(() => Cordova ? Cordova.stop() : Promise.resolve())
+      .then(() => Electron ? Electron.stop() : Promise.resolve())
+      .then(() => oldDevServer ? oldDevServer.stop() : Promise.resolve()) // Close old builder after successful build
+      .then(() => generator.build()) // Update generated files
+      .then(() => devServer.listen()) // Start listening
+      .then(() => Cordova ? Cordova.run(quasarConfig) : Promise.resolve())
+      .then(() => Electron ? Electron.run(quasarConfig) : Promise.resolve())
+      .then(() => devServer) // Pass new builder to watch chain
+  }
+
+  const
+    Cordova = argv.mode === 'cordova' ? require('../lib/cordova') : false,
+    Electron = argv.mode === 'electron' ? require('../lib/electron') : false
+
+  let dev = startDev()
+}
+
+goLive()
