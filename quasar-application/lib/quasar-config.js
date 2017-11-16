@@ -205,25 +205,20 @@ class QuasarConfig {
         historyApiFallback: true,
         noInfo: true,
         disableHostCheck: true,
+        open: true
+      }, cfg.devServer || {}, {
         host: this.opts.host,
         port: this.opts.port,
-        open: true
-      }, cfg.devServer || {})
+        contentBase: [ appPaths.srcDir ]
+      })
 
-      if (process.env.PORT) {
-        cfg.devServer.port = process.env.PORT
-      }
-      if (process.env.HOSTNAME) {
-        cfg.devServer.host = process.env.HOSTNAME
-      }
       if (this.ctx.mode.cordova) {
         cfg.devServer.https = false
         cfg.devServer.open = false
 
-        cfg.devServer.contentBase = [
-          appPaths.srcDir,
+        cfg.devServer.contentBase.push(
           appPaths.resolve.cordova(`platforms/${this.ctx.targetName}/platform_www`)
-        ]
+        )
       }
     }
 

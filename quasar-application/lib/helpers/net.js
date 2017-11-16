@@ -21,7 +21,7 @@ module.exports.getExternalNetworkInterface = function () {
 }
 
 module.exports.findClosestOpenPort = async function (port, host) {
-  const portProposal = port
+  let portProposal = port
 
   do {
     if (await module.exports.isPortAvailable(portProposal, host)) {

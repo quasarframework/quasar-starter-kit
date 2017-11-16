@@ -44,7 +44,6 @@ module.exports = function (ctx) {
     },
     devServer: {
       // https: true,
-      // port: 8080,
       open: false
     },
     framework: {

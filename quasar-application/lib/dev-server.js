@@ -40,16 +40,6 @@ class DevServer {
 
         this.__started = true
 
-        /* TODO find closest port available
-          const findClosestOpenPort = require('./helpers/net').findClosestOpenPort
-          const port = await findClosestOpenPort(cfg.devServer.port, cfg.devServer.host)
-
-          if (port !== cfg.devServer.port) {
-            log(`Setting port to closest one available: ${port}`)
-            cfg.devServer.port = port
-          }
-        */
-
         this.server.listen(this.opts.port, this.opts.host, () => {
           resolve()
 
