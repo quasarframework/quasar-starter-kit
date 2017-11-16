@@ -65,8 +65,21 @@ class QuasarConfig {
       chokidar
         .watch(this.filename, { watchers: { chokidar: { ignoreInitial: true } } })
         .on('change', debounce(() => {
+          let err = false
           log(`quasar.conf.js changed`)
-          this.refresh()
+
+          try {
+            this.refresh()
+          }
+          catch (e) {
+            err = true
+            warn(`quasar.conf.js has errors. Please fix them then save file again.`)
+            warn()
+            console.log(e)
+          }
+
+          if (err) { return }
+
           if (this.webpackConfigChanged) {
             opts.onBuildChange()
           }
