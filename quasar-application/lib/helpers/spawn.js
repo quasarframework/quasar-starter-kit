@@ -20,7 +20,10 @@ module.exports = function (cmd, params, cwd, onClose) {
   runner.on('close', code => {
     log()
     if (code) {
-      log(`Command "${cmd}" failed with exit code: ${code}`)
+      warn(`Command "${cmd}" failed with exit code: ${code}`)
+      if (cmd === 'cordova') {
+        warn('If you want a different App name then remove Cordova support (qapp mode -r cordova), edit productName field from package.json then add Cordova support again (qapp mode -a cordova).')
+      }
     }
 
     onClose && onClose(code)
