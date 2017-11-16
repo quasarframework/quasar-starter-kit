@@ -68,7 +68,11 @@ Object.keys(interfaces).forEach((ifname) => {
     }))
 })
 versions.push({ key: 'NodeJs', value: chalkGreen(String(process.version).slice(1).trim()), section: true })
-versions.push({ key: 'NPM', value: safeExec('npm --version') })
+versions.push({ key: 'Global packages', section: true })
+versions.push({ key: '  NPM', value: safeExec('npm --version') })
+versions.push({ key: '  Vue-CLI', value: safeExec('vue --version') })
+versions.push({ key: '  Cordova', value: safeExec('cordova --version') })
+
 versions.push({ key: 'Local packages', section: true })
 const moduleList = [
   'quasar-application',
