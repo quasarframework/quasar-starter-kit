@@ -1,6 +1,5 @@
 #!/usr/bin/env node
 
-// cli deps
 const
   parseArgs = require('minimist'),
   path = require('path'),
