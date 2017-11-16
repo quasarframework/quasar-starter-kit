@@ -29,7 +29,13 @@ module.exports = function (argv, cmd) {
   }
 
   if (argv.mode === 'cordova') {
-    if (![undefined, 'android', 'ios', 'blackberry10', 'browser', 'osx', 'ubuntu', 'webos', 'windows'].includes(argv.target)) {
+    const targets = ['android', 'ios', 'blackberry10', 'browser', 'osx', 'ubuntu', 'webos', 'windows']
+    if (!argv.target) {
+      warn(`Please also specify a target (-T <${targets.join('|')}>)`)
+      warn()
+      process.exit(1)
+    }
+    if (!targets.includes(argv.target)) {
       warn(`Unknown target "${ argv.target }" for Cordova`)
       warn()
       process.exit(1)

@@ -30,7 +30,7 @@ if (argv.help) {
       Starts the app in development mode (hot-code reloading, error
       reporting, etc)
     Usage
-      $ quasar build -- -p <port number>
+      $ quasar build -p <port number>
     Options
       --theme, -t    App theme (default: mat)
       --mode, -m     App mode [spa|pwa|cordova|electron] (default: spa)

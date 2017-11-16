@@ -20,30 +20,17 @@ class CordovaRunner {
       this.stop()
     }
 
-    const
-      cfg = quasarConfig.getBuildConfig(),
-      args = ['run']
-
-    if (cfg.ctx.targetName) {
-      args.push(cfg.ctx.targetName)
-    }
-
-    return this.__runCordovaCommand(cfg, args)
+    return this.__runCordovaCommand(
+      quasarConfig.getBuildConfig(),
+      ['run', cfg.ctx.targetName]
+    )
   }
 
   build (quasarConfig, cordovaArgs) {
-    const cfg = quasarConfig.getBuildConfig()
-    let args = ['build', cfg.ctx.debug ? '--debug' : '--release']
-
-    if (cfg.ctx.targetName) {
-      args.push(cfg.ctx.targetName)
-    }
-    if (cordovaArgs) {
-      const cArg = cordovaArgs.replace(/  /g, ' ').split(' ')
-      args = args.concat(cArg)
-    }
-
-    return this.__runCordovaCommand(cfg, args)
+    return this.__runCordovaCommand(
+      quasarConfig.getBuildConfig(),
+      ['build', cfg.ctx.debug ? '--debug' : '--release', cfg.ctx.targetName]
+    )
   }
 
   stop () {
