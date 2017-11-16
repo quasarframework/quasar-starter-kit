@@ -197,7 +197,6 @@ class QuasarConfig {
 
     if (this.ctx.dev) {
       cfg.devServer = merge({
-        contentBase: appPaths.srcDir,
         publicPath: cfg.build.publicPath,
         hot: true,
         inline: true,
@@ -221,9 +220,8 @@ class QuasarConfig {
         cfg.devServer.https = false
         cfg.devServer.open = false
 
-        // TODO ensure string / array cases
         cfg.devServer.contentBase = [
-          cfg.devServer.contentBase,
+          appPaths.srcDir,
           appPaths.resolve.cordova(`platforms/${this.ctx.targetName}/platform_www`)
         ]
       }
