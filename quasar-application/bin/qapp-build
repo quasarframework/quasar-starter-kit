@@ -1,6 +1,8 @@
 #!/usr/bin/env node
 
-const parseArgs = require('minimist')
+const
+  parseArgs = require('minimist'),
+  chalk = require('chalk')
 
 const
   logger = require('../lib/helpers/logger')
@@ -58,9 +60,7 @@ if (argv.mode !== 'spa') {
   require('../lib/mode/install-missing')(argv.mode, argv.target)
 }
 
-const
-  chalk = require('chalk'),
-  webpack = require('webpack')
+const webpack = require('webpack')
 
 const
   appPaths = require('../lib/build/app-paths'),
