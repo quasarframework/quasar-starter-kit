@@ -84,7 +84,7 @@ const
 
 generator.build()
 
-log(chalk.bold(`Building...`))
+log(chalk.bold(`Building main...`))
 log()
 
 webpack(webpackConfig, (err, stats) => {

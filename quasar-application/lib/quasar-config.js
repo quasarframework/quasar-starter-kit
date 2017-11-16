@@ -318,12 +318,15 @@ class QuasarConfig {
       cfg.electron = merge({
         packager: {
           asar: true,
-          dir: appPaths.resolve.app(cfg.build.distDir),
           icon: appPaths.resolve.electron('icons/icon'),
-          out: appPaths.resolve.app(cfg.build.packagedElectronDist),
           overwrite: true
         }
-      }, cfg.electron || {})
+      }, cfg.electron || {}, {
+        packager: {
+          dir: appPaths.resolve.app(cfg.build.distDir),
+          out: appPaths.resolve.app(cfg.build.packagedElectronDist)
+        }
+      })
 
       if (cfg.ctx.targetName) {
         cfg.electron.packager.platform = cfg.ctx.targetName
