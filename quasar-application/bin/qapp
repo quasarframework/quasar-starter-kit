@@ -15,6 +15,7 @@ const commands = [
   'build',
   'mode',
   'info',
+  'version',
   'help'
 ]
 

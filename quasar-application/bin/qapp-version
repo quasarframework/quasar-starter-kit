@@ -1,0 +1,26 @@
+#!/usr/bin/env node
+
+const
+  parseArgs = require('minimist'),
+  chalk = require('chalk')
+
+const argv = parseArgs(process.argv.slice(2), {
+  alias: {
+    h: 'help'
+  },
+  boolean: ['h']
+})
+
+if (argv.help) {
+  console.log(`
+    Description
+      Display version of Quasar CLI
+    Usage
+      $ quasar version
+  `)
+  process.exit(0)
+}
+
+console.log()
+console.log(` Quasar CLI v${chalk.green(require('../package.json').version)}`)
+console.log()
