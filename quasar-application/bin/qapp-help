@@ -9,7 +9,7 @@ console.log(
 
 console.log(`
   Example usage
-    $ quasar info
+    $ quasar <command> <options>
 
   Help for a command
     $ quasar <command> --help

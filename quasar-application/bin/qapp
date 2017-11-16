@@ -25,14 +25,15 @@ if (cmd) {
     process.argv.splice(2, 1)
   }
   else {
+    const warn = require('../lib/helpers/logger')('app', 'red')
+
+    warn(`Unknown command "${ cmd }"`)
     if (cmd.indexOf('-') === 0) {
-      require('../lib/helpers/logger')('app', 'red')(`You must provide one command from [${ commands.join('|') }]`)
-      cmd = 'help'
+      warn(`Command must come before the options`)
     }
-    else {
-      require('../lib/helpers/logger')('app', 'red')(`Unknown command "${ cmd }"`)
-      process.exit(1)
-    }
+
+    warn()
+    cmd = 'help'
   }
 }
 else {
