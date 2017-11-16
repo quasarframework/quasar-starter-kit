@@ -27,6 +27,7 @@ if (cmd) {
   else {
     const warn = require('../lib/helpers/logger')('app', 'red')
 
+    warn()
     warn(`Unknown command "${ cmd }"`)
     if (cmd.indexOf('-') === 0) {
       warn(`Command must come before the options`)
