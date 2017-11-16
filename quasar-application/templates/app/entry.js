@@ -45,7 +45,7 @@ extras && extras.filter(asset => asset).forEach(asset => {
 require('quasar-extras/<%= asset %>')
 <% }) %>
 
-<% css && css.forEach(asset => { %>
+<% css && css.filter(css => css).forEach(asset => { %>
 require('~/css/<%= asset %>')
 <% }) %>
 
