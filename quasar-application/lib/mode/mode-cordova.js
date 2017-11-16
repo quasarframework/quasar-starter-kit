@@ -12,7 +12,7 @@ class Mode {
     return fs.existsSync(appPaths.cordovaDir)
   }
 
-  add () {
+  add (target) {
     if (this.isInstalled) {
       warn(`Cordova support detected already. Aborting.`)
       return
@@ -38,8 +38,24 @@ class Mode {
     log(`App name was taken from package.json: "${appName}"`)
     log()
     warn(`If you want a different App name then remove Cordova support, edit productName field from package.json then add Cordova support again.`)
-    log(`Please manually add Cordova platforms using Cordova CLI from the newly created "src-cordova" folder.`)
-    log()
+    warn()
+
+    if (!target) {
+      log(`Please manually add Cordova platforms using Cordova CLI from the newly created "src-cordova" folder.`)
+      log()
+      return
+    }
+
+    log(`Adding Cordova platform "${target}"`)
+    spawn.sync(
+      'cordova',
+      ['platform', 'add', target],
+      appPaths.cordovaDir,
+      () => {
+        warn(`There was an error trying to install Cordova platform "${target}"`)
+        process.exit(1)
+      }
+    )
   }
 
   remove () {

@@ -51,7 +51,7 @@ if (argv.help) {
 
 require('../lib/helpers/ensure-argv')(argv, 'build')
 if (argv.mode !== 'spa') {
-  require('../lib/mode/install-missing')(argv.mode)
+  require('../lib/mode/install-missing')(argv.mode, argv.target)
 }
 
 const
