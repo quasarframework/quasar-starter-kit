@@ -2,15 +2,13 @@
 
 const
   parseArgs = require('minimist'),
-  path = require('path'),
   chalk = require('chalk')
 
 const
   logger = require('../lib/helpers/logger'),
   log = logger('app:dev'),
   warn = logger('app:dev', 'red'),
-  appPaths = require('../lib/build/app-paths'),
-  resolve = path.resolve
+  appPaths = require('../lib/build/app-paths')
 
 const argv = parseArgs(process.argv.slice(2), {
   alias: {

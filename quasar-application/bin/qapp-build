@@ -16,9 +16,10 @@ const argv = parseArgs(process.argv.slice(2), {
     T: 'target',
     A: 'arch',
     d: 'debug',
+    c: 'clean',
     h: 'help'
   },
-  boolean: ['h', 'd'],
+  boolean: ['h', 'd', 'c'],
   string: ['t', 'm', 'T'],
   default: {
     t: 'mat',
@@ -42,6 +43,7 @@ if (argv.help) {
                        - Electron (default: yours)
                           [darwin|win32|linux|mas|all]
       --debug, -d    Build for debugging purposes
+      --clean, -c    Clean build artifact first
       --help, -h     Displays this message
 
       ONLY for Electron mode:
@@ -65,7 +67,8 @@ const webpack = require('webpack')
 const
   appPaths = require('../lib/build/app-paths'),
   QuasarConfig = require('../lib/quasar-config'),
-  Generator = require('../lib/generator')
+  Generator = require('../lib/generator'),
+  artifacts = require('../lib/build/artifacts')
 
 const
   quasarConfig = new QuasarConfig({
@@ -80,7 +83,12 @@ const
   webpackConfig = quasarConfig.getWebpackConfig(),
   buildConfig = quasarConfig.getBuildConfig(),
   mode = argv.mode.toUpperCase(),
-  target = argv.target ? argv.target.toUpperCase() : ''
+  target = argv.target ? argv.target.toUpperCase() : '',
+  outputFolder = buildConfig.build.packagedElectronDist || buildConfig.build.distDir
+
+if (argv.clean) {
+  artifacts.clean(outputFolder)
+}
 
 generator.build()
 
@@ -89,6 +97,8 @@ log()
 
 webpack(webpackConfig, (err, stats) => {
   if (err) { throw err }
+
+  artifacts.add(outputFolder)
 
   const notify = buildConfig.build.useNotifier
     ? require('../lib/helpers/notifier')

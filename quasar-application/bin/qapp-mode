@@ -2,7 +2,6 @@
 
 const
   parseArgs = require('minimist'),
-  path = require('path'),
   chalk = require('chalk')
 
 const
