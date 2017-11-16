@@ -99,7 +99,9 @@ async function goLive () {
         generator.build()
       }
     }),
-    generator = new Generator(quasarConfig)
+    generator = new Generator(quasarConfig),
+    Cordova = argv.mode === 'cordova' ? require('../lib/cordova') : false,
+    Electron = argv.mode === 'electron' ? require('../lib/electron') : false
 
   function startDev (oldDevServer) {
     let devServer
@@ -111,14 +113,10 @@ async function goLive () {
       .then(() => devServer = new DevServer(quasarConfig))
       .then(() => generator.build()) // Update generated files
       .then(() => devServer.listen()) // Start listening
-      .then(() => Cordova ? Cordova.run(quasarConfig) : Promise.resolve())
       .then(() => Electron ? Electron.run(quasarConfig) : Promise.resolve())
+      .then(() => Cordova ? Cordova.run(quasarConfig) : Promise.resolve())
       .then(() => devServer) // Pass new builder to watch chain
   }
-
-  const
-    Cordova = argv.mode === 'cordova' ? require('../lib/cordova') : false,
-    Electron = argv.mode === 'electron' ? require('../lib/electron') : false
 
   let dev = startDev()
 }
