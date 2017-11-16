@@ -1,6 +1,6 @@
 {
   "name": "org.quasar.cordova.app",
-  "displayName": "QuasarApp",
+  "displayName": "Quasar App",
   "version": "1.0.0",
   "description": "A sample Apache Cordova application that responds to the deviceready event.",
   "main": "index.js",
@@ -19,8 +19,8 @@
       "cordova-plugin-whitelist": {}
     },
     "platforms": [
-      "android",
-      "ios"
+      "ios",
+      "android"
     ]
   }
 }

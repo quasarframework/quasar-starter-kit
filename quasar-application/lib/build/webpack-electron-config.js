@@ -85,19 +85,11 @@ module.exports = function (cfg) {
     webpackConfig.plugins.push({
       apply (compiler) {
         compiler.plugin('emit', (compilation, callback) => {
-          const
-            extend = cfg.electron.extendPackageJson,
-            pkg = require(appPaths.resolve.app('package.json'))
+          const pkg = require(appPaths.resolve.app('package.json'))
 
           pkg.main = './electron-main.js'
-          pkg.productName = pkg.name
-          delete pkg.scripts
-
-          if (typeof extend === 'function') {
-            extend(pkg)
-          }
-
           const source = JSON.stringify(pkg)
+
           compilation.assets['package.json'] = {
             source: () => new Buffer(source),
             size: () => Buffer.byteLength(source)

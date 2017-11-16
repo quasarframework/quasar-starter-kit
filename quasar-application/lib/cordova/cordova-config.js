@@ -7,42 +7,56 @@ const
 
 const filePath = appPaths.resolve.cordova('config.xml')
 
-class CordovaConfig {
-  refresh () {
-    const content = fs.readFileSync(filePath, 'utf-8')
-    this.doc = et.parse(content)
-  }
-
-  save () {
-    const content = this.doc.write({ indent: 4 })
-    fs.writeFileSync(filePath, content, 'utf8')
-    log('Updated Cordova config.xml')
-  }
-
-  prepare (APP_URL) {
-    this.refresh()
-    this.APP_URL = APP_URL
-
-    const root = this.doc.getroot()
-    let el = root.find('content')
+function setFields (root, cfg) {
+  Object.keys(cfg).forEach(key => {
+    const
+      el = root.find(key),
+      values = cfg[key],
+      isObject = Object(values) === values
 
     if (!el) {
-      el = et.SubElement(root, 'content', { src: APP_URL })
+      if (isObject) {
+        et.SubElement(root, key, values)
+      }
+      else {
+        let entry = et.SubElement(root, key)
+        entry.text = values
+      }
     }
     else {
-      if (el.get('src') === APP_URL) {
-        // no need to update anything
-        return
+      if (isObject) {
+        Object.keys(values).forEach(key => {
+          el.set(key, values[key])
+        })
       }
-      el.set('src', APP_URL)
+      else {
+        el.text = values
+      }
+    }
+  })
+}
+
+class CordovaConfig {
+  prepare (cfg) {
+    this.doc = et.parse(fs.readFileSync(filePath, 'utf-8'))
+    this.pkg = require(appPaths.resolve.app('package.json'))
+    this.APP_URL = cfg.build.APP_URL
+
+    const root = this.doc.getroot()
+
+    root.set('id', cfg.cordova.id || this.pkg.cordovaId || 'org.quasar.cordova.app')
+    root.set('version', cfg.cordova.version || this.pkg.version)
+
+    setFields(root, {
+      content: { src: this.APP_URL },
+      description: cfg.cordova.description || this.pkg.description
+    })
+
+    if (!root.find(`allow-navigation[@href='${this.APP_URL}']`)) {
+      et.SubElement(root, 'allow-navigation', { href: this.APP_URL })
     }
 
-    let nav = root.find(`allow-navigation[@href='${APP_URL}']`)
-    if (!nav) {
-      nav = et.SubElement(root, 'allow-navigation', { href: APP_URL })
-    }
-
-    this.save()
+    this.__save()
   }
 
   reset () {
@@ -51,19 +65,21 @@ class CordovaConfig {
     }
 
     const root = this.doc.getroot()
-    let el = root.find('content')
 
-    if (!el) {
-      el = et.SubElement(root, 'content', { src: 'index.html' })
+    root.find('content').set('src', 'index.html')
+
+    const nav = root.find(`allow-navigation[@href='${this.APP_URL}']`)
+    if (nav) {
+      root.remove(nav)
     }
-    else {
-      el.set('src', 'index.html')
-    }
 
-    let nav = root.find(`allow-navigation[@href='${this.APP_URL}']`)
-    root.remove(nav)
+    this.__save()
+  }
 
-    this.save()
+  __save () {
+    const content = this.doc.write({ indent: 4 })
+    fs.writeFileSync(filePath, content, 'utf8')
+    log('Updated Cordova config.xml')
   }
 }
 

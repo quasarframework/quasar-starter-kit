@@ -113,7 +113,6 @@ class QuasarConfig {
       const newConfigSnapshot = [
         cfg.build ? encode(cfg.build) : '',
         cfg.devServer ? encode(cfg.devServer) : '',
-        cfg.extendWebpack ? encode(cfg.extendWebpack) : '',
         cfg.vendor ? encode(cfg.vendor) : '',
         cfg.pwa ? encode(cfg.pwa) : '',
         cfg.electron ? encode(cfg.electron) : ''
@@ -238,19 +237,22 @@ class QuasarConfig {
     }
 
     if (this.ctx.mode.pwa) {
+      const pkg = require(appPaths.resolve.app('package.json'))
       cfg.build.webpackManifest = false
 
       cfg.pwa = merge({
-        cacheId: 'quasar-pwa-app',
+        cacheId: pkg.name || 'quasar-pwa-app',
         filename: 'service-worker.js',
-        cacheExt: 'js,html,css,woff,ttf,eot,otf,woff,woff2,json,svg,gif,jpg,jpeg,png,wav,ogg,webm,flac,aac,mp4,mp3'
+        cacheExt: 'js,html,css,woff,ttf,eot,otf,woff,woff2,json,svg,gif,jpg,jpeg,png,wav,ogg,webm,flac,aac,mp4,mp3',
+        manifest: {
+          name: pkg.productName || pkg.name || 'Quasar App',
+          short_name: pkg.name || 'quasar-pwa',
+          description: pkg.description,
+          display: 'standalone'
+        }
       }, cfg.pwa || {})
 
-      cfg.pwa.manifest = merge({
-        start_url: `${cfg.build.publicPath}${cfg.build.htmlFilename}`,
-        display: 'standalone'
-      }, cfg.pwa.manifest || {})
-
+      cfg.pwa.manifest.start_url = `${cfg.build.publicPath}${cfg.build.htmlFilename}`
       cfg.pwa.manifest.icons = cfg.pwa.manifest.icons.map(icon => {
         icon.src = `${cfg.build.publicPath}${icon.src}`
         return icon
@@ -290,12 +292,16 @@ class QuasarConfig {
     log(`Generating Webpack config`)
     let webpackConfig = generateWebpackConfig(cfg)
 
-    if (typeof cfg.extendWebpack === 'function') {
+    if (typeof cfg.build.extendWebpack === 'function') {
       log(`Extending Webpack config`)
-      cfg.extendWebpack(webpackConfig)
+      cfg.build.extendWebpack(webpackConfig)
     }
 
     this.webpackConfig = webpackConfig
+
+    if (this.ctx.mode.cordova && !cfg.cordova) {
+      cfg.cordova = {}
+    }
 
     if (this.ctx.mode.electron) {
       log(`Generating Electron Webpack config`)

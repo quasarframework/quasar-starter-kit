@@ -18,6 +18,7 @@ module.exports = function (cmd, params, cwd, onClose) {
   )
 
   runner.on('close', code => {
+    log()
     if (code) {
       log(`Command "${cmd}" failed with exit code: ${code}`)
     }
@@ -42,7 +43,8 @@ module.exports.sync = function (cmd, params, cwd, onFail) {
   )
 
   if (runner.status) {
-    log(`Command "${cmd}" failed with exit code: ${runner.status}`)
+    warn()
+    warn(`Command "${cmd}" failed with exit code: ${runner.status}`)
     onFail && onFail()
     process.exit(1)
   }

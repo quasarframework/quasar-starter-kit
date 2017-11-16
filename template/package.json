@@ -1,5 +1,7 @@
 {
   "name": "quasar-app",
+  "productName": "Quasar App",
+  "cordovaId": "org.quasar.cordova.app",
   "version": "1.0.0",
   "description": "A Quasar App",
   "author": "Your Name <your@email.com>",

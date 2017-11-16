@@ -16,10 +16,7 @@ const argv = parseArgs(process.argv.slice(2), {
     r: 'remove',
     h: 'help'
   },
-  string: [
-    'a', 'r',
-    'cordovaId', 'cordovaName'
-  ],
+  string: ['a', 'r'],
   boolean: ['h']
 })
 
@@ -30,8 +27,8 @@ if (argv.help) {
     Usage
       $ quasar mode -- -r|-a pwa|cordova|electron
     Options
-      --add, -a           Add support for mode [pwa|cordova|electron]
-      --remove, -r        Remove support for mode [pwa|cordova|electron]
+      --add, -a     Add support for mode [pwa|cordova|electron]
+      --remove, -r  Remove support for mode [pwa|cordova|electron]
   `)
   process.exit(0)
 }
@@ -40,7 +37,7 @@ require('../lib/helpers/ensure-argv')(argv, 'mode')
 const getMode = require('../lib/mode')
 
 if (argv.add) {
-  getMode(argv.add).add(argv)
+  getMode(argv.add).add()
   process.exit(0)
 }
 else if (argv.remove) {

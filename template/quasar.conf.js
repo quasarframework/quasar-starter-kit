@@ -32,20 +32,20 @@ module.exports = function (ctx) {
       // publicPath: '/test',
       test () {
         console.log('a')
+      },
+      extendWebpack (cfg) {
+        cfg.module.rules.push({
+          enforce: 'pre',
+          test: /\.(js|vue)$/,
+          loader: 'eslint-loader',
+          exclude: /(node_modules|quasar)/
+        })
       }
     },
     devServer: {
       // https: true,
       // port: 8080,
       open: false
-    },
-    extendWebpack (cfg) {
-      cfg.module.rules.push({
-        enforce: 'pre',
-        test: /\.(js|vue)$/,
-        loader: 'eslint-loader',
-        exclude: /(node_modules|quasar)/
-      })
     },
     framework: {
       components: [
@@ -71,9 +71,9 @@ module.exports = function (ctx) {
     pwa: {
       cacheExt: 'js,html,css,woff,ttf,eot,otf,woff,woff2,json,svg,gif,jpg,jpeg,png,wav,ogg,webm,flac,aac,mp4,mp3',
       manifest: {
-        name: 'Quasar App',
-        short_name: 'Quasar-PWA',
-        description: 'Best PWA App in town!',
+        // name: 'Quasar App',
+        // short_name: 'Quasar-PWA',
+        // description: 'Best PWA App in town!',
         icons: [
           {
             'src': 'statics/icons/icon-192x192.png',
@@ -90,14 +90,22 @@ module.exports = function (ctx) {
         theme_color: '#027be3'
       }
     },
+    cordova: {
+      // id: 'org.quasar.cordova.ZappZ'
+    },
     electron: {
-      extendPackageJson (pkg) {
-        // do something with pkg -- add/remove/change props from package.json
-      },
       extendWebpack (cfg) {
         // do something with cfg
       },
       packager: {
+        // OS X / Mac App Store
+        // appBundleId: '',
+        // appCategoryType: '',
+        // osxSign: '',
+        // protocol: 'myapp://path',
+
+        // Window only
+        // win32metadata: { ... }
       }
     }
   }

@@ -28,7 +28,7 @@ class CordovaRunner {
       args.push(cfg.ctx.targetName)
     }
 
-    return this.__runCordovaCommand(cfg.build.APP_URL, args)
+    return this.__runCordovaCommand(cfg, args)
   }
 
   build (quasarConfig, cordovaArgs) {
@@ -43,7 +43,7 @@ class CordovaRunner {
       args = args.concat(cArg)
     }
 
-    return this.__runCordovaCommand(cfg.build.APP_URL, args)
+    return this.__runCordovaCommand(cfg, args)
   }
 
   stop () {
@@ -54,8 +54,8 @@ class CordovaRunner {
     this.__cleanup()
   }
 
-  __runCordovaCommand (url, args) {
-    this.config.prepare(url)
+  __runCordovaCommand (cfg, args) {
+    this.config.prepare(cfg)
 
     return new Promise((resolve, reject) => {
       this.pid = spawn(
