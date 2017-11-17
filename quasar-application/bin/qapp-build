@@ -15,12 +15,13 @@ const argv = parseArgs(process.argv.slice(2), {
     m: 'mode',
     T: 'target',
     A: 'arch',
+    P: 'params',
     d: 'debug',
     c: 'clean',
     h: 'help'
   },
   boolean: ['h', 'd', 'c'],
-  string: ['t', 'm', 'T'],
+  string: ['t', 'm', 'T', 'P'],
   default: {
     t: 'mat',
     m: 'spa'
@@ -49,6 +50,10 @@ if (argv.help) {
       ONLY for Electron mode:
       --arch, -A     App architecture (default: yours)
                        [ia32|x64|armv7l|arm64|all]
+
+      ONLY for Cordova mode:
+      --params, -P   Extra parameters to be passed to cordova
+                       ['--target="iPhone8"']
   `)
   process.exit(0)
 }

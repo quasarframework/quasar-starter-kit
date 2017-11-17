@@ -15,12 +15,13 @@ const argv = parseArgs(process.argv.slice(2), {
     t: 'theme',
     m: 'mode',
     T: 'target',
+    P: 'params',
     p: 'port',
     H: 'hostname',
     h: 'help'
   },
   boolean: ['h'],
-  string: ['t', 'm', 'T', 'H'],
+  string: ['t', 'm', 'T', 'P', 'H'],
   default: {
     t: 'mat',
     m: 'spa',
@@ -46,6 +47,8 @@ if (argv.help) {
       Only for Cordova mode (required):
       --target, -T     App target
                          [android|ios|blackberry10|browser|osx|ubuntu|webos|windows]
+      --params, -P     Extra parameters to be passed to cordova
+                         ['--target="iPhone8"']
   `)
   process.exit(0)
 }
