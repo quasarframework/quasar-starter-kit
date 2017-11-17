@@ -212,10 +212,13 @@ class QuasarConfig {
         contentBase: [ appPaths.srcDir ]
       })
 
-      if (this.ctx.mode.cordova) {
+      if (this.ctx.mode.cordova || this.ctx.mode.electron) {
         cfg.devServer.https = false
         cfg.devServer.open = false
+        cfg.devServer.compress = false
+      }
 
+      if (this.ctx.mode.cordova) {
         cfg.devServer.contentBase.push(
           appPaths.resolve.cordova(`platforms/${this.ctx.targetName}/platform_www`)
         )

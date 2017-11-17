@@ -3,7 +3,7 @@
 module.exports = function (ctx) {
   return {
     plugins: [
-      'axios'// ,
+      // 'axios'// ,
       // 'i18n',
       // 'some-package'
     ],
@@ -31,7 +31,7 @@ module.exports = function (ctx) {
       vueRouterMode: 'history',
       // publicPath: '/test',
       test () {
-        console.log('a')
+        // console.log('a')
       },
       extendWebpack (cfg) {
         cfg.module.rules.push({

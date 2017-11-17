@@ -17,7 +17,7 @@ class CordovaRunner {
 
   run (quasarConfig) {
     if (this.pid) {
-      this.stop()
+      return
     }
 
     const cfg = quasarConfig.getBuildConfig()
@@ -54,7 +54,7 @@ class CordovaRunner {
         args,
         appPaths.cordovaDir,
         code => {
-          this.__cleanup()
+          this.config.reset()
           resolve(code)
         }
       )

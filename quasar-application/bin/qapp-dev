@@ -105,10 +105,8 @@ async function goLive () {
     let devServer
 
     return Promise.resolve()
-      .then(() => Cordova ? Cordova.stop() : Promise.resolve())
-      .then(() => Electron ? Electron.stop() : Promise.resolve())
-      .then(() => oldDevServer ? oldDevServer.stop() : Promise.resolve())
       .then(() => devServer = new DevServer(quasarConfig))
+      .then(() => oldDevServer ? oldDevServer.stop() : Promise.resolve())
       .then(() => generator.build()) // Update generated files
       .then(() => devServer.listen()) // Start listening
       .then(() => Electron ? Electron.run(quasarConfig) : Promise.resolve())

@@ -3,6 +3,7 @@
     <div class="my-class my-extra-class gigi">The logo</div>
     <img :src="src">
     <div>{{$q.platform.is}}</div>
+    <q-icon name="map" />
     <div v-if="$q.platform.is.cordova">Cordova detected: {{ cordovaDetected }}</div>
     <div>Statics is "{{ statics }}"</div>
     <img src="statics/quasar-logo-full.svg">
@@ -27,6 +28,9 @@ export default {
       statics: __statics,
       src: `statics/quasar-logo-full.svg`
     }
+  },
+  mounted () {
+    console.log('test')
   }
 }
 </script>

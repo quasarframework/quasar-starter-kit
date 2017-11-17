@@ -15,6 +15,10 @@ class ElectronRunner {
   }
 
   run (quasarConfig) {
+    if (this.pid) {
+      return
+    }
+
     const compiler = webpack(quasarConfig.getElectronWebpackConfig())
 
     return new Promise((resolve, reject) => {

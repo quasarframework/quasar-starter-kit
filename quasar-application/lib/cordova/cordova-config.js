@@ -52,7 +52,7 @@ class CordovaConfig {
       description: cfg.cordova.description || this.pkg.description
     })
 
-    if (!root.find(`allow-navigation[@href='${this.APP_URL}']`)) {
+    if (this.APP_URL !== 'index.html' && !root.find(`allow-navigation[@href='${this.APP_URL}']`)) {
       et.SubElement(root, 'allow-navigation', { href: this.APP_URL })
     }
 
