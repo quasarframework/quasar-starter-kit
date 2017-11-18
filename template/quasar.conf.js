@@ -62,7 +62,10 @@ module.exports = function (ctx) {
         'QItemMain',
         'QItemSide',
         'QPageContainer',
-        'QPage'
+        'QPage',
+        'QCarousel',
+        'QCarouselControl',
+        'QCarouselSlide'
       ],
       directives: [],
       plugins: ['Cordova']

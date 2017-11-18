@@ -2,6 +2,24 @@
   <q-page class="text-center">
     <div>Index 2</div>
     <img :src="src">
+    <q-carousel
+        height="500px"
+        :infinite="true"
+        color="white"
+        arrows
+        class="bg-grey-2 shadow-4"
+        style="border-radius: 5px"
+        quick-nav
+      >
+        <q-carousel-slide v-for="n in 7" :key="n" class="flex flex-center">
+          Slide h{{n}}
+          <router-link to="/" replace>Go to index</router-link>
+        </q-carousel-slide>
+
+        <q-carousel-control slot="control-left" slot-scope="carousel" position="top-left" :offset="[18, 18]">
+          <q-btn small round color="tertiary" :icon="carousel.inFullscreen ? 'fullscreen_exit' : 'fullscreen'" @click="carousel.toggleFullscreen()" />
+        </q-carousel-control>
+      </q-carousel>
     <br>
     <router-link to="/">To index 1</router-link>
   </q-page>
