@@ -77,8 +77,13 @@ plugins.push(<%= importName %>)
 plugins.forEach(plugin => plugin({ app, router, store, Vue }))
 <% } %>
 
+<% if (ctx.mode.electron) { %>
+Vue.prototype.$q.electron = require('electron')
+<% } %>
+
 <% if (ctx.mode.cordova) { %>
 document.addEventListener('deviceready', () => {
+Vue.prototype.$q.cordova = window.cordova
 <% } %>
 
 /* eslint-disable no-new */

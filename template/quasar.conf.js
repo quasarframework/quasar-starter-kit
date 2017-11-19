@@ -68,7 +68,7 @@ module.exports = function (ctx) {
         'QCarouselSlide'
       ],
       directives: [],
-      plugins: ['Cordova']
+      plugins: []
     },
     pwa: {
       cacheExt: 'js,html,css,woff,ttf,eot,otf,woff,woff2,json,svg,gif,jpg,jpeg,png,wav,ogg,webm,flac,aac,mp4,mp3',
