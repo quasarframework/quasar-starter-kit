@@ -25,7 +25,6 @@ const argv = parseArgs(process.argv.slice(2), {
     t: 'mat',
     m: 'spa',
     p: process.env.PORT || 8080,
-    H: 'localhost'
   }
 })
 
@@ -66,7 +65,7 @@ async function goLive () {
     Generator = require('../lib/generator'),
     findPort = require('../lib/helpers/net').findClosestOpenPort
 
-  if (argv.mode === 'cordova' && ['localhost', '127.0.0.1', '::1'].includes(argv.hostname.toLowerCase())) {
+  if (argv.mode === 'cordova' && !argv.hostname) {
     const getExternalIP = require('../lib/helpers/get-external-ip')
     argv.hostname = await getExternalIP()
   }
