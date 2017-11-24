@@ -37,13 +37,13 @@ import Quasar<%= QImports || '' %> from 'quasar'
 Vue.config.productionTip = false
 import App from '~/App'
 
-require(`~/themes/app.<%= ctx.themeName %>.styl`)
-
 <%
 extras && extras.filter(asset => asset).forEach(asset => {
 %>
 require('quasar-extras/<%= asset %>')
 <% }) %>
+
+require(`~/themes/app.<%= ctx.themeName %>.styl`)
 
 <% css && css.filter(css => css).forEach(asset => { %>
 require('~/css/<%= asset %>')
