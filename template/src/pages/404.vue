@@ -1,5 +1,6 @@
 <template>
   <div class="text-center">
-    404
+    <div>404</div>
+    <router-link to="/">To index 1</router-link>
   </div>
 </template>
