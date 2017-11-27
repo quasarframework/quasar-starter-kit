@@ -14,8 +14,7 @@ module.exports = function (ctx) {
       ctx.theme.mat ? 'roboto-font' : null,
       'material-icons'
       // 'ionicons',
-      // 'fontawesome',
-      // 'animate'
+      // 'fontawesome'
     ],
     supportIE: false,
     vendor: {
@@ -82,7 +81,9 @@ module.exports = function (ctx) {
         'QSearch',
         'QPopover',
         'QChip',
-        'QRadio'
+        'QRadio',
+        'QAlert',
+        'QTransition'
       ],
       directives: [
         'Ripple'
@@ -93,6 +94,10 @@ module.exports = function (ctx) {
         'Notify'
       ]
     },
+    animations: [
+      'bounceInLeft',
+      'bounceOutRight'
+    ],
     pwa: {
       cacheExt: 'js,html,css,woff,ttf,eot,otf,woff,woff2,json,svg,gif,jpg,jpeg,png,wav,ogg,webm,flac,aac,mp4,mp3',
       manifest: {

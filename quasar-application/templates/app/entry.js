@@ -43,6 +43,12 @@ extras && extras.filter(asset => asset).forEach(asset => {
 require('quasar-extras/<%= asset %>')
 <% }) %>
 
+<%
+animations && animations.filter(asset => asset).forEach(asset => {
+%>
+require('quasar-extras/animate/<%= asset %>.css')
+<% }) %>
+
 require(`~/themes/app.<%= ctx.themeName %>.styl`)
 
 <% css && css.filter(css => css).forEach(asset => { %>
