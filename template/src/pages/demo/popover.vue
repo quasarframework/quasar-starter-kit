@@ -125,7 +125,7 @@
 </template>
 
 <script>
-import { Platform, Toast } from 'quasar'
+import { Platform } from 'quasar'
 
 export default {
   data () {
@@ -145,7 +145,7 @@ export default {
   },
   methods: {
     showToast () {
-      Toast.create((Platform.is.desktop ? 'Clicked' : 'Tapped') + ' on a Popover item')
+      this.$q.notify((Platform.is.desktop ? 'Clicked' : 'Tapped') + ' on a Popover item')
     }
   }
 }

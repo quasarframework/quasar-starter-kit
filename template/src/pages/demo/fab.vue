@@ -96,8 +96,6 @@
 </template>
 
 <script>
-import { Dialog, Toast } from 'quasar'
-
 export default {
   data () {
     return {
@@ -106,15 +104,15 @@ export default {
   },
   methods: {
     alert () {
-      Dialog.create({
+      this.$q.dialog({
         title: 'FAB',
         message: 'Good job! Keep it going.'
       })
     },
     toast (icon) {
-      Toast.create({
+      this.$q.notify({
         icon,
-        html: 'So you want your ' + icon + 's, huh?'
+        message: 'So you want your ' + icon + 's, huh?'
       })
     },
     openFab () {

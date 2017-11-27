@@ -89,7 +89,8 @@ module.exports = function (ctx) {
       ],
       plugins: [
         'ActionSheet',
-        'Dialog'
+        'Dialog',
+        'Notify'
       ]
     },
     pwa: {
