@@ -55,6 +55,7 @@ module.exports = function (ctx) {
         'QToolbar',
         'QBtn',
         'QIcon',
+        'QInput',
         'QToolbarTitle',
         'QList',
         'QListHeader',
@@ -65,10 +66,31 @@ module.exports = function (ctx) {
         'QPage',
         'QCarousel',
         'QCarouselControl',
-        'QCarouselSlide'
+        'QCarouselSlide',
+        'QActionSheet',
+        'QCollapsible',
+        'QCard',
+        'QCardMain',
+        'QCardTitle',
+        'QDialog',
+        'QTooltip',
+        'QFab',
+        'QFabAction',
+        'QToggle',
+        'QModal',
+        'QModalLayout',
+        'QSearch',
+        'QPopover',
+        'QChip',
+        'QRadio'
       ],
-      directives: [],
-      plugins: []
+      directives: [
+        'Ripple'
+      ],
+      plugins: [
+        'ActionSheet',
+        'Dialog'
+      ]
     },
     pwa: {
       cacheExt: 'js,html,css,woff,ttf,eot,otf,woff,woff2,json,svg,gif,jpg,jpeg,png,wav,ogg,webm,flac,aac,mp4,mp3',

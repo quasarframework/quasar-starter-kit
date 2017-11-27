@@ -10,7 +10,7 @@
     "qapp": "node ./node_modules/quasar-application/bin/qapp"
   },
   "dependencies": {
-    "axios": "^0.16.2",
+    "axios": "^0.17.1",
     "quasar-application": "0.x",
     "vue-i18n": "^7.3.2"
   },
@@ -24,11 +24,11 @@
     "electron": "^1.7.9",
     "electron-debug": "^1.4.0",
     "electron-devtools-installer": "^2.2.1",
-    "electron-packager": "^9.1.0",
-    "eslint": "^4.10.0",
+    "electron-packager": "^10.1.0",
+    "eslint": "^4.11.0",
     "eslint-config-standard": "^10.2.1",
     "eslint-loader": "^1.9.0",
-    "eslint-plugin-html": "^3.2.2",
+    "eslint-plugin-html": "^4.0.1",
     "eslint-plugin-import": "^2.8.0",
     "eslint-plugin-node": "^5.2.1",
     "eslint-plugin-promise": "^3.6.0",
