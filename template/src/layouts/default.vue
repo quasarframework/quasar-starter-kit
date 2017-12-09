@@ -64,6 +64,14 @@
           <q-item-side icon="rss feed" />
           <q-item-main label="Twitter" sublabel="@quasarframework" />
         </q-item>
+        <q-list-header>Pages</q-list-header>
+        <q-item v-if="!pages.length">
+          <q-item-main label="No pages yet!" sublabel="Add pages in src/pages directory to see them here!" />
+        </q-item>
+        <q-side-link item v-for="(page, index) in pages" :key="index" :to="`/${page}`">
+          <!-- regex adds spaces before each capitalized letter. "MyRoute" becomes "My Route" -->
+          <q-item-main :label="page.replace( /([a-z][A-Z])/g, '$1 $2')" />
+        </q-side-link>
       </q-list>
     </q-layout-drawer>
 
@@ -75,11 +83,13 @@
 
 <script>
 import { openURL } from 'quasar'
+import { pages } from '../router/routes'
 
 export default {
   name: 'layout-default',
   data () {
     return {
+      pages,
       leftDrawerOpen: false
     }
   },
