@@ -70,7 +70,7 @@
         </q-item>
         <q-side-link item v-for="(page, index) in pages" :key="index" :to="`/${page}`">
           <!-- regex adds spaces before each capitalized letter. "MyRoute" becomes "My Route" -->
-          <q-item-main :label="page.replace( /([a-z][A-Z])/g, '$1 $2')" />
+          <q-item-main :label="page.replace( /([a-z])([A-Z])/g, '$1 $2')" />
         </q-side-link>
       </q-list>
     </q-layout-drawer>
