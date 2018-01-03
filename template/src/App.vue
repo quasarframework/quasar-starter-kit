@@ -10,9 +10,5 @@ export default {
 }
 </script>
 
-<style lang="stylus">
-@import '~variables'
-.gigi
-  // background alpha($primary, .3)
-  background $primary
+<style>
 </style>

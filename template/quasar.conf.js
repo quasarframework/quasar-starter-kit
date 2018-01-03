@@ -3,9 +3,12 @@
 module.exports = function (ctx) {
   return {
     plugins: [
-      // 'axios'// ,
-      // 'i18n',
-      // 'some-package'
+      {{#i18n}}
+      'i18n'{{#axios}},{{/axios}}
+      {{/i18n}}
+      {{#axios}}
+      'axios'
+      {{/axios}}
     ],
     css: [
       'my-style.styl'
@@ -33,12 +36,14 @@ module.exports = function (ctx) {
         // console.log('a')
       },
       extendWebpack (cfg) {
+        {{#lint}}
         cfg.module.rules.push({
           enforce: 'pre',
           test: /\.(js|vue)$/,
           loader: 'eslint-loader',
           exclude: /(node_modules|quasar)/
         })
+        {{/lint}}
       }
     },
     devServer: {

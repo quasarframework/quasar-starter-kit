@@ -1,0 +1,9 @@
+{
+  "name": "quasar-cli-template-app",
+  "version": "1.0.0-beta.1",
+  "license": "MIT",
+  "description": "A full-featured Quasar setup with hot-reload, lint-on-save, css extraction & much more.",
+  "devDependencies": {
+    "vue-cli": "^2.8.1"
+  }
+}
