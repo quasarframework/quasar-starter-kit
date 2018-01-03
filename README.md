@@ -7,6 +7,8 @@
 
 ## Usage
 
+First, make sure you have Node >= 8 and NPM >= 5.
+
 ``` bash
 # install Quasar CLI beta version:
 $ npm install -g quasar-cli@next
