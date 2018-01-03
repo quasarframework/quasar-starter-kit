@@ -21,20 +21,16 @@ module.exports = function (ctx) {
     ],
     supportIE: false,
     vendor: {
-      add: ['404.vue'],
+      add: [],
       remove: []
     },
     build: {
       scopeHoisting: true,
+      vueRouterMode: 'history',
       // gzip: true,
       // analyze: true,
       // extractCSS: false,
       // useNotifier: false,
-      vueRouterMode: 'history',
-      // publicPath: '/test',
-      test () {
-        // console.log('a')
-      },
       extendWebpack (cfg) {
         {{#lint}}
         cfg.module.rules.push({
@@ -126,7 +122,7 @@ module.exports = function (ctx) {
       }
     },
     cordova: {
-      // id: 'org.quasar.cordova.ZappZ'
+      // id: 'org.cordova.quasar.app'
     },
     electron: {
       extendWebpack (cfg) {
