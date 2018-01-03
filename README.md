@@ -6,20 +6,25 @@
 > Starter Kit for a Quasar Project.
 
 ## Usage
-Use Vue CLI to generate a new project using this template:
 
 ``` bash
+# install Quasar CLI beta version:
+$ npm install -g quasar-cli@next
+
 # install Vue CLI if you don't have it already
 $ npm install -g vue-cli
 
 # generate a project folder with this template
-$ vue init quasarframework/app my-project
+$ quasar init my-project
 
 $ cd my-project
 $ npm install
 
 # start developing your app
-$ npm run dev
+$ quasar dev
+
+# Check CLI commands available:
+$ quasar
 ```
 
 # Quasar Framework
@@ -74,6 +79,6 @@ Check its repo here: [Quasar Play](https://github.com/quasarframework/quasar-pla
 
 ## License
 
-Copyright (c) 2016-2017 Razvan Stoenescu
+Copyright (c) 2016-present Razvan Stoenescu
 
 [MIT License](http://en.wikipedia.org/wiki/MIT_License)
