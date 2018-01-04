@@ -31,7 +31,13 @@ module.exports = {
     name: {
       type: 'string',
       required: true,
-      message: 'Project name',
+      message: 'Project name (internal usage for dev)',
+    },
+    productName: {
+      type: 'string',
+      required: true,
+      message: 'Project product name (official name)',
+      default: 'Quasar App'
     },
     description: {
       type: 'string',
@@ -42,12 +48,6 @@ module.exports = {
     author: {
       type: 'string',
       message: 'Author',
-    },
-    productName: {
-      type: 'string',
-      required: true,
-      message: 'Project product name (used if building mobile or Electron apps)',
-      default: 'Quasar App'
     },
     cordovaId: {
       type: 'string',
