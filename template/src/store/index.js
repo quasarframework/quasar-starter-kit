@@ -5,10 +5,22 @@ import example from './modules/example'
 
 Vue.use(Vuex)
 
-export function createStore () {
-  return new Vuex.Store({
-    modules: {
-      example
-    }
+const store = new Vuex.Store({
+  modules: {
+    example
+  }
+})
+
+if (process.env.DEVELOPMENT && module.hot) {
+  module.hot.accept(['./modules/showcase'], () => {
+    const newShowcase = require('./modules/showcase').default
+
+    store.hotUpdate({
+      modules: {
+        newShowcase
+      }
+    })
   })
 }
+
+export default store

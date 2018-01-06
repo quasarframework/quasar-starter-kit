@@ -1,1 +1,5 @@
-export default {}
+/*
+export const count = state => {
+  //
+}
+*/
