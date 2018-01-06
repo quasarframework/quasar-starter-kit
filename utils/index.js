@@ -30,7 +30,7 @@ exports.installDependencies = function installDependencies(
   color
 ) {
   console.log(`\n\n# ${color('Installing project dependencies ...')}`)
-  console.log('# ========================\n')
+  console.log('# ===================================\n')
   return runCommand('npm', ['install'], {
     cwd,
   })
@@ -43,7 +43,7 @@ exports.installDependencies = function installDependencies(
 exports.printMessage = function printMessage(data, { green, yellow }) {
   const message = `
 # ${green('Quasar Project initialization finished!')}
-# ========================
+# =======================================
 
 To get started:
 
