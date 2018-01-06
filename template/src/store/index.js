@@ -12,12 +12,12 @@ const store = new Vuex.Store({
 })
 
 if (process.env.DEV && module.hot) {
-  module.hot.accept(['./modules/showcase'], () => {
-    const newShowcase = require('./modules/showcase').default
+  module.hot.accept(['./modules/example'], () => {
+    const newModule = require('./modules/example').default
 
     store.hotUpdate({
       modules: {
-        showcase: newShowcase
+        showcase: newModule
       }
     })
   })

@@ -1,5 +1,4 @@
 /*
-export const updateSomething = () => {
-  //
+export const someAction = (state) => {
 }
 */

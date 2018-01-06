@@ -18,18 +18,7 @@
     "quasar-cli": "^0.15.0-beta.3"{{#axios}},
     "axios": "^0.17.1"{{/axios}}{{#i18n}},
     "vue-i18n": "^7.3.3"{{/i18n}}
-  }{{#lint}},
-  "devDependencies": {
-    "eslint": "^4.11.0",
-    "eslint-config-standard": "^10.2.1",
-    "eslint-loader": "^1.9.0",
-    "eslint-plugin-html": "^4.0.1",
-    "eslint-plugin-import": "^2.8.0",
-    "eslint-plugin-node": "^5.2.1",
-    "eslint-plugin-promise": "^3.6.0",
-    "eslint-plugin-standard": "^3.0.1"
-  }
-  {{/lint}},
+  },
   "engines": {
     "node": ">= 8.0.0",
     "npm": ">= 5.0.0"

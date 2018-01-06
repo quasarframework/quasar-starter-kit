@@ -10,14 +10,16 @@ const lintStyles = ['standard', 'airbnb']
  * @param {object} data Data from questionnaire
  */
 exports.sortDependencies = function sortDependencies(data) {
-  const packageJsonFile = path.join(
+  const pkgFile = path.join(
     data.inPlace ? '' : data.destDirName,
     'package.json'
   )
-  const packageJson = JSON.parse(fs.readFileSync(packageJsonFile))
-  packageJson.devDependencies = sortObject(packageJson.devDependencies)
-  packageJson.dependencies = sortObject(packageJson.dependencies)
-  fs.writeFileSync(packageJsonFile, JSON.stringify(packageJson, null, 2) + '\n')
+  const pkg = JSON.parse(fs.readFileSync(pkgFile))
+  pkg.dependencies = sortObject(pkg.dependencies)
+  if (pkg.devDependencies) {
+    pkg.devDependencies = sortObject(pkg.devDependencies)
+  }
+  fs.writeFileSync(pkgFile, JSON.stringify(pkg, null, 2) + '\n')
 }
 
 /**
