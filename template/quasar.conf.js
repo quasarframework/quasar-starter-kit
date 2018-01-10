@@ -83,8 +83,7 @@ module.exports = function (ctx) {
         'QPopover',
         'QChip',
         'QRadio',
-        'QAlert',
-        'QTransition'
+        'QAlert'
       ],
       directives: [
         'Ripple'
