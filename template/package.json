@@ -15,12 +15,12 @@
     "not ie <= 10"
   ],
   "dependencies": {
-    "quasar-cli": "^0.15.0-beta.17"{{#axios}},
+    "quasar-cli": "^0.15.0-beta.18"{{#axios}},
     "axios": "^0.17.1"{{/axios}}{{#i18n}},
     "vue-i18n": "^7.3.3"{{/i18n}}
   },
   "engines": {
-    "node": ">= 8.0.0",
-    "npm": ">= 5.0.0"
+    "node": ">= 8.9.0",
+    "npm": ">= 5.6.0"
   }
 }
