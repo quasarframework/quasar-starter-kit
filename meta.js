@@ -49,6 +49,10 @@ module.exports = {
       type: 'string',
       message: 'Author',
     },
+    lint: {
+      type: 'confirm',
+      message: 'Use ESLint to lint your code?',
+    },
     cordovaId: {
       type: 'string',
       required: false,
@@ -67,14 +71,27 @@ module.exports = {
       type: 'confirm',
       message: 'Use Axios for Ajax calls?'
     },
-    lint: {
-      type: 'confirm',
-      message: 'Use ESLint to lint your code?',
-    },
     autoInstall: {
-      type: 'confirm',
+      type: 'list',
       message:
-        'Should we run `npm install` for you after the project has been created? (recommended)'
+        'Should we run `npm install` for you after the project has been created? (recommended)',
+      choices: [
+        {
+          name: 'Yes, use NPM',
+          value: 'npm',
+          short: 'npm',
+        },
+        {
+          name: 'Yes, use Yarn',
+          value: 'yarn',
+          short: 'yarn',
+        },
+        {
+          name: 'No, I will handle that myself',
+          value: false,
+          short: 'no',
+        },
+      ]
     },
   },
   filters: {
@@ -93,7 +110,7 @@ module.exports = {
     const cwd = path.join(process.cwd(), data.inPlace ? '' : data.destDirName)
 
     if (data.autoInstall) {
-      installDependencies(cwd, green)
+      installDependencies(cwd, data.autoInstall, green)
         .then(() => {
           printMessage(data, green)
         })

@@ -1,8 +1,7 @@
-const path = require('path')
-const fs = require('fs')
-const spawn = require('child_process').spawn
-
-const lintStyles = ['standard', 'airbnb']
+const
+  path = require('path'),
+  fs = require('fs'),
+  spawn = require('child_process').spawn
 
 /**
  * Sorts dependencies in package.json alphabetically.
@@ -27,15 +26,10 @@ exports.sortDependencies = function sortDependencies(data) {
  * @param {string} cwd Path of the created project directory
  * @param {object} data Data from questionnaire
  */
-exports.installDependencies = function installDependencies(
-  cwd,
-  color
-) {
+exports.installDependencies = function installDependencies(cwd, executable = 'npm', color) {
   console.log(`\n\n# ${color('Installing project dependencies ...')}`)
   console.log('# ===================================\n')
-  return runCommand('npm', ['install'], {
-    cwd,
-  })
+  return runCommand(executable, ['install'], { cwd })
 }
 
 /**
@@ -52,7 +46,7 @@ To get started:
   ${yellow(
     `${data.inPlace ? '' : `cd ${data.destDirName}\n  `}${installMsg(
       data
-    )}${lintMsg(data)}quasar dev`
+    )}quasar dev`
   )}
 
 Documentation can be found at: http://quasar-framework.org
@@ -68,19 +62,6 @@ https://github.com/quasarframework/quasar
 Enjoy! - Quasar Team
 `
   console.log(message)
-}
-
-/**
- * If the user will have to run lint --fix themselves, it returns a string
- * containing the instruction for this step.
- * @param {Object} data Data from questionnaire.
- */
-function lintMsg(data) {
-  return !data.autoInstall &&
-    data.lint &&
-    lintStyles.indexOf(data.lintConfig) !== -1
-    ? 'npm run lint -- --fix (or for yarn: yarn run lint --fix)\n  '
-    : ''
 }
 
 /**
