@@ -28,7 +28,7 @@ module.exports = {
     'one-var': 0,
     // allow async-await
     'generator-star-spacing': 0,
-    'brace-style': [2, 'stroustrup', { 'allowSingleLine': true }],
+    // 'brace-style': [2, 'stroustrup', { 'allowSingleLine': true }],
 
     'import/first': 0,
     'import/named': 2,

@@ -11,12 +11,13 @@ module.exports = function (ctx) {
       {{/axios}}
     ],
     css: [
-      'my-style.styl'
+      'app.styl'
     ],
     extras: [
       ctx.theme.mat ? 'roboto-font' : null,
       'material-icons'
       // 'ionicons',
+      // 'mdi',
       // 'fontawesome'
     ],
     supportIE: false,
@@ -44,56 +45,35 @@ module.exports = function (ctx) {
     },
     devServer: {
       // https: true,
+      // port: 8080,
       open: false
     },
+    // framework: 'all' --- includes everything; for dev only!
     framework: {
       components: [
-        'QApp',
         'QLayout',
         'QLayoutHeader',
         'QLayoutDrawer',
+        'QPageContainer',
+        'QPage',
         'QToolbar',
+        'QToolbarTitle',
         'QBtn',
         'QIcon',
-        'QInput',
-        'QToolbarTitle',
         'QList',
         'QListHeader',
         'QItem',
         'QItemMain',
-        'QItemSide',
-        'QPageContainer',
-        'QPage',
-        'QCarousel',
-        'QCarouselControl',
-        'QCarouselSlide',
-        'QActionSheet',
-        'QCollapsible',
-        'QCard',
-        'QCardMain',
-        'QCardTitle',
-        'QDialog',
-        'QTooltip',
-        'QFab',
-        'QFabAction',
-        'QToggle',
-        'QModal',
-        'QModalLayout',
-        'QSearch',
-        'QPopover',
-        'QChip',
-        'QRadio',
-        'QAlert'
+        'QItemSide'
       ],
       directives: [
         'Ripple'
       ],
       plugins: [
-        'ActionSheet',
-        'Dialog',
         'Notify'
       ]
     },
+    // animations: 'all' --- includes all animations
     animations: [
       'bounceInLeft',
       'bounceOutRight'

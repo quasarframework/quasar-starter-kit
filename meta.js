@@ -53,6 +53,31 @@ module.exports = {
       type: 'confirm',
       message: 'Use ESLint to lint your code?',
     },
+    /* -- enable when stable
+    vueESLint: {
+      when: 'lint',
+      type: 'list',
+      message:
+        'Select eslint-plugin-vue rules set; https://github.com/vuejs/eslint-plugin-vue#priority-a-essential-error-prevention',
+      choices: [
+        {
+          name: '[  Strict   ] Strongly Recommended (Improving Readability)',
+          value: 'strongly-recommended',
+          short: 'Strict'
+        },
+        {
+          name: '[  Minimal  ] Essential (Just Error Prevention)',
+          value: 'essential',
+          short: 'Essential',
+        },
+        {
+          name: '[Very strict] Recommended (Minimizing Arbitrary Choices and Cognitive Overhead)',
+          value: 'recommended',
+          short: 'Recommended',
+        },
+      ]
+    },
+    */
     cordovaId: {
       type: 'string',
       required: false,
@@ -63,13 +88,14 @@ module.exports = {
       type: 'confirm',
       message: 'Use Vuex? (recommended for complex apps/websites)',
     },
-    i18n: {
-      type: 'confirm',
-      message: 'Use Vue-i18n? (recommended if you support multiple languages)'
-    },
     axios: {
       type: 'confirm',
       message: 'Use Axios for Ajax calls?'
+    },
+    i18n: {
+      type: 'confirm',
+      message: 'Use Vue-i18n? (recommended if you support multiple languages)',
+      default: false
     },
     autoInstall: {
       type: 'list',
@@ -79,7 +105,7 @@ module.exports = {
         {
           name: 'Yes, use NPM',
           value: 'npm',
-          short: 'npm',
+          short: 'NPM',
         },
         {
           name: 'Yes, use Yarn',
@@ -90,13 +116,14 @@ module.exports = {
           name: 'No, I will handle that myself',
           value: false,
           short: 'no',
-        },
+        }
       ]
-    },
+    }
   },
   filters: {
     '.eslintrc.js': 'lint',
     '.eslintignore': 'lint',
+    '.stylintrc': 'lint',
     'src/store/**/*': 'vuex',
     'src/i18n/**/*': 'i18n',
     'src/plugins/i18n.js': 'i18n',
@@ -121,5 +148,5 @@ module.exports = {
     else {
       printMessage(data, chalk)
     }
-  },
+  }
 }
