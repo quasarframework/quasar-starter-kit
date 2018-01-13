@@ -1,7 +1,7 @@
 import Vue from 'vue'
 import Vuex from 'vuex'
 
-import example from './modules/example'
+import example from './module-example'
 
 Vue.use(Vuex)
 
@@ -12,12 +12,11 @@ const store = new Vuex.Store({
 })
 
 if (process.env.DEV && module.hot) {
-  module.hot.accept(['./modules/example'], () => {
-    const newModule = require('./modules/example').default
-
+  module.hot.accept(['./module-example'], () => {
+    const newModule = require('./module-example').default
     store.hotUpdate({
       modules: {
-        showcase: newModule
+        example: newModule
       }
     })
   })
