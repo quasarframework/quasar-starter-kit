@@ -18,9 +18,6 @@
 
     <q-layout-drawer v-model="leftDrawerOpen" content-class="bg-grey-2">
       <q-list no-border link inset-delimiter>
-        <q-item to="/bogus">
-          <q-item-main label="Bogus page" />
-        </q-item>
         <q-list-header>Essential Links</q-list-header>
         <q-item @click.native="openURL('http://quasar-framework.org')">
           <q-item-side icon="school" />
