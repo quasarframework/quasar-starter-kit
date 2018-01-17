@@ -26,9 +26,9 @@
           <q-item-side icon="school" />
           <q-item-main label="Docs" sublabel="quasar-framework.org" />
         </q-item>
-        <q-item @click.native="openURL('https://nuxtjs.org/')">
-          <q-item-side icon="school" />
-          <q-item-main label="Nuxt.js Docs" sublabel="nuxtjs.org" />
+        <q-item @click.native="openURL('https://github.com/quasarframework/')">
+          <q-item-side icon="code" />
+          <q-item-main label="GitHub" sublabel="github.com/quasarframework" />
         </q-item>
         <q-item @click.native="openURL('http://forum.quasar-framework.org')">
           <q-item-side icon="record_voice_over" />
