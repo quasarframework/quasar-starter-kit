@@ -20,7 +20,7 @@ module.exports = function (ctx) {
       // 'mdi',
       // 'fontawesome'
     ],
-    supportIE: false,
+    supportIE: {{#ie}}true{{/ie}}{{#unless_eq ie true}}false{{/unless_eq}},
     vendor: {
       add: [],
       remove: []
@@ -117,6 +117,9 @@ module.exports = function (ctx) {
         // Window only
         // win32metadata: { ... }
       }
-    }
+    },
+
+    // leave this here for Quasar CLI
+    starterKit: '{{template_version}}'
   }
 }

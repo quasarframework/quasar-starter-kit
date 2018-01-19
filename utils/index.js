@@ -3,6 +3,8 @@ const
   fs = require('fs'),
   spawn = require('child_process').spawn
 
+const lintStyles = ['standard', 'airbnb']
+
 /**
  * Sorts dependencies in package.json alphabetically.
  * They are unsorted because they were grouped for the handlebars helpers
@@ -13,12 +15,21 @@ exports.sortDependencies = function sortDependencies(data) {
     data.inPlace ? '' : data.destDirName,
     'package.json'
   )
+  let sorted = false
   const pkg = JSON.parse(fs.readFileSync(pkgFile))
-  pkg.dependencies = sortObject(pkg.dependencies)
+
+  if (pkg.dependencies) {
+    sorted = true
+    pkg.dependencies = sortObject(pkg.dependencies)
+  }
   if (pkg.devDependencies) {
+    sorted = true
     pkg.devDependencies = sortObject(pkg.devDependencies)
   }
-  fs.writeFileSync(pkgFile, JSON.stringify(pkg, null, 2) + '\n')
+
+  if (sorted) {
+    fs.writeFileSync(pkgFile, JSON.stringify(pkg, null, 2) + '\n')
+  }
 }
 
 /**
@@ -27,9 +38,44 @@ exports.sortDependencies = function sortDependencies(data) {
  * @param {object} data Data from questionnaire
  */
 exports.installDependencies = function installDependencies(cwd, executable = 'npm', color) {
-  console.log(`\n\n# ${color('Installing project dependencies ...')}`)
-  console.log('# ===================================\n')
+  console.log(`\n\n ${color('[*] Installing project dependencies ...')}\n`)
   return runCommand(executable, ['install'], { cwd })
+}
+
+/**
+ * Runs `npm run lint -- --fix` in the project directory
+ * @param {string} cwd Path of the created project directory
+ * @param {object} data Data from questionnaire
+ */
+exports.runLintFix = function runLintFix(cwd, data, color) {
+  if (data.lint && lintStyles.indexOf(data.lintConfig) !== -1) {
+    console.log(
+      `\n\n ${color(
+        '[*] Running eslint --fix to comply with chosen preset rules...'
+      )}\n\n`
+    )
+    const args =
+      data.autoInstall === 'npm'
+        ? ['run', 'lint', '--', '--fix']
+        : ['run', 'lint', '--fix']
+    return runCommand(data.autoInstall, args, {
+      cwd,
+    })
+  }
+  return Promise.resolve()
+}
+
+/**
+ * If the user will have to run lint --fix themselves, it returns a string
+ * containing the instruction for this step.
+ * @param {Object} data Data from questionnaire.
+ */
+function lintMsg(data) {
+  return !data.autoInstall &&
+    data.lint &&
+    lintStyles.indexOf(data.lintConfig) !== -1
+    ? 'npm run lint -- --fix (or for yarn: yarn run lint --fix)\n  '
+    : ''
 }
 
 /**
@@ -38,15 +84,14 @@ exports.installDependencies = function installDependencies(cwd, executable = 'np
  */
 exports.printMessage = function printMessage(data, { green, yellow }) {
   const message = `
-# ${green('Quasar Project initialization finished!')}
-# =======================================
+ ${green('[*] Quasar Project initialization finished!')}
 
 To get started:
 
   ${yellow(
     `${data.inPlace ? '' : `cd ${data.destDirName}\n  `}${installMsg(
       data
-    )}quasar dev`
+    )}${lintMsg(data)}quasar dev`
   )}
 
 Documentation can be found at: http://quasar-framework.org

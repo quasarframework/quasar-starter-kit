@@ -11,11 +11,4 @@ const store = new Vuex.Store({
   }
 })
 
-if (process.env.DEV && module.hot) {
-  module.hot.accept(['./module-example'], () => {
-    const newModule = require('./module-example').default
-    store.hotUpdate({ modules: { example: newModule } })
-  })
-}
-
 export default store

@@ -11,7 +11,7 @@
 
         <q-toolbar-title>
           Quasar App
-          <div slot="subtitle">Running on Quasar v\{{$q.version}}</div>
+          <div slot="subtitle">Running on Quasar v\{{ $q.version }}</div>
         </q-toolbar-title>
       </q-toolbar>
     </q-layout-header>
@@ -52,7 +52,7 @@
 import { openURL } from 'quasar'
 
 export default {
-  name: 'layout-default',
+  name: 'LayoutDefault',
   data () {
     return {
       leftDrawerOpen: false

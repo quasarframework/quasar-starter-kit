@@ -11,19 +11,10 @@ const {
 
 const pkg = require('./package.json')
 
-const templateVersion = pkg.version
-
 module.exports = {
   helpers: {
-    if_or(v1, v2, options) {
-      if (v1 || v2) {
-        return options.fn(this)
-      }
-
-      return options.inverse(this)
-    },
     template_version() {
-      return templateVersion
+      return pkg.version
     }
   },
 
@@ -53,31 +44,28 @@ module.exports = {
       type: 'confirm',
       message: 'Use ESLint to lint your code?',
     },
-    /* -- enable when stable
-    vueESLint: {
+    lintConfig: {
       when: 'lint',
       type: 'list',
-      message:
-        'Select eslint-plugin-vue rules set; https://github.com/vuejs/eslint-plugin-vue#priority-a-essential-error-prevention',
+      message: 'Pick an ESLint preset',
       choices: [
         {
-          name: '[  Strict   ] Strongly Recommended (Improving Readability)',
-          value: 'strongly-recommended',
-          short: 'Strict'
+          name: 'Standard (https://github.com/standard/standard)',
+          value: 'standard',
+          short: 'Standard',
         },
         {
-          name: '[  Minimal  ] Essential (Just Error Prevention)',
-          value: 'essential',
-          short: 'Essential',
+          name: 'Airbnb (https://github.com/airbnb/javascript)',
+          value: 'airbnb',
+          short: 'Airbnb',
         },
         {
-          name: '[Very strict] Recommended (Minimizing Arbitrary Choices and Cognitive Overhead)',
-          value: 'recommended',
-          short: 'Recommended',
+          name: 'none (configure it yourself)',
+          value: 'none',
+          short: 'none',
         },
-      ]
+      ],
     },
-    */
     cordovaId: {
       type: 'string',
       required: false,
@@ -95,6 +83,11 @@ module.exports = {
     i18n: {
       type: 'confirm',
       message: 'Use Vue-i18n? (recommended if you support multiple languages)',
+      default: false
+    },
+    ie: {
+      type: 'confirm',
+      message: 'Support IE11?',
       default: false
     },
     autoInstall: {
@@ -138,6 +131,9 @@ module.exports = {
 
     if (data.autoInstall) {
       installDependencies(cwd, data.autoInstall, green)
+        .then(() => {
+          return runLintFix(cwd, data, green)
+        })
         .then(() => {
           printMessage(data, green)
         })
