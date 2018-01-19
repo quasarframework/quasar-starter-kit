@@ -3,7 +3,9 @@
     <q-layout-header>
       <q-toolbar color="primary" glossy>
         <q-btn
-          flat dense round
+          flat
+          dense
+          round
           @click="leftDrawerOpen = !leftDrawerOpen"
         >
           <q-icon name="menu" />
@@ -16,8 +18,15 @@
       </q-toolbar>
     </q-layout-header>
 
-    <q-layout-drawer v-model="leftDrawerOpen" content-class="bg-grey-2">
-      <q-list no-border link inset-delimiter>
+    <q-layout-drawer
+      v-model="leftDrawerOpen"
+      content-class="bg-grey-2"
+    >
+      <q-list
+        no-border
+        link
+        inset-delimiter
+      >
         <q-list-header>Essential Links</q-list-header>
         <q-item @click.native="openURL('http://quasar-framework.org')">
           <q-item-side icon="school" />
