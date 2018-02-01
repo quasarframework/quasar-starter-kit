@@ -7,7 +7,7 @@ Vue.use(VueRouter)
 
 const Router = new VueRouter({
   /*
-   * NOTE! Change Vue Router mode from quasar.conf.js -> build.env.VUE_ROUTER_MODE
+   * NOTE! Change Vue Router mode from quasar.conf.js -> build -> vueRouterMode
    *
    * If you decide to go with "history" mode, please also set "build.publicPath"
    * to something other than an empty string.
