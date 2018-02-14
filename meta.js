@@ -63,8 +63,8 @@ module.exports = {
           name: 'none (configure it yourself)',
           value: 'none',
           short: 'none',
-        },
-      ],
+        }
+      ]
     },
     cordovaId: {
       type: 'string',
