@@ -1,4 +1,4 @@
 /*
-export const someMutation = (state) => {
+export const someMutation = (state, payload) => {
 }
 */
