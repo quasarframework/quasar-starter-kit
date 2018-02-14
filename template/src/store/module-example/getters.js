@@ -1,4 +1,4 @@
 /*
-export const someGetter = (state) => {
+export const someGetter = (state, getters) => {
 }
 */
