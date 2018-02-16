@@ -79,7 +79,7 @@ module.exports = function (ctx) {
       'bounceOutRight'
     ],
     pwa: {
-      cacheExt: 'js,html,css,woff,ttf,eot,otf,woff,woff2,json,svg,gif,jpg,jpeg,png,wav,ogg,webm,flac,aac,mp4,mp3',
+      cacheExt: 'js,html,css,ttf,eot,otf,woff,woff2,json,svg,gif,jpg,jpeg,png,wav,ogg,webm,flac,aac,mp4,mp3',
       manifest: {
         // name: 'Quasar App',
         // short_name: 'Quasar-PWA',
