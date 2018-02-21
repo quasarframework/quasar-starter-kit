@@ -1,4 +1,3 @@
-**Work in progress - for Quasar v0.15+**
 
 ![Quasar Framework logo](https://cdn.rawgit.com/quasarframework/quasar-art/863c14bd/dist/svg/quasar-logo-full-inline.svg)
 
@@ -11,7 +10,7 @@ First, make sure you have Node >= 8 and NPM >= 5.
 
 ``` bash
 # install Quasar CLI beta version:
-$ npm install -g quasar-cli@next
+$ npm install -g quasar-cli
 
 # install Vue CLI if you don't have it already
 $ npm install -g vue-cli
