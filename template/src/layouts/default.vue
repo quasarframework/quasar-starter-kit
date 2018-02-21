@@ -36,13 +36,13 @@
           <q-item-side icon="code" />
           <q-item-main label="GitHub" sublabel="github.com/quasarframework" />
         </q-item>
+        <q-item @click.native="openURL('https://discord.gg/5TDhbDg')">
+          <q-item-side icon="chat" />
+          <q-item-main label="Discord Chat Channel" sublabel="https://discord.gg/5TDhbDg" />
+        </q-item>
         <q-item @click.native="openURL('http://forum.quasar-framework.org')">
           <q-item-side icon="record_voice_over" />
           <q-item-main label="Forum" sublabel="forum.quasar-framework.org" />
-        </q-item>
-        <q-item @click.native="openURL('https://gitter.im/quasarframework/Lobby')">
-          <q-item-side icon="chat" />
-          <q-item-main label="Gitter Channel" sublabel="Quasar Lobby" />
         </q-item>
         <q-item @click.native="openURL('https://twitter.com/quasarframework')">
           <q-item-side icon="rss feed" />
