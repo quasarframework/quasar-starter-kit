@@ -21,15 +21,4 @@ const Router = new VueRouter({
   routes
 })
 
-/*
-// Inform Google Analytics
-Router.beforeEach((to, from, next) => {
-  if (typeof ga !== 'undefined') {
-    ga('set', 'page', to.path)
-    ga('send', 'pageview')
-  }
-  next()
-})
-*/
-
 export default Router
