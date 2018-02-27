@@ -64,7 +64,7 @@ export default {
   name: 'LayoutDefault',
   data () {
     return {
-      leftDrawerOpen: false
+      leftDrawerOpen: this.$q.platform.desktop
     }
   },
   methods: {
