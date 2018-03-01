@@ -33,7 +33,7 @@
     "eslint-plugin-import": "2.7.0",
     {{/if_eq}}
     {{/lint}}
-    "quasar-cli": "^0.15.4"
+    "quasar-cli": "^0.15.5"
   },
   "engines": {
     "node": ">= 8.9.0",
