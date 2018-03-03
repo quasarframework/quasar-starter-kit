@@ -2,6 +2,7 @@
 
 module.exports = function (ctx) {
   return {
+    // app plugins (/src/plugins)
     plugins: [
       {{#i18n}}
       'i18n'{{#axios}},{{/axios}}
@@ -69,6 +70,7 @@ module.exports = function (ctx) {
       directives: [
         'Ripple'
       ],
+      // Quasar plugins
       plugins: [
         'Notify'
       ]
