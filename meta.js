@@ -101,7 +101,7 @@ module.exports = {
           short: 'NPM',
         },
         {
-          name: 'Yes, use Yarn',
+          name: 'Yes, use Yarn (recommended)',
           value: 'yarn',
           short: 'yarn',
         },

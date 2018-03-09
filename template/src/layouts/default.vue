@@ -7,6 +7,7 @@
           dense
           round
           @click="leftDrawerOpen = !leftDrawerOpen"
+          aria-label="Menu"
         >
           <q-icon name="menu" />
         </q-btn>
