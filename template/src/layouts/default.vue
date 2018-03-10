@@ -1,7 +1,11 @@
 <template>
   <q-layout view="lHh Lpr lFf">
     <q-layout-header>
-      <q-toolbar color="primary" glossy>
+      <q-toolbar
+        color="primary"
+        :glossy="$q.theme === 'mat'"
+        :inverted="$q.theme === 'ios'"
+      >
         <q-btn
           flat
           dense
@@ -21,7 +25,7 @@
 
     <q-layout-drawer
       v-model="leftDrawerOpen"
-      content-class="bg-grey-2"
+      :content-class="$q.theme === 'mat' ? 'bg-grey-2' : null"
     >
       <q-list
         no-border
