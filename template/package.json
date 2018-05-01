@@ -8,7 +8,7 @@
   "private": true,
   "scripts": {
     {{#lint}}"lint": "eslint --ext .js,.vue src",{{/lint}}
-    "test": "echo \"No test specified\" && exit 0"
+    {{#test}}"test": "mocha-webpack quasar.config.js test/*"{{/test}}
   },
   "dependencies": {
     {{#axios}}"axios": "^0.18.0"{{/axios}}{{#i18n}}{{#axios}},{{/axios}}
@@ -33,7 +33,15 @@
     "eslint-plugin-import": "^2.9.0",
     {{/if_eq}}
     {{/lint}}
-    "quasar-cli": "^0.15.14"
+    "quasar-cli": "^0.15.14",
+    {{#test}}
+    "@vue/test-utils": "^1.0.0-beta.15",
+    "jsdom": "^11.9.0",
+    "jsdom-global": "^3.0.2",
+    "mocha": "^5.1.1",
+    "mocha-webpack": "^1.1.0",
+    "chai": "^4.1.2"
+   {{/test}}
   },
   "engines": {
     "node": ">= 8.9.0",
