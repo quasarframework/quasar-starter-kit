@@ -1,6 +1,6 @@
 {
   "name": "quasar-starter-kit",
-  "version": "1.0.2",
+  "version": "1.0.3",
   "license": "MIT",
   "description": "A full-featured Quasar setup with hot-reload, lint-on-save, css extraction & much more.",
   "devDependencies": {
