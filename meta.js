@@ -80,6 +80,10 @@ module.exports = {
       type: 'confirm',
       message: 'Use Axios for Ajax calls?'
     },
+    test : {
+      type: 'confirm',
+      message: 'Use Unit Testing for your code ?'
+    },
     i18n: {
       type: 'confirm',
       message: 'Use Vue-i18n? (recommended if you support multiple languages)',
