@@ -40,7 +40,7 @@
     "jsdom-global": "^3.0.2",
     "mocha": "^5.1.1",
     "mocha-webpack": "^1.1.0",
-    "chai": "^4.1.2",
+    "chai": "^4.1.2"
    {{/test}}
   },
   "engines": {
