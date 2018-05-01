@@ -4,12 +4,12 @@ module.exports = function (ctx) {
   return {
     // app plugins (/src/plugins)
     plugins: [
-      {{#i18n}}
-      'i18n'{{#axios}},{{/axios}}
-      {{/i18n}}
-      {{#axios}}
+      {{#preset.i18n}}
+      'i18n'{{#preset.axios}},{{/preset.axios}}
+      {{/preset.i18n}}
+      {{#preset.axios}}
       'axios'
-      {{/axios}}
+      {{/preset.axios}}
     ],
     css: [
       'app.styl'
@@ -21,7 +21,7 @@ module.exports = function (ctx) {
       // 'mdi',
       // 'fontawesome'
     ],
-    supportIE: {{#ie}}true{{/ie}}{{#unless_eq ie true}}false{{/unless_eq}},
+    supportIE: {{#preset.ie}}true{{/preset.ie}}{{#unless_eq preset.ie true}}false{{/unless_eq}},
     vendor: {
       add: [],
       remove: []
@@ -34,14 +34,14 @@ module.exports = function (ctx) {
       // extractCSS: false,
       // useNotifier: false,
       extendWebpack (cfg) {
-        {{#lint}}
+        {{#preset.lint}}
         cfg.module.rules.push({
           enforce: 'pre',
           test: /\.(js|vue)$/,
           loader: 'eslint-loader',
           exclude: /(node_modules|quasar)/
         })
-        {{/lint}}
+        {{/preset.lint}}
       }
     },
     devServer: {

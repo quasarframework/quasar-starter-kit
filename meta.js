@@ -40,12 +40,35 @@ module.exports = {
       type: 'string',
       message: 'Author',
     },
-    lint: {
-      type: 'confirm',
-      message: 'Use ESLint to lint your code?',
+    preset: {
+      type: 'checkbox',
+      message: 'Check the features needed for your project:',
+      choices: [
+        {
+          name: 'ESLint',
+          value: 'lint',
+          checked: true
+        },
+        {
+          name: 'Vuex',
+          value: 'vuex'
+        },
+        {
+          name: 'Axios',
+          value: 'axios'
+        },
+        {
+          name: 'Vue-i18n',
+          value: 'i18n'
+        },
+        {
+          name: 'IE11 support',
+          value: 'ie'
+        }
+      ]
     },
     lintConfig: {
-      when: 'lint',
+      when: 'preset.lint',
       type: 'list',
       message: 'Pick an ESLint preset',
       choices: [
@@ -72,38 +95,20 @@ module.exports = {
       message: 'Cordova id (disregard if not building mobile apps)',
       default: 'org.cordova.quasar.app'
     },
-    vuex: {
-      type: 'confirm',
-      message: 'Use Vuex? (recommended for complex apps/websites)',
-    },
-    axios: {
-      type: 'confirm',
-      message: 'Use Axios for Ajax calls?'
-    },
-    i18n: {
-      type: 'confirm',
-      message: 'Use Vue-i18n? (recommended if you support multiple languages)',
-      default: false
-    },
-    ie: {
-      type: 'confirm',
-      message: 'Support IE11?',
-      default: false
-    },
     autoInstall: {
       type: 'list',
       message:
         'Should we run `npm install` for you after the project has been created? (recommended)',
       choices: [
         {
-          name: 'Yes, use NPM',
-          value: 'npm',
-          short: 'NPM',
-        },
-        {
           name: 'Yes, use Yarn (recommended)',
           value: 'yarn',
           short: 'yarn',
+        },
+        {
+          name: 'Yes, use NPM',
+          value: 'npm',
+          short: 'NPM',
         },
         {
           name: 'No, I will handle that myself',
@@ -114,13 +119,13 @@ module.exports = {
     }
   },
   filters: {
-    '.eslintrc.js': 'lint',
-    '.eslintignore': 'lint',
-    '.stylintrc': 'lint',
-    'src/store/**/*': 'vuex',
-    'src/i18n/**/*': 'i18n',
-    'src/plugins/i18n.js': 'i18n',
-    'src/plugins/axios.js': 'axios'
+    '.eslintrc.js': 'preset.lint',
+    '.eslintignore': 'preset.lint',
+    '.stylintrc': 'preset.lint',
+    'src/store/**/*': 'preset.vuex',
+    'src/i18n/**/*': 'preset.i18n',
+    'src/plugins/i18n.js': 'preset.i18n',
+    'src/plugins/axios.js': 'preset.axios'
   },
   complete: function(data, { chalk }) {
     const green = chalk.green
