@@ -5,8 +5,8 @@ module.exports = {
     sourceType: 'module'
   },
   env: {
-    browser: true,
-    mocha: true
+    mocha: true,
+    browser: true
   },
   {{#if_eq lintConfig "standard"}}
   extends: [
