@@ -7,7 +7,7 @@
   "author": "{{ author }}",
   "private": true,
   "scripts": {
-    {{#lint}}"lint": "eslint --ext .js,.vue src",{{/lint}}
+    {{#lint}}"lint": "eslint --ext .js,.vue src --fix",{{/lint}}
     {{#test}}"test": "mocha-webpack quasar.config.js test/*"{{/test}}
   },
   "dependencies": {
