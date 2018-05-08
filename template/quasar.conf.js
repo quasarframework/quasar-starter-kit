@@ -40,22 +40,6 @@ module.exports = function (ctx) {
           test: /\.(js|vue)$/,
           loader: 'eslint-loader',
           exclude: /(node_modules|quasar)/
-        },
-        {
-          test: /\.vue$/,
-          loader: 'vue-loader'
-        },
-        {
-          test: /\.js$/,
-          loader: 'babel-loader',
-          exclude: /node_modules/
-        },
-        {
-          test: /\.(png|jpg|gif|svg)$/,
-          loader: 'file-loader',
-          options: {
-            name: '[name].[ext]?[hash]'
-          }
         })
         {{/lint}}
       }
