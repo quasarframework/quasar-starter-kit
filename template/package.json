@@ -34,7 +34,8 @@
     {{/if_eq}}
     {{/lint}}
     "quasar-cli": "^0.15.14",
-    "flo-components": "^0.0.1",
+    "flo-components": "^0.0.3",
+    "chart.js": "^2.7.2",
     {{#test}}
     "@vue/test-utils": "^1.0.0-beta.15",
     "jsdom": "^11.9.0",
