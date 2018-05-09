@@ -11,7 +11,6 @@
     {{#test}}"test": "mocha-webpack webpack.test.config.js --require test/setup.js test/*.spec.js"{{/test}}
   },
   "dependencies": {
-    "flo-components": "^0.0.1",
     {{#axios}}"axios": "^0.18.0"{{/axios}}{{#i18n}}{{#axios}},{{/axios}}
     "vue-i18n": "^7.3.3"{{/i18n}}
   },
@@ -35,6 +34,7 @@
     {{/if_eq}}
     {{/lint}}
     "quasar-cli": "^0.15.14",
+    "flo-components": "^0.0.1",
     {{#test}}
     "@vue/test-utils": "^1.0.0-beta.15",
     "jsdom": "^11.9.0",
