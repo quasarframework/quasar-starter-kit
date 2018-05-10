@@ -1,8 +1,9 @@
 import { expect } from 'chai'
-
-describe('Default.vue', () => {
-    
-    it(('DemoTest '), () => {
-      expect(true).to.be.true
+import { shallow } from '@vue/test-utils'
+import index from '../src/pages/index.vue'
+describe('index.vue', () => {
+    const wrapper = shallow (index)
+    it(('Should contain img tag'), () => {
+      expect(wrapper.contains('img')).to.be.true
     })
 })

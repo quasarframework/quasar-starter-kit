@@ -8,7 +8,7 @@
   "private": true,
   "scripts": {
     {{#lint}}"lint": "eslint --ext .js,.vue src --fix",{{/lint}}
-    {{#test}}"test": "mocha-webpack quasar.config.js --require test/setup.js test/*.spec.js"{{/test}}
+    {{#test}}"test": "mocha-webpack --webpack-config webpack.test.conf.js test --recursive --require test/setup.js"{{/test}}
   },
   "dependencies": {
     {{#axios}}"axios": "^0.18.0"{{/axios}}{{#i18n}}{{#axios}},{{/axios}}
