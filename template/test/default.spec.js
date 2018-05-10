@@ -1,3 +1,4 @@
+/*eslint-disable*/
 import { expect } from 'chai'
 import { shallow } from '@vue/test-utils'
 import index from '../src/pages/index.vue'

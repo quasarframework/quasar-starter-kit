@@ -10,12 +10,6 @@ module.exports = {
             {
                 test: /\.js$/,
                 loader: 'babel-loader',
-                query: {
-                    presets: ['es2015']
-                },
-                include: [
-                    path.resolve(__dirname, '../')
-                ],
                 exclude: /node_modules/
             }
         ]
