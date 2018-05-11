@@ -7,14 +7,14 @@
   "author": "{{ author }}",
   "private": true,
   "scripts": {
-    {{#lint}}"lint": "eslint --ext .js,.vue src --fix",{{/lint}}
-    {{#test}}"test": "mocha-webpack --webpack-config webpack.test.conf.js test --recursive --require test/setup.js"{{/test}}
+    {{#lint}}"lint": "eslint --ext .js,.vue src --fix"{{/lint}}{{#test}}{{#lint}},{{/lint}}
+    "test": "mocha-webpack --webpack-config webpack.test.conf.js test --recursive --require test/setup.js"{{/test}}
   },
   "dependencies": {
-    {{#axios}}"axios": "^0.18.0"{{/axios}}{{#i18n}}{{#axios}},{{/axios}}
-    "vue-i18n": "^7.3.3"{{/i18n}}{{#i18n}},{{/i18n}}
     "flo-components": "0.0.3",
     "chart.js": "^2.7.2"
+    {{#axios}},"axios": "^0.18.0"{{/axios}}{{#i18n}}{{#axios}},{{/axios}}
+    "vue-i18n": "^7.3.3"{{/i18n}}
   },
   "devDependencies": {
     {{#lint}}
