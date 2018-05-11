@@ -37,8 +37,7 @@
     "eslint-plugin-import": "^2.9.0",
     {{/if_eq}}
     {{/lint}}
-    "quasar-cli": "^0.15.14",
-    {{#test}}
+    "quasar-cli": "^0.15.14" {{#test}},
     "@vue/test-utils": "^1.0.0-beta.15",
     "jsdom": "^11.9.0",
     "jsdom-global": "^3.0.2",
