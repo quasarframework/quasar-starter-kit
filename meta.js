@@ -124,7 +124,8 @@ module.exports = {
     'src/store/**/*': 'vuex',
     'src/i18n/**/*': 'i18n',
     'src/plugins/i18n.js': 'i18n',
-    'src/plugins/axios.js': 'axios'
+    'src/plugins/axios.js': 'axios',
+    'test': 'test'
   },
   complete: function(data, { chalk }) {
     const green = chalk.green
