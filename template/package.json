@@ -12,8 +12,8 @@
   },
   "dependencies": {
     "flo-components": "0.0.3",
-    "chart.js": "^2.7.2"
-    {{#axios}},"axios": "^0.18.0"{{/axios}}{{#i18n}}{{#axios}},{{/axios}}
+    "chart.js": "^2.7.2"{{#axios}},
+    "axios": "^0.18.0"{{/axios}}{{#i18n}}{{#axios}},{{/axios}}
     "vue-i18n": "^7.3.3"{{/i18n}}
   },
   "devDependencies": {
