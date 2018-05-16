@@ -7,7 +7,7 @@
   "author": "{{ author }}",
   "private": true,
   "scripts": {
-    "converttonemf": "build/convert.js" ,
+    "converttonemf": "node build/convert.js" ,
     {{#lint}}"lint": "eslint --ext .js,.vue src --fix"{{/lint}}{{#test}}{{#lint}},{{/lint}}
     "test": "mocha-webpack --webpack-config webpack.test.conf.js test --recursive --require test/setup.js"{{/test}}
   },
