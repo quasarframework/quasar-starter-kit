@@ -16,23 +16,18 @@ module.exports = function (ctx) {
     ],
     extras: [
       ctx.theme.mat ? 'roboto-font' : null,
-      'material-icons'
-      // 'ionicons',
+      'material-icons',
+      ctx.theme.ios ? 'ionicons' : null,
       // 'mdi',
       // 'fontawesome'
     ],
     supportIE: {{#preset.ie}}true{{/preset.ie}}{{#unless_eq preset.ie true}}false{{/unless_eq}},
-    vendor: {
-      add: [],
-      remove: []
-    },
     build: {
       scopeHoisting: true,
       vueRouterMode: 'history',
       // gzip: true,
       // analyze: true,
       // extractCSS: false,
-      // useNotifier: false,
       extendWebpack (cfg) {
         {{#preset.lint}}
         cfg.module.rules.push({
@@ -79,7 +74,8 @@ module.exports = function (ctx) {
     animations: [
     ],
     pwa: {
-      cacheExt: 'js,html,css,ttf,eot,otf,woff,woff2,json,svg,gif,jpg,jpeg,png,wav,ogg,webm,flac,aac,mp4,mp3',
+      // workboxPluginMode: 'InjectManifest',
+      // workboxOptions: {},
       manifest: {
         // name: 'Quasar App',
         // short_name: 'Quasar-PWA',
@@ -121,6 +117,7 @@ module.exports = function (ctx) {
       // id: 'org.cordova.quasar.app'
     },
     electron: {
+      // bundler: 'builder',
       extendWebpack (cfg) {
         // do something with cfg
       },
@@ -133,10 +130,10 @@ module.exports = function (ctx) {
 
         // Window only
         // win32metadata: { ... }
+      },
+      builder: {
+        //
       }
-    },
-
-    // leave this here for Quasar CLI
-    starterKit: '{{template_version}}'
+    }
   }
 }
