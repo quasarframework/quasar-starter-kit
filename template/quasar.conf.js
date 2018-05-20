@@ -25,6 +25,7 @@ module.exports = function (ctx) {
     build: {
       scopeHoisting: true,
       vueRouterMode: 'history',
+      // vueCompiler: true,
       // gzip: true,
       // analyze: true,
       // extractCSS: false,
@@ -117,11 +118,13 @@ module.exports = function (ctx) {
       // id: 'org.cordova.quasar.app'
     },
     electron: {
-      // bundler: 'builder',
+      // bundler: 'builder', // or 'packager'
       extendWebpack (cfg) {
-        // do something with cfg
+        // do something with Electron process Webpack cfg
       },
       packager: {
+        // https://github.com/electron-userland/electron-packager/blob/master/docs/api.md#options
+
         // OS X / Mac App Store
         // appBundleId: '',
         // appCategoryType: '',
@@ -132,7 +135,9 @@ module.exports = function (ctx) {
         // win32metadata: { ... }
       },
       builder: {
-        //
+        // https://www.electron.build/configuration/configuration
+
+        // appId: 'quasar-app'
       }
     }
   }
