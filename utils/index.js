@@ -48,7 +48,7 @@ exports.installDependencies = function installDependencies(cwd, executable = 'np
  * @param {object} data Data from questionnaire
  */
 exports.runLintFix = function runLintFix(cwd, data, color) {
-  if (data.lint && lintStyles.indexOf(data.lintConfig) !== -1) {
+  if (data.preset.lint && lintStyles.indexOf(data.lintConfig) !== -1) {
     console.log(
       `\n\n ${color(
         '[*] Running eslint --fix to comply with chosen preset rules...'
