@@ -5,10 +5,17 @@ import example from './module-example'
 
 Vue.use(Vuex)
 
-const store = new Vuex.Store({
-  modules: {
-    example
-  }
-})
+/*
+ * If not building with SSR mode, you can
+ * directly export the Store instantiation
+ */
 
-export default store
+export default function (/* { ssrContext } */) {
+  const Store = new Vuex.Store({
+    modules: {
+      example
+    }
+  })
+
+  return Store
+}

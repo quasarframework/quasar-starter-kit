@@ -1,4 +1,4 @@
 /*
-export const someAction = (state) => {
+export function someAction (context) {
 }
 */
