@@ -94,7 +94,7 @@ To get started:
     )}${lintMsg(data)}quasar dev`
   )}
 
-Documentation can be found at: http://quasar-framework.org
+Documentation can be found at: https://quasar-framework.org
 
 Quasar is relying on donations to evolve. We'd be very grateful if you can
 take a look at: https://www.patreon.com/quasarframework
@@ -141,7 +141,15 @@ function runCommand(cmd, args, options) {
       )
     )
 
-    spwan.on('exit', () => {
+    spwan.on('exit', code => {
+      if (code) {
+        console.log()
+        console.log(` ${cmd} install FAILED... Possible temporary npm registry issues?`)
+        console.log(` Please try again later...`)
+        console.log()
+        process.exit(1)
+      }
+
       resolve()
     })
   })
