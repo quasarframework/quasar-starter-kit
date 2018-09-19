@@ -2,7 +2,7 @@
 ![Quasar Framework logo](https://cdn.rawgit.com/quasarframework/quasar-art/863c14bd/dist/svg/quasar-logo-full-inline.svg)
 
 # Quasar Framework App Template
-> Starter Kit for a Quasar Project.
+> Boilerplate for a Quasar Project.
 
 ## Usage
 
