@@ -45,7 +45,6 @@ module.exports = {
     'one-var': 0,
     {{/if_eq}}
     {{#if_eq lintConfig "airbnb"}}
-    'no-console': 0,
     'no-param-reassign': 0,
     {{/if_eq}}
     'prefer-promise-reject-errors': 0,
