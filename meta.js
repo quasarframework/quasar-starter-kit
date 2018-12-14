@@ -124,8 +124,8 @@ module.exports = {
     '.stylintrc': 'preset.lint',
     'src/store/**/*': 'preset.vuex',
     'src/i18n/**/*': 'preset.i18n',
-    'src/plugins/i18n.js': 'preset.i18n',
-    'src/plugins/axios.js': 'preset.axios'
+    'src/boot/i18n.js': 'preset.i18n',
+    'src/boot/axios.js': 'preset.axios'
   },
   complete: function(data, { chalk }) {
     const green = chalk.green

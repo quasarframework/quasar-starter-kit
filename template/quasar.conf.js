@@ -2,8 +2,9 @@
 
 module.exports = function (ctx) {
   return {
-    // app plugins (/src/plugins)
-    plugins: [
+    // app boot file (/src/boot)
+    // --> boot files are part of "main.js"
+    boot: [
       {{#preset.i18n}}
       'i18n'{{#preset.axios}},{{/preset.axios}}
       {{/preset.i18n}}
