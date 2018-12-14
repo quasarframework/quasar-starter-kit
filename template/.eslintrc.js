@@ -40,14 +40,15 @@ module.exports = {
     {{#if_eq lintConfig "standard"}}
     // allow async-await
     'generator-star-spacing': 'off',
-
     // allow paren-less arrow functions
     'arrow-parens': 0,
     'one-var': 0,
     {{/if_eq}}
     {{#if_eq lintConfig "airbnb"}}
+    'no-console': 0,
     'no-param-reassign': 0,
     {{/if_eq}}
+    'prefer-promise-reject-errors': 0,
 
     'import/first': 0,
     'import/named': 2,
