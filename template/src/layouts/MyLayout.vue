@@ -1,7 +1,7 @@
 <template>
   <q-layout view="lHh Lpr lFf">
-    <q-header>
-      <q-toolbar color="primary">
+    <q-header elevated class="glossy">
+      <q-toolbar>
         <q-btn
           flat
           dense
@@ -13,13 +13,16 @@
         </q-btn>
 
         <q-toolbar-title>
-          Quasar App - <small>Quasar v\{{ $q.version }}</small>
+          Quasar App
         </q-toolbar-title>
+
+        <div>Quasar v\{{ $q.version }}</div>
       </q-toolbar>
     </q-header>
 
     <q-drawer
       v-model="leftDrawerOpen"
+      bordered
       content-class="bg-grey-2"
     >
       <q-list>

@@ -15,11 +15,12 @@ module.exports = function (ctx) {
       'app.styl'
     ],
     extras: [
-      ctx.theme.mat ? 'roboto-font' : null,
+      'roboto-font',
       'material-icons' // optional, you are not bound to it
       // 'ionicons',
       // 'mdi',
-      // 'fontawesome'
+      // 'fontawesome',
+      // 'eva-icons
     ],
     supportIE: {{#preset.ie}}true{{/preset.ie}}{{#unless_eq preset.ie true}}false{{/unless_eq}},
     build: {
