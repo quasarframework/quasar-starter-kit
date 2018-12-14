@@ -33,7 +33,7 @@
     "eslint-plugin-import": "^2.9.0",
     {{/if_eq}}
     {{/preset.lint}}
-    "@quasar/app": "^1.0.0-alpha.0",
+    "@quasar/app": "^1.0.0-alpha.1",
     "strip-ansi": "=3.0.1"
   },
   "engines": {
