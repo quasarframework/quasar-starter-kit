@@ -83,6 +83,16 @@ module.exports = {
           short: 'Airbnb',
         },
         {
+          name: 'Prettier (https://github.com/prettier/prettier)',
+          value: 'prettier',
+          short: 'Prettier'
+        },
+        {
+          name: 'Error prevention only',
+          value: 'errprevention',
+          short: 'Error prevention'
+        },
+        {
           name: 'none (configure it yourself)',
           value: 'none',
           short: 'none',
