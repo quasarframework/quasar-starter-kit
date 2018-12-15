@@ -19,7 +19,7 @@
     "babel-eslint": "^10.0.1",
     "eslint": "^5.10.0",
     "eslint-loader": "^2.1.1",
-    "eslint-plugin-vue": "^5.0.0"
+    "eslint-plugin-vue": "^5.0.0",
     {{#if_eq lintConfig "standard"}}
     "@vue/eslint-config-standard": "^4.0.0",
     {{/if_eq}}
