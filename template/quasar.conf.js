@@ -18,10 +18,10 @@ module.exports = function (ctx) {
     extras: [
       'roboto-font',
       'material-icons' // optional, you are not bound to it
-      // 'ionicons',
-      // 'mdi',
-      // 'fontawesome',
-      // 'eva-icons
+      // 'ionicons-v4',
+      // 'mdi-v3',
+      // 'fontawesome-v5',
+      // 'eva-icons'
     ],
     supportIE: {{#preset.ie}}true{{/preset.ie}}{{#unless_eq preset.ie true}}false{{/unless_eq}},
     build: {
