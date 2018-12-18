@@ -20,7 +20,7 @@ module.exports = {
   // consider switching to `plugin:vue/strongly-recommended` or `plugin:vue/recommended` for stricter rules.
   extends: [
     'plugin:vue/essential',
-    '@vue/airbnb-base'
+    'airbnb-base'
   ],
   {{/if_eq}}
   {{#if_eq lintConfig "prettier"}}
