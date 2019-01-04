@@ -1,5 +1,6 @@
 {
   "name": "@quasar/starter-kit",
+  "private": true,
   "version": "1.0.0-alpha.0",
   "license": "MIT",
   "description": "The official Quasar starter kit used by Quasar CLI",
