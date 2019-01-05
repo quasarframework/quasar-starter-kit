@@ -12,9 +12,11 @@ module.exports = function (ctx) {
       'axios'
       {{/preset.axios}}
     ],
+
     css: [
       'app.styl'
     ],
+
     extras: [
       'roboto-font',
       'material-icons' // optional, you are not bound to it
@@ -23,7 +25,9 @@ module.exports = function (ctx) {
       // 'fontawesome-v5',
       // 'eva-icons'
     ],
+
     supportIE: {{#preset.ie}}true{{/preset.ie}}{{#unless_eq preset.ie true}}false{{/unless_eq}},
+
     build: {
       scopeHoisting: true,
       // vueRouterMode: 'history',
@@ -45,11 +49,13 @@ module.exports = function (ctx) {
         {{/preset.lint}}
       }
     },
+
     devServer: {
       // https: true,
       // port: 8080,
       open: true // opens browser window automatically
     },
+
     // framework: 'all' --- includes everything; for dev only!
     framework: {
       components: [
@@ -67,21 +73,27 @@ module.exports = function (ctx) {
         'QItemSection',
         'QItemLabel'
       ],
+
       directives: [
         'Ripple'
       ],
+
       // Quasar plugins
       plugins: [
         'Notify'
       ]
+
       // iconSet: ctx.theme.mat ? 'material-icons' : 'ionicons'
       // i18n: 'de' // Quasar language
     },
+
     // animations: 'all' --- includes all animations
     animations: [],
+
     ssr: {
       pwa: false
     },
+
     pwa: {
       // workboxPluginMode: 'InjectManifest',
       // workboxOptions: {},
@@ -122,9 +134,11 @@ module.exports = function (ctx) {
         ]
       }
     },
+
     cordova: {
       // id: 'org.cordova.quasar.app'
     },
+
     electron: {
       // bundler: 'builder', // or 'packager'
       extendWebpack (cfg) {

@@ -1,12 +1,15 @@
 module.exports = {
   root: true,
+
   parserOptions: {
     parser: 'babel-eslint',
     sourceType: 'module'
   },
+
   env: {
     browser: true
   },
+
   {{#if_eq lintConfig "standard"}}
   extends: [
     // https://github.com/vuejs/eslint-plugin-vue#priority-a-essential-error-prevention
@@ -46,17 +49,20 @@ module.exports = {
     'plugin:vue/essential'
   ],
   {{/if_eq}}
+
   // required to lint *.vue files
   plugins: [
     'vue'
   ],
+
   globals: {
     'ga': true, // Google Analytics
     'cordova': true,
     '__statics': true
   },
+
   // add your custom rules here
-  'rules': {
+  rules: {
     {{#if_eq lintConfig "standard"}}
     // allow async-await
     'generator-star-spacing': 'off',
