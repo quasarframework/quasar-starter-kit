@@ -1,4 +1,2 @@
-/*
 export function someAction (context) {
 }
-*/
