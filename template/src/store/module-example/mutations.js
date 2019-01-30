@@ -1,4 +1,2 @@
-/*
 export function someMutation (state) {
 }
-*/
