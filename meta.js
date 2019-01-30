@@ -91,11 +91,6 @@ module.exports = {
           name: 'Error prevention only',
           value: 'errprevention',
           short: 'Error prevention'
-        },
-        {
-          name: 'none (configure it yourself)',
-          value: 'none',
-          short: 'none',
         }
       ]
     },
