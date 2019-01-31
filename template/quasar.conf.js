@@ -26,6 +26,37 @@ module.exports = function (ctx) {
       // 'eva-icons'
     ],
 
+    // framework: 'all', // --- includes everything; for dev only!
+    framework: {
+      components: [
+        'QLayout',
+        'QHeader',
+        'QDrawer',
+        'QPageContainer',
+        'QPage',
+        'QToolbar',
+        'QToolbarTitle',
+        'QBtn',
+        'QIcon',
+        'QList',
+        'QItem',
+        'QItemSection',
+        'QItemLabel'
+      ],
+
+      directives: [
+        'Ripple'
+      ],
+
+      // Quasar plugins
+      plugins: [
+        'Notify'
+      ]
+
+      // iconSet: 'ionicons-v4'
+      // lang: 'de' // Quasar language
+    },
+
     supportIE: {{#preset.ie}}true{{/preset.ie}}{{#unless_eq preset.ie true}}false{{/unless_eq}},
 
     build: {
@@ -54,37 +85,6 @@ module.exports = function (ctx) {
       // https: true,
       // port: 8080,
       open: true // opens browser window automatically
-    },
-
-    // framework: 'all' --- includes everything; for dev only!
-    framework: {
-      components: [
-        'QLayout',
-        'QHeader',
-        'QDrawer',
-        'QPageContainer',
-        'QPage',
-        'QToolbar',
-        'QToolbarTitle',
-        'QBtn',
-        'QIcon',
-        'QList',
-        'QItem',
-        'QItemSection',
-        'QItemLabel'
-      ],
-
-      directives: [
-        'Ripple'
-      ],
-
-      // Quasar plugins
-      plugins: [
-        'Notify'
-      ]
-
-      // iconSet: ctx.theme.mat ? 'material-icons' : 'ionicons'
-      // i18n: 'de' // Quasar language
     },
 
     // animations: 'all' --- includes all animations
