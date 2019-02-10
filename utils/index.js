@@ -3,7 +3,7 @@ const
   fs = require('fs'),
   spawn = require('child_process').spawn
 
-const lintStyles = ['standard', 'airbnb']
+const lintStyles = ['standard', 'airbnb', 'prettier']
 
 /**
  * Sorts dependencies in package.json alphabetically.

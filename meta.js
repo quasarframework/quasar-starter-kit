@@ -86,11 +86,6 @@ module.exports = {
           name: 'Prettier (https://github.com/prettier/prettier)',
           value: 'prettier',
           short: 'Prettier'
-        },
-        {
-          name: 'Error prevention only',
-          value: 'errprevention',
-          short: 'Error prevention'
         }
       ]
     },
