@@ -26,8 +26,9 @@ module.exports = function (ctx) {
       // 'eva-icons'
     ],
 
-    // framework: 'all', // --- includes everything; for dev only!
     framework: {
+      // all: true, // --- includes everything; for dev only!
+
       components: [
         'QLayout',
         'QHeader',
