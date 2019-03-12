@@ -139,9 +139,12 @@ module.exports = function (ctx) {
 
     electron: {
       // bundler: 'builder', // or 'packager'
+
       extendWebpack (cfg) {
-        // do something with Electron process Webpack cfg
+        // do something with Electron main process Webpack cfg
+        // chainWebpack also available besides this extendWebpack
       },
+
       packager: {
         // https://github.com/electron-userland/electron-packager/blob/master/docs/api.md#options
 
@@ -154,6 +157,7 @@ module.exports = function (ctx) {
         // Window only
         // win32metadata: { ... }
       },
+
       builder: {
         // https://www.electron.build/configuration/configuration
 
