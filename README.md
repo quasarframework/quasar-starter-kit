@@ -10,16 +10,14 @@ First, make sure you have Node >= 8 and NPM >= 5.
 
 ``` bash
 # install Quasar CLI beta version:
-$ npm install -g quasar-cli
-
-# install Vue CLI if you don't have it already
-$ npm install -g vue-cli
+$ npm install -g @quasar/cli
 
 # generate a project folder with this template
-$ quasar init my-project
+# ("-b dev" is temporary until final v1 build)
+$ quasar create my-project -b dev
 
 $ cd my-project
-$ npm install
+$ yarn
 
 # start developing your app
 $ quasar dev
