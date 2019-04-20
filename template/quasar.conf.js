@@ -85,7 +85,7 @@ module.exports = function (ctx) {
       open: true // opens browser window automatically
     },
 
-    // animations: 'all' --- includes all animations
+    // animations: 'all', // --- includes all animations
     animations: [],
 
     ssr: {
@@ -94,7 +94,7 @@ module.exports = function (ctx) {
 
     pwa: {
       // workboxPluginMode: 'InjectManifest',
-      // workboxOptions: {},
+      // workboxOptions: {}, // only for NON InjectManifest
       manifest: {
         // name: 'Quasar App',
         // short_name: 'Quasar-PWA',
@@ -135,6 +135,7 @@ module.exports = function (ctx) {
 
     cordova: {
       // id: 'org.cordova.quasar.app'
+      // noIosLegacyBuildFlag: true // uncomment only if you know what you are doing
     },
 
     electron: {
