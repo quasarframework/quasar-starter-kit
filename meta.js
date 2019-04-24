@@ -27,7 +27,7 @@ module.exports = {
     productName: {
       type: 'string',
       required: true,
-      message: 'Project product name (official name)',
+      message: 'Project product name (official name; must start with a letter if you will build mobile apps)',
       default: 'Quasar App'
     },
     description: {
