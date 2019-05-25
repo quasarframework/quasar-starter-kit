@@ -48,5 +48,3 @@ Hi! I’m really excited that you are interested in contributing to Quasar. Befo
 
 You will need [Node.js](http://nodejs.org) **version 8.9+** along [Yarn](https://yarnpkg.com/) or [NPM](https://docs.npmjs.com/getting-started/installing-node). Read `package.json` and take notice of the scripts you can use.
 
-You will also need `@vue/cli` and `@vue/cli-init` packages globally installed.
-
