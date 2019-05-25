@@ -27,7 +27,7 @@ module.exports = {
     productName: {
       type: 'string',
       required: true,
-      message: 'Project product name (official name)',
+      message: 'Project product name (official name; must start with a letter if you will build mobile apps)',
       default: 'Quasar App'
     },
     description: {
@@ -83,9 +83,9 @@ module.exports = {
           short: 'Airbnb',
         },
         {
-          name: 'none (configure it yourself)',
-          value: 'none',
-          short: 'none',
+          name: 'Prettier (https://github.com/prettier/prettier)',
+          value: 'prettier',
+          short: 'Prettier'
         }
       ]
     },
@@ -124,8 +124,8 @@ module.exports = {
     '.stylintrc': 'preset.lint',
     'src/store/**/*': 'preset.vuex',
     'src/i18n/**/*': 'preset.i18n',
-    'src/plugins/i18n.js': 'preset.i18n',
-    'src/plugins/axios.js': 'preset.axios'
+    'src/boot/i18n.js': 'preset.i18n',
+    'src/boot/axios.js': 'preset.axios'
   },
   complete: function(data, { chalk }) {
     const green = chalk.green

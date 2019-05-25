@@ -3,7 +3,7 @@ const
   fs = require('fs'),
   spawn = require('child_process').spawn
 
-const lintStyles = ['standard', 'airbnb']
+const lintStyles = ['standard', 'airbnb', 'prettier']
 
 /**
  * Sorts dependencies in package.json alphabetically.
@@ -94,12 +94,12 @@ To get started:
     )}${lintMsg(data)}quasar dev`
   )}
 
-Documentation can be found at: https://quasar-framework.org
+Documentation can be found at: https://quasar.dev
 
 Quasar is relying on donations to evolve. We'd be very grateful if you can
 take a look at: https://www.patreon.com/quasarframework
 Any amount is very welcomed.
-If invoices are required, please first contact razvan.stoenescu@gmail.com
+If invoices are required, please first contact razvan@quasar.dev
 
 Please give us a star on Github if you appreciate our work:
 https://github.com/quasarframework/quasar

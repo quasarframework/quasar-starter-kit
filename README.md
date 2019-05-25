@@ -10,16 +10,14 @@ First, make sure you have Node >= 8 and NPM >= 5.
 
 ``` bash
 # install Quasar CLI beta version:
-$ npm install -g quasar-cli
-
-# install Vue CLI if you don't have it already
-$ npm install -g vue-cli
+$ npm install -g @quasar/cli
 
 # generate a project folder with this template
-$ quasar init my-project
+# ("-b dev" is temporary until final v1 build)
+$ quasar create my-project -b dev
 
 $ cd my-project
-$ npm install
+$ yarn
 
 # start developing your app
 $ quasar dev
@@ -38,17 +36,11 @@ Quasar Framework is an MIT-licensed open source project. Its ongoing development
 
 ## Documentation
 
-Head on to the Quasar Framework official website: [http://quasar-framework.org](http://quasar-framework.org)
+Head on to the Quasar Framework official website: [https://quasar.dev](https://quasar.dev)
 
 ## Community Forum
 
-Head on to the official community forum: [http://forum.quasar-framework.org](http://forum.quasar-framework.org)
-
-## Quasar Repositories
-
-* [Quasar Framework](https://github.com/quasarframework/quasar)
-* [Quasar CLI](https://github.com/quasarframework/quasar-cli)
-* [Quasar Play App](https://github.com/quasarframework/quasar-play)
+Head on to the official community forum: [https://forum.quasar.dev](https://forum.quasar.dev)
 
 ## Contributing
 
@@ -58,7 +50,7 @@ I'm excited if you want to contribute to Quasar under any form (report bugs, wri
 
 **Please use the appropriate Github repo to report issues. See "Related Components" above.** For example, a bug related to CLI should be reported to the CLI repo, one related to build issues to Quasar Framework Templates repo and so on.
 
-- The issue list of the repository is **exclusively** for bug reports and feature requests. For anything else please use the [Community Forum](http://forum.quasar-framework.org).
+- The issue list of the repository is **exclusively** for bug reports and feature requests. For anything else please use the [Community Forum](https://forum.quasar.dev).
 
 - Try to search for your issue, it may have already been fixed in the development branch or it may have a resolution.
 
@@ -67,8 +59,6 @@ I'm excited if you want to contribute to Quasar under any form (report bugs, wri
 - It is **required** that you clearly describe the steps necessary to reproduce the issue you are running into. Issues with no clear repro steps will not be triaged. If an issue labeled "need repro" receives no further input from the issue author for more than 5 days, it will be closed.
 
 - If your issue is resolved but still open, don’t hesitate to close it. In case you found a solution by yourself, it could be helpful to explain how you fixed it.
-
-Read more [here](http://quasar-framework.org/guide/contributing.html).
 
 ## License
 

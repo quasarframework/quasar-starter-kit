@@ -1,4 +1,2 @@
-/*
-export function someGetter (state) {
+export function someGetter (/* state */) {
 }
-*/
