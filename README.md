@@ -9,12 +9,11 @@
 First, make sure you have Node >= 8 and NPM >= 5.
 
 ``` bash
-# install Quasar CLI beta version:
+# install Quasar CLI:
 $ npm install -g @quasar/cli
 
-# generate a project folder with this template
-# ("-b dev" is temporary until final v1 build)
-$ quasar create my-project -b dev
+# generate a project folder
+$ quasar create <folder_name>
 
 $ cd my-project
 $ yarn
@@ -24,6 +23,13 @@ $ quasar dev
 
 # Check CLI commands available:
 $ quasar
+```
+
+To generate a project folder with an older version of Quasar:
+
+``` bash
+# notice "-b" parameter
+$ quasar create my-project -b v0.17
 ```
 
 # Quasar Framework
