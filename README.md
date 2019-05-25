@@ -13,8 +13,7 @@ First, make sure you have Node >= 8 and NPM >= 5.
 $ npm install -g @quasar/cli
 
 # generate a project folder with this template
-# ("-b dev" is temporary until final v1 build)
-$ quasar create my-project -b dev
+$ quasar create my-project
 
 $ cd my-project
 $ yarn
