@@ -63,7 +63,7 @@ module.exports = function (ctx) {
       // lang: 'de', // Quasar language
     },
 
-    supportIE: {{#preset.ie}}true{{/preset.ie}}{{#unless_eq preset.ie true}}false{{/unless_eq}},
+    supportIE: {{#if preset.ie}}true{{else}}false{{/if}},
 
     build: {
       scopeHoisting: true,
