@@ -7,15 +7,15 @@ module.exports = function (ctx) {
     // --> boot files are part of "main.js"
     boot: [
       {{#preset.i18n}}
-      'i18n'{{#preset.axios}},{{/preset.axios}}
+      'i18n',
       {{/preset.i18n}}
       {{#preset.axios}}
-      'axios'
+      'axios',
       {{/preset.axios}}
     ],
 
     css: [
-      'app.styl'
+      'app.styl',
     ],
 
     extras: [
@@ -47,20 +47,20 @@ module.exports = function (ctx) {
         'QList',
         'QItem',
         'QItemSection',
-        'QItemLabel'
+        'QItemLabel',
       ],
 
       directives: [
-        'Ripple'
+        'Ripple',
       ],
 
       // Quasar plugins
       plugins: [
-        'Notify'
-      ]
+        'Notify',
+      ],
 
-      // iconSet: 'ionicons-v4'
-      // lang: 'de' // Quasar language
+      // iconSet: 'ionicons-v4',
+      // lang: 'de', // Quasar language
     },
 
     supportIE: {{#preset.ie}}true{{/preset.ie}}{{#unless_eq preset.ie true}}false{{/unless_eq}},
@@ -81,20 +81,20 @@ module.exports = function (ctx) {
           exclude: /node_modules/
         })
         {{/preset.lint}}
-      }
+      },
     },
 
     devServer: {
       // https: true,
       // port: 8080,
-      open: true // opens browser window automatically
+      open: true, // opens browser window automatically
     },
 
     // animations: 'all', // --- includes all animations
     animations: [],
 
     ssr: {
-      pwa: false
+      pwa: false,
     },
 
     pwa: {
@@ -133,14 +133,14 @@ module.exports = function (ctx) {
             'src': 'statics/icons/icon-512x512.png',
             'sizes': '512x512',
             'type': 'image/png'
-          }
-        ]
-      }
+          },
+        ],
+      },
     },
 
     cordova: {
-      // id: 'org.cordova.quasar.app'
-      // noIosLegacyBuildFlag: true // uncomment only if you know what you are doing
+      // id: 'org.cordova.quasar.app',
+      // noIosLegacyBuildFlag: true, // uncomment only if you know what you are doing
     },
 
     electron: {
@@ -160,15 +160,15 @@ module.exports = function (ctx) {
         // osxSign: '',
         // protocol: 'myapp://path',
 
-        // Window only
-        // win32metadata: { ... }
+        // Windows only
+        // win32metadata: { ... },
       },
 
       builder: {
         // https://www.electron.build/configuration/configuration
 
-        // appId: 'quasar-app'
-      }
-    }
+        // appId: 'quasar-app',
+      },
+    },
   }
 }
