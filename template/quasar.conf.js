@@ -101,9 +101,9 @@ module.exports = function (ctx) {
       // workboxPluginMode: 'InjectManifest',
       // workboxOptions: {}, // only for NON InjectManifest
       manifest: {
-        // name: 'Quasar App',
-        // short_name: 'Quasar-PWA',
-        // description: 'Best PWA App in town!',
+        // name: '{{ productName }}',
+        // short_name: '{{ productName }}',
+        // description: '{{ description }}',
         display: 'standalone',
         orientation: 'portrait',
         background_color: '#ffffff',
@@ -139,7 +139,7 @@ module.exports = function (ctx) {
     },
 
     cordova: {
-      // id: 'org.cordova.quasar.app',
+      // id: '{{ cordovaId }}',
       // noIosLegacyBuildFlag: true, // uncomment only if you know what you are doing
     },
 
@@ -167,7 +167,7 @@ module.exports = function (ctx) {
       builder: {
         // https://www.electron.build/configuration/configuration
 
-        // appId: 'quasar-app',
+        // appId: '{{ name }}',
       },
     },
   }
