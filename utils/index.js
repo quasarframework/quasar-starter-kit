@@ -97,7 +97,8 @@ To get started:
 Documentation can be found at: https://quasar.dev
 
 Quasar is relying on donations to evolve. We'd be very grateful if you can
-take a look at: https://www.patreon.com/quasarframework
+read our manifest on "Why donations are important": https://quasar.dev/why-donate
+Donation campaign: https://donate.quasar.dev
 Any amount is very welcomed.
 If invoices are required, please first contact razvan@quasar.dev
 

@@ -19,16 +19,15 @@ module.exports = function (ctx) {
     ],
 
     extras: [
-      // Available Fonts
-      'roboto-font',
-      // 'roboto-font-latin-ext', // use this instead of roboto-font for extended character support(utf-8 etc.)
-      // Available Icon Libraries
-      'material-icons', // optional, you are not bound to it
       // 'ionicons-v4',
       // 'mdi-v3',
       // 'fontawesome-v5',
       // 'eva-icons',
       // 'themify',
+      // 'roboto-font-latin-ext', // this or either 'roboto-font', NEVER both!
+
+      'roboto-font', // optional, you are not bound to it
+      'material-icons' // optional, you are not bound to it
     ],
 
     framework: {
