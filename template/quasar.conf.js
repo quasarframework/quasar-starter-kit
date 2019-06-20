@@ -7,15 +7,15 @@ module.exports = function (ctx) {
     // --> boot files are part of "main.js"
     boot: [
       {{#preset.i18n}}
-      'i18n',
+      'i18n'{{#preset.axios}},{{/preset.axios}}
       {{/preset.i18n}}
       {{#preset.axios}}
-      'axios',
+      'axios'
       {{/preset.axios}}
     ],
 
     css: [
-      'app.styl',
+      'app.styl'
     ],
 
     extras: [
@@ -46,16 +46,16 @@ module.exports = function (ctx) {
         'QList',
         'QItem',
         'QItemSection',
-        'QItemLabel',
+        'QItemLabel'
       ],
 
       directives: [
-        'Ripple',
+        'Ripple'
       ],
 
       // Quasar plugins
       plugins: [
-        'Notify',
+        'Notify'
       ],
 
       // iconSet: 'ionicons-v4',
@@ -80,7 +80,7 @@ module.exports = function (ctx) {
           exclude: /node_modules/
         })
         {{/preset.lint}}
-      },
+      }
     },
 
     devServer: {
@@ -93,7 +93,7 @@ module.exports = function (ctx) {
     animations: [],
 
     ssr: {
-      pwa: false,
+      pwa: false
     },
 
     pwa: {
@@ -132,9 +132,9 @@ module.exports = function (ctx) {
             'src': 'statics/icons/icon-512x512.png',
             'sizes': '512x512',
             'type': 'image/png'
-          },
-        ],
-      },
+          }
+        ]
+      }
     },
 
     cordova: {
@@ -160,14 +160,14 @@ module.exports = function (ctx) {
         // protocol: 'myapp://path',
 
         // Windows only
-        // win32metadata: { ... },
+        // win32metadata: { ... }
       },
 
       builder: {
         // https://www.electron.build/configuration/configuration
 
-        // appId: '{{ name }}',
-      },
-    },
+        // appId: '{{ name }}'
+      }
+    }
   }
 }
