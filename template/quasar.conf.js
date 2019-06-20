@@ -1,4 +1,5 @@
 // Configuration for your app
+// https://quasar.dev/quasar-cli/quasar-conf-js
 
 module.exports = function (ctx) {
   return {
@@ -30,6 +31,9 @@ module.exports = function (ctx) {
     ],
 
     framework: {
+      // iconSet: 'ionicons-v4',
+      // lang: 'de', // Quasar language
+
       // all: true, // --- includes everything; for dev only!
 
       components: [
@@ -56,12 +60,9 @@ module.exports = function (ctx) {
       plugins: [
         'Notify'
       ]
-
-      // iconSet: 'ionicons-v4'
-      // lang: 'de' // Quasar language
     },
 
-    supportIE: {{#preset.ie}}true{{/preset.ie}}{{#unless_eq preset.ie true}}false{{/unless_eq}},
+    supportIE: {{#if preset.ie}}true{{else}}false{{/if}},
 
     build: {
       scopeHoisting: true,
@@ -99,9 +100,9 @@ module.exports = function (ctx) {
       // workboxPluginMode: 'InjectManifest',
       // workboxOptions: {}, // only for NON InjectManifest
       manifest: {
-        // name: 'Quasar App',
-        // short_name: 'Quasar-PWA',
-        // description: 'Best PWA App in town!',
+        // name: '{{ productName }}',
+        // short_name: '{{ productName }}',
+        // description: '{{ description }}',
         display: 'standalone',
         orientation: 'portrait',
         background_color: '#ffffff',
@@ -137,8 +138,8 @@ module.exports = function (ctx) {
     },
 
     cordova: {
-      // id: 'org.cordova.quasar.app'
-      // noIosLegacyBuildFlag: true // uncomment only if you know what you are doing
+      // id: '{{ cordovaId }}',
+      // noIosLegacyBuildFlag: true, // uncomment only if you know what you are doing
     },
 
     electron: {
@@ -158,14 +159,14 @@ module.exports = function (ctx) {
         // osxSign: '',
         // protocol: 'myapp://path',
 
-        // Window only
+        // Windows only
         // win32metadata: { ... }
       },
 
       builder: {
         // https://www.electron.build/configuration/configuration
 
-        // appId: 'quasar-app'
+        // appId: '{{ name }}'
       }
     }
   }
