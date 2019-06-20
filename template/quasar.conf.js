@@ -31,6 +31,9 @@ module.exports = function (ctx) {
     ],
 
     framework: {
+      // iconSet: 'ionicons-v4',
+      // lang: 'de', // Quasar language
+
       // all: true, // --- includes everything; for dev only!
 
       components: [
@@ -56,10 +59,7 @@ module.exports = function (ctx) {
       // Quasar plugins
       plugins: [
         'Notify'
-      ],
-
-      // iconSet: 'ionicons-v4',
-      // lang: 'de', // Quasar language
+      ]
     },
 
     supportIE: {{#if preset.ie}}true{{else}}false{{/if}},
@@ -86,7 +86,7 @@ module.exports = function (ctx) {
     devServer: {
       // https: true,
       // port: 8080,
-      open: true, // opens browser window automatically
+      open: true // opens browser window automatically
     },
 
     // animations: 'all', // --- includes all animations
