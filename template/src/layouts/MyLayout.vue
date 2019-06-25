@@ -6,70 +6,29 @@
           flat
           dense
           round
-          @click="leftDrawerOpen = !leftDrawerOpen"
+          @click="toggle"
           aria-label="Menu"
         >
           <q-icon name="menu" />
         </q-btn>
 
-        <q-toolbar-title>
-          Quasar App
-        </q-toolbar-title>
+        <q-toolbar-title>Quasar App</q-toolbar-title>
 
-        <div>Quasar v\{{ $q.version }}</div>
+        <div>{{ version }}</div>
       </q-toolbar>
     </q-header>
 
-    <q-drawer
-      v-model="leftDrawerOpen"
-      bordered
-      content-class="bg-grey-2"
-    >
+    <q-drawer v-model="leftDrawerOpen" bordered content-class="bg-grey-2">
       <q-list>
         <q-item-label header>Essential Links</q-item-label>
-        <q-item clickable tag="a" target="_blank" href="https://quasar.dev">
+
+        <q-item clickable :key="qItem.labelOne" v-for="qItem in qItems" @click="openURL(qItem.link)">
           <q-item-section avatar>
-            <q-icon name="school" />
+            <q-icon :name="qItem.icon" />
           </q-item-section>
           <q-item-section>
-            <q-item-label>Docs</q-item-label>
-            <q-item-label caption>quasar.dev</q-item-label>
-          </q-item-section>
-        </q-item>
-        <q-item clickable tag="a" target="_blank" href="https://github.com/quasarframework/">
-          <q-item-section avatar>
-            <q-icon name="code" />
-          </q-item-section>
-          <q-item-section>
-            <q-item-label>Github</q-item-label>
-            <q-item-label caption>github.com/quasarframework</q-item-label>
-          </q-item-section>
-        </q-item>
-        <q-item clickable tag="a" target="_blank" href="https://chat.quasar.dev">
-          <q-item-section avatar>
-            <q-icon name="chat" />
-          </q-item-section>
-          <q-item-section>
-            <q-item-label>Discord Chat Channel</q-item-label>
-            <q-item-label caption>chat.quasar.dev</q-item-label>
-          </q-item-section>
-        </q-item>
-        <q-item clickable tag="a" target="_blank" href="https://forum.quasar.dev">
-          <q-item-section avatar>
-            <q-icon name="record_voice_over" />
-          </q-item-section>
-          <q-item-section>
-            <q-item-label>Forum</q-item-label>
-            <q-item-label caption>forum.quasar.dev</q-item-label>
-          </q-item-section>
-        </q-item>
-        <q-item clickable tag="a" target="_blank" href="https://twitter.com/quasarframework">
-          <q-item-section avatar>
-            <q-icon name="rss_feed" />
-          </q-item-section>
-          <q-item-section>
-            <q-item-label>Twitter</q-item-label>
-            <q-item-label caption>@quasarframework</q-item-label>
+            <q-item-label>{{ qItem.labelOne }}</q-item-label>
+            <q-item-label caption>{{ qItem.labelTwo }}</q-item-label>
           </q-item-section>
         </q-item>
       </q-list>
@@ -88,11 +47,50 @@ export default {
   name: 'MyLayout',
   data () {
     return {
-      leftDrawerOpen: this.$q.platform.is.desktop
+      leftDrawerOpen: this.$q.platform.is.desktop,
+      qItems: [
+        {
+          icon: 'school',
+          labelOne: 'Docs',
+          labelTwo: 'quasar.dev',
+          link: 'https://quasar.dev'
+        },
+        {
+          icon: 'code',
+          labelOne: 'Github',
+          labelTwo: 'github.com/quasarframework',
+          link: 'https://github.com/quasarframework'
+        },
+        {
+          icon: 'chat',
+          labelOne: 'Discord Chat Channel',
+          labelTwo: 'chat.quasar.dev',
+          link: 'https://chat.quasar.dev'
+        },
+        {
+          icon: 'record_voice_over',
+          labelOne: 'Forum',
+          labelTwo: 'forum.quasar.dev',
+          link: 'https://forum.quasar.dev'
+        },
+        {
+          icon: 'rss_feed',
+          labelOne: 'Twitter',
+          labelTwo: '@quasarframework',
+          link: 'https://twitter.com/quasarframework'
+        }
+      ]
+    }
+  },
+  computed: {
+    version () {
+      return `Quasar v${this.$q.version}`
     }
   },
   methods: {
-    openURL
+    toggle () {
+      this.leftDrawerOpen = !this.leftDrawerOpen
+    }
   }
 }
 </script>
