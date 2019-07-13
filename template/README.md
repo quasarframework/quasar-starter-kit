@@ -16,11 +16,6 @@ yarn
 quasar dev
 ```
 
-### Run the tests
-```bash
-quasar test
-```
-
 {{#preset.lint}}
 ### Lint the files
 ```bash
