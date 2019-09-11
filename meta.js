@@ -40,6 +40,29 @@ module.exports = {
       type: 'string',
       message: 'Author',
     },
+    css: {
+      type: 'list',
+      message: 'Pick your favorite CSS preprocessor (can be changed later)',
+      default: 'sass',
+      choices: [
+        {
+          name: 'Sass (indented syntax)',
+          value: 'sass'
+        },
+        {
+          name: 'Sass (SCSS form)',
+          value: 'scss'
+        },
+        {
+          name: 'Stylus',
+          value: 'stylus'
+        },
+        {
+          name: 'None',
+          value: 'none'
+        }
+      ]
+    },
     preset: {
       type: 'checkbox',
       message: 'Check the features needed for your project:',
@@ -125,7 +148,14 @@ module.exports = {
     'src/store/**/*': 'preset.vuex',
     'src/i18n/**/*': 'preset.i18n',
     'src/boot/i18n.js': 'preset.i18n',
-    'src/boot/axios.js': 'preset.axios'
+    'src/boot/axios.js': 'preset.axios',
+    'src/css/app.css': `css === 'none'`,
+    'src/css/app.styl': `css === 'stylus'`,
+    'src/css/quasar.variables.styl': `css === 'stylus'`,
+    'src/css/app.scss': `css === 'scss'`,
+    'src/css/quasar.variables.scss': `css === 'scss'`,
+    'src/css/app.sass': `css === 'sass'`,
+    'src/css/quasar.variables.sass': `css === 'sass'`
   },
   complete: function(data, { chalk }) {
     const green = chalk.green

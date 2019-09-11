@@ -15,12 +15,12 @@ module.exports = function (ctx) {
     ],
 
     css: [
-      'app.styl'
+      'app.{{#if_eq css "none"}}css{{/if_eq}}{{#if_eq css "stylus"}}styl{{/if_eq}}{{#if_eq css "scss"}}scss{{/if_eq}}{{#if_eq css "sass"}}sass{{/if_eq}}'
     ],
 
     extras: [
       // 'ionicons-v4',
-      // 'mdi-v3',
+      // 'mdi-v4',
       // 'fontawesome-v5',
       // 'eva-icons',
       // 'themify',
