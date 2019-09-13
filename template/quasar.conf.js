@@ -33,8 +33,15 @@ module.exports = function (ctx) {
     framework: {
       // iconSet: 'ionicons-v4',
       // lang: 'de', // Quasar language
+      {{#if autoImport}}
 
-      // all: true, // --- includes everything; for dev only!
+      // all: true, // includes everything; DON'T USE FOR PRODUCTION!
+      all: 'auto', // auto-import needed Quasar components and directives
+
+      components: [],
+      directives: [],{{else}}
+      // all: true, // includes everything; DON'T USE FOR PRODUCTION!
+      // all: 'auto', // auto-import needed Quasar components and directives
 
       components: [
         'QLayout',
@@ -54,7 +61,7 @@ module.exports = function (ctx) {
 
       directives: [
         'Ripple'
-      ],
+      ],{{/if}}
 
       // Quasar plugins
       plugins: [

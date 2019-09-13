@@ -90,6 +90,10 @@ module.exports = {
         }
       ]
     },
+    autoImport: {
+      type: 'confirm',
+      message: 'Auto-import the needed Quasar components and directives? (slightly higher compile time)'
+    },
     lintConfig: {
       when: 'preset.lint',
       type: 'list',
