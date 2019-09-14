@@ -27,7 +27,7 @@ module.exports = {
     productName: {
       type: 'string',
       required: true,
-      message: 'Project product name (official name; must start with a letter if you will build mobile apps)',
+      message: 'Project product name (must start with letter if building mobile apps)',
       default: 'Quasar App'
     },
     description: {
@@ -42,43 +42,49 @@ module.exports = {
     },
     css: {
       type: 'list',
-      message: 'Pick your favorite CSS preprocessor (can be changed later)',
+      message: 'Pick your favorite CSS preprocessor: (can be changed later)',
       default: 'sass',
       choices: [
         {
-          name: 'Sass (indented syntax)',
-          value: 'sass'
+          name: 'Sass with indented syntax',
+          value: 'sass',
+          short: 'Sass'
         },
         {
-          name: 'Sass (SCSS form)',
-          value: 'scss'
+          name: 'Sass with SCSS syntax',
+          value: 'scss',
+          short: 'SCSS'
         },
         {
           name: 'Stylus',
           value: 'stylus'
         },
         {
-          name: 'None',
-          value: 'none'
+          name: 'None (the others will still be available)',
+          value: 'none',
+          short: 'None'
         }
       ]
     },
     importStrategy: {
       type: 'list',
-      message: 'Pick Quasar components/directives import strategy (can be changed later):',
+      message: 'Pick Quasar components & directives import strategy: (can be changed later)',
       choices: [
         {
-          name: 'Auto-import needed Quasar components & directives (plugins not included; slightly higher compile time)',
+          name: '* Auto-import in-use Quasar components & directives\n    (slightly higher compile time; next to minimum bundle size; most convenient)',
           value: '\'auto\'',
+          short: 'Auto import',
           checked: true
         },
         {
-          name: 'Manually specify what to import (fastest compile compile)',
-          value: 'false'
+          name: '* Manually specify what to import\n    (fastest compile time; minimum bundle size; most tedious)',
+          value: 'false',
+          short: 'Manual'
         },
         {
-          name: 'Import everything from Quasar (not treeshaking Quasar; higher footprint)',
-          value: 'true'
+          name: '* Import everything from Quasar\n    (not treeshaking Quasar; biggest bundle size; convenient)',
+          value: 'true',
+          short: 'Import everything'
         }
       ]
     },
@@ -112,7 +118,7 @@ module.exports = {
     lintConfig: {
       when: 'preset.lint',
       type: 'list',
-      message: 'Pick an ESLint preset',
+      message: 'Pick an ESLint preset:',
       choices: [
         {
           name: 'Standard (https://github.com/standard/standard)',

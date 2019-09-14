@@ -35,11 +35,12 @@ module.exports = function (ctx) {
       // lang: 'de', // Quasar language pack
 
       // Possible values for "all":
-      // * false  - Manually specify what to import (fastest compile compile)
       // * 'auto' - Auto-import needed Quasar components & directives
-      //            (plugins not included; slightly higher compile time)
+      //            (slightly higher compile time; next to minimum bundle size; most convenient)
+      // * false  - Manually specify what to import
+      //            (fastest compile time; minimum bundle size; most tedious)
       // * true   - Import everything from Quasar
-      //            (not treeshaking Quasar; higher footprint)
+      //            (not treeshaking Quasar; biggest bundle size; convenient)
       all: {{importStrategy}},
       {{#if_eq importStrategy '\'auto\''}}
 
