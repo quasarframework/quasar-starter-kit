@@ -68,21 +68,21 @@ module.exports = {
     },
     importStrategy: {
       type: 'list',
-      message: 'Pick Quasar components & directives import strategy: (can be changed later)',
+      message: 'Pick a Quasar components & directives import strategy: (can be changed later)',
       choices: [
         {
-          name: '* Auto-import in-use Quasar components & directives\n    (slightly higher compile time; next to minimum bundle size; most convenient)',
+          name: '* Auto-import in-use Quasar components & directives\n    - slightly higher compile time; next to minimum bundle size; most convenient',
           value: '\'auto\'',
           short: 'Auto import',
           checked: true
         },
         {
-          name: '* Manually specify what to import\n    (fastest compile time; minimum bundle size; most tedious)',
+          name: '* Manually specify what to import\n    - fastest compile time; minimum bundle size; most tedious',
           value: 'false',
           short: 'Manual'
         },
         {
-          name: '* Import everything from Quasar\n    (not treeshaking Quasar; biggest bundle size; convenient)',
+          name: '* Import everything from Quasar\n    - not treeshaking Quasar; biggest bundle size; convenient',
           value: 'true',
           short: 'Import everything'
         }
