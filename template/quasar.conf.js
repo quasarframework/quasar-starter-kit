@@ -31,18 +31,31 @@ module.exports = function (ctx) {
     ],
 
     framework: {
-      // iconSet: 'ionicons-v4',
-      // lang: 'de', // Quasar language
-      {{#if autoImport}}
+      // iconSet: 'ionicons-v4', // Quasar icon set
+      // lang: 'de', // Quasar language pack
 
-      // all: true, // includes everything; DON'T USE FOR PRODUCTION!
-      all: 'auto', // auto-import needed Quasar components and directives
+      // Possible values for "all":
+      // * false  - Manually specify what to import (fastest compile compile)
+      // * 'auto' - Auto-import needed Quasar components & directives
+      //            (plugins not included; slightly higher compile time)
+      // * true   - Import everything from Quasar
+      //            (not treeshaking Quasar; higher footprint)
+      all: {{importStrategy}},
+      {{#if_eq importStrategy '\'auto\''}}
 
       components: [],
-      directives: [],{{else}}
-      // all: true, // includes everything; DON'T USE FOR PRODUCTION!
-      // all: 'auto', // auto-import needed Quasar components and directives
+      directives: [],
 
+      // Quasar plugins
+      plugins: [
+        'Notify'
+      ]{{/if_eq}}{{#if_eq importStrategy 'true'}}
+
+      components: [],
+      directives: [],
+
+      // Quasar plugins
+      plugins: []{{/if_eq}}{{#if_eq importStrategy 'false'}}
       components: [
         'QLayout',
         'QHeader',
@@ -61,12 +74,12 @@ module.exports = function (ctx) {
 
       directives: [
         'Ripple'
-      ],{{/if}}
+      ],
 
       // Quasar plugins
       plugins: [
         'Notify'
-      ]
+      ]{{/if_eq}}
     },
 
     supportIE: {{#if preset.ie}}true{{else}}false{{/if}},

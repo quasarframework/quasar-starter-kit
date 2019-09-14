@@ -63,6 +63,25 @@ module.exports = {
         }
       ]
     },
+    importStrategy: {
+      type: 'list',
+      message: 'Pick Quasar components/directives import strategy (can be changed later):',
+      choices: [
+        {
+          name: 'Auto-import needed Quasar components & directives (plugins not included; slightly higher compile time)',
+          value: '\'auto\'',
+          checked: true
+        },
+        {
+          name: 'Manually specify what to import (fastest compile compile)',
+          value: 'false'
+        },
+        {
+          name: 'Import everything from Quasar (not treeshaking Quasar; higher footprint)',
+          value: 'true'
+        }
+      ]
+    },
     preset: {
       type: 'checkbox',
       message: 'Check the features needed for your project:',
@@ -89,10 +108,6 @@ module.exports = {
           value: 'ie'
         }
       ]
-    },
-    autoImport: {
-      type: 'confirm',
-      message: 'Auto-import the needed Quasar components and directives? (slightly higher compile time)'
     },
     lintConfig: {
       when: 'preset.lint',
