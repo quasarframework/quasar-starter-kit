@@ -1,6 +1,4 @@
-const
-  path = require('path'),
-  fs = require('fs')
+const path = require('path')
 
 const {
   sortDependencies,
@@ -46,12 +44,12 @@ module.exports = {
       default: 'sass',
       choices: [
         {
-          name: 'Sass with indented syntax',
+          name: 'Sass with indented syntax (recommended)',
           value: 'sass',
           short: 'Sass'
         },
         {
-          name: 'Sass with SCSS syntax',
+          name: 'Sass with SCSS syntax (recommended)',
           value: 'scss',
           short: 'SCSS'
         },
