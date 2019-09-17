@@ -1,6 +1,4 @@
-const
-  path = require('path'),
-  fs = require('fs')
+const path = require('path')
 
 const {
   sortDependencies,
@@ -27,7 +25,7 @@ module.exports = {
     productName: {
       type: 'string',
       required: true,
-      message: 'Project product name (official name; must start with a letter if you will build mobile apps)',
+      message: 'Project product name (must start with letter if building mobile apps)',
       default: 'Quasar App'
     },
     description: {
@@ -39,6 +37,54 @@ module.exports = {
     author: {
       type: 'string',
       message: 'Author',
+    },
+    css: {
+      type: 'list',
+      message: 'Pick your favorite CSS preprocessor: (can be changed later)',
+      default: 'sass',
+      choices: [
+        {
+          name: 'Sass with indented syntax (recommended)',
+          value: 'sass',
+          short: 'Sass'
+        },
+        {
+          name: 'Sass with SCSS syntax (recommended)',
+          value: 'scss',
+          short: 'SCSS'
+        },
+        {
+          name: 'Stylus',
+          value: 'stylus'
+        },
+        {
+          name: 'None (the others will still be available)',
+          value: 'none',
+          short: 'None'
+        }
+      ]
+    },
+    importStrategy: {
+      type: 'list',
+      message: 'Pick a Quasar components & directives import strategy: (can be changed later)',
+      choices: [
+        {
+          name: '* Auto-import in-use Quasar components & directives\n    - slightly higher compile time; next to minimum bundle size; most convenient',
+          value: '\'auto\'',
+          short: 'Auto import',
+          checked: true
+        },
+        {
+          name: '* Manually specify what to import\n    - fastest compile time; minimum bundle size; most tedious',
+          value: 'false',
+          short: 'Manual'
+        },
+        {
+          name: '* Import everything from Quasar\n    - not treeshaking Quasar; biggest bundle size; convenient',
+          value: 'true',
+          short: 'Import everything'
+        }
+      ]
     },
     preset: {
       type: 'checkbox',
@@ -70,7 +116,7 @@ module.exports = {
     lintConfig: {
       when: 'preset.lint',
       type: 'list',
-      message: 'Pick an ESLint preset',
+      message: 'Pick an ESLint preset:',
       choices: [
         {
           name: 'Standard (https://github.com/standard/standard)',
@@ -125,7 +171,14 @@ module.exports = {
     'src/store/**/*': 'preset.vuex',
     'src/i18n/**/*': 'preset.i18n',
     'src/boot/i18n.js': 'preset.i18n',
-    'src/boot/axios.js': 'preset.axios'
+    'src/boot/axios.js': 'preset.axios',
+    'src/css/app.css': `css === 'none'`,
+    'src/css/app.styl': `css === 'stylus'`,
+    'src/css/quasar.variables.styl': `css === 'stylus'`,
+    'src/css/app.scss': `css === 'scss'`,
+    'src/css/quasar.variables.scss': `css === 'scss'`,
+    'src/css/app.sass': `css === 'sass'`,
+    'src/css/quasar.variables.sass': `css === 'sass'`
   },
   complete: function(data, { chalk }) {
     const green = chalk.green

@@ -15,12 +15,12 @@ module.exports = function (ctx) {
     ],
 
     css: [
-      'app.styl'
+      'app.{{#if_eq css "none"}}css{{/if_eq}}{{#if_eq css "stylus"}}styl{{/if_eq}}{{#if_eq css "scss"}}scss{{/if_eq}}{{#if_eq css "sass"}}sass{{/if_eq}}'
     ],
 
     extras: [
       // 'ionicons-v4',
-      // 'mdi-v3',
+      // 'mdi-v4',
       // 'fontawesome-v5',
       // 'eva-icons',
       // 'themify',
@@ -31,11 +31,32 @@ module.exports = function (ctx) {
     ],
 
     framework: {
-      // iconSet: 'ionicons-v4',
-      // lang: 'de', // Quasar language
+      // iconSet: 'ionicons-v4', // Quasar icon set
+      // lang: 'de', // Quasar language pack
 
-      // all: true, // --- includes everything; for dev only!
+      // Possible values for "all":
+      // * 'auto' - Auto-import needed Quasar components & directives
+      //            (slightly higher compile time; next to minimum bundle size; most convenient)
+      // * false  - Manually specify what to import
+      //            (fastest compile time; minimum bundle size; most tedious)
+      // * true   - Import everything from Quasar
+      //            (not treeshaking Quasar; biggest bundle size; convenient)
+      all: {{importStrategy}},
+      {{#if_eq importStrategy '\'auto\''}}
 
+      components: [],
+      directives: [],
+
+      // Quasar plugins
+      plugins: [
+        'Notify'
+      ]{{/if_eq}}{{#if_eq importStrategy 'true'}}
+
+      components: [],
+      directives: [],
+
+      // Quasar plugins
+      plugins: []{{/if_eq}}{{#if_eq importStrategy 'false'}}
       components: [
         'QLayout',
         'QHeader',
@@ -59,7 +80,7 @@ module.exports = function (ctx) {
       // Quasar plugins
       plugins: [
         'Notify'
-      ]
+      ]{{/if_eq}}
     },
 
     supportIE: {{#if preset.ie}}true{{else}}false{{/if}},
