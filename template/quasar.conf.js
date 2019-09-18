@@ -88,7 +88,7 @@ module.exports = function (ctx) {
     build: {
       scopeHoisting: true,
       // vueRouterMode: 'history',
-      // vueCompiler: true,
+      // showProgress: false,
       // gzip: true,
       // analyze: true,
       // extractCSS: false,
