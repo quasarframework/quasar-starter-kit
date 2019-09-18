@@ -1,43 +1,31 @@
-const path = require('path')
-
-const {
-  sortDependencies,
-  installDependencies,
-  runLintFix,
-  printMessage,
-} = require('./utils')
-
-const pkg = require('./package.json')
+const { helpers, complete } = require('./utils')
 
 module.exports = {
-  helpers: {
-    template_version() {
-      return pkg.version
-    }
-  },
-
   prompts: {
     name: {
       type: 'string',
-      required: true,
       message: 'Project name (internal usage for dev)',
+      validate: val => val && val.length > 0
     },
+
     productName: {
       type: 'string',
-      required: true,
       message: 'Project product name (must start with letter if building mobile apps)',
-      default: 'Quasar App'
+      default: 'Quasar App',
+      validate: val => val && val.length > 0
     },
+
     description: {
       type: 'string',
-      required: false,
       message: 'Project description',
       default: 'A Quasar Framework app',
     },
+
     author: {
       type: 'string',
-      message: 'Author',
+      message: 'Author'
     },
+
     css: {
       type: 'list',
       message: 'Pick your favorite CSS preprocessor: (can be changed later)',
@@ -64,6 +52,7 @@ module.exports = {
         }
       ]
     },
+
     importStrategy: {
       type: 'list',
       message: 'Pick a Quasar components & directives import strategy: (can be changed later)',
@@ -86,6 +75,7 @@ module.exports = {
         }
       ]
     },
+
     preset: {
       type: 'checkbox',
       message: 'Check the features needed for your project:',
@@ -113,6 +103,7 @@ module.exports = {
         }
       ]
     },
+
     lintConfig: {
       when: 'preset.lint',
       type: 'list',
@@ -135,12 +126,13 @@ module.exports = {
         }
       ]
     },
+
     cordovaId: {
       type: 'string',
-      required: false,
       message: 'Cordova id (disregard if not building mobile apps)',
       default: 'org.cordova.quasar.app'
     },
+
     autoInstall: {
       type: 'list',
       message:
@@ -164,6 +156,7 @@ module.exports = {
       ]
     }
   },
+
   filters: {
     '.eslintrc.js': 'preset.lint',
     '.eslintignore': 'preset.lint',
@@ -180,27 +173,7 @@ module.exports = {
     'src/css/app.sass': `css === 'sass'`,
     'src/css/quasar.variables.sass': `css === 'sass'`
   },
-  complete: function(data, { chalk }) {
-    const green = chalk.green
 
-    sortDependencies(data, green)
-
-    const cwd = path.join(process.cwd(), data.inPlace ? '' : data.destDirName)
-
-    if (data.autoInstall) {
-      installDependencies(cwd, data.autoInstall, green)
-        .then(() => {
-          return runLintFix(cwd, data, green)
-        })
-        .then(() => {
-          printMessage(data, green)
-        })
-        .catch(e => {
-          console.log(chalk.red('Error:'), e)
-        })
-    }
-    else {
-      printMessage(data, chalk)
-    }
-  }
+  helpers,
+  complete
 }

@@ -10,7 +10,7 @@ const lintStyles = ['standard', 'airbnb', 'prettier']
  * They are unsorted because they were grouped for the handlebars helpers
  * @param {object} data Data from questionnaire
  */
-exports.sortDependencies = function sortDependencies(data) {
+function sortDependencies(data) {
   const pkgFile = path.join(
     data.inPlace ? '' : data.destDirName,
     'package.json'
@@ -37,7 +37,7 @@ exports.sortDependencies = function sortDependencies(data) {
  * @param {string} cwd Path of the created project directory
  * @param {object} data Data from questionnaire
  */
-exports.installDependencies = function installDependencies(cwd, executable = 'npm', color) {
+function installDependencies(cwd, executable = 'npm', color) {
   console.log(`\n\n ${color('[*] Installing project dependencies ...')}\n`)
   return runCommand(executable, ['install'], { cwd })
 }
@@ -47,7 +47,7 @@ exports.installDependencies = function installDependencies(cwd, executable = 'np
  * @param {string} cwd Path of the created project directory
  * @param {object} data Data from questionnaire
  */
-exports.runLintFix = function runLintFix(cwd, data, color) {
+function runLintFix(cwd, data, color) {
   if (data.preset.lint && lintStyles.indexOf(data.lintConfig) !== -1) {
     console.log(
       `\n\n ${color(
@@ -82,7 +82,7 @@ function lintMsg(data) {
  * Prints the final message with instructions of necessary next steps.
  * @param {Object} data Data from questionnaire.
  */
-exports.printMessage = function printMessage(data, { green, yellow }) {
+function printMessage(data, { green, yellow }) {
   const message = `
  ${green('[*] Quasar Project initialization finished!')}
 
@@ -165,4 +165,36 @@ function sortObject(object) {
       sortedObject[item] = object[item]
     })
   return sortedObject
+}
+
+const { version } = require('../package.json')
+
+module.exports.helpers = {
+  template_version() {
+    return version
+  }
+}
+
+module.exports.complete = function (data, { chalk }) {
+  const green = chalk.green
+
+  sortDependencies(data, green)
+
+  const cwd = path.join(process.cwd(), data.inPlace ? '' : data.destDirName)
+
+  if (data.autoInstall) {
+    installDependencies(cwd, data.autoInstall, green)
+      .then(() => {
+        return runLintFix(cwd, data, green)
+      })
+      .then(() => {
+        printMessage(data, green)
+      })
+      .catch(e => {
+        console.log(chalk.red('Error:'), e)
+      })
+  }
+  else {
+    printMessage(data, chalk)
+  }
 }
