@@ -42,21 +42,8 @@ module.exports = function (ctx) {
       // * true   - Import everything from Quasar
       //            (not treeshaking Quasar; biggest bundle size; convenient)
       all: {{importStrategy}},
-      {{#if_eq importStrategy '\'auto\''}}
+      {{#if_eq importStrategy 'false'}}
 
-      components: [],
-      directives: [],
-
-      // Quasar plugins
-      plugins: [
-        'Notify'
-      ]{{/if_eq}}{{#if_eq importStrategy 'true'}}
-
-      components: [],
-      directives: [],
-
-      // Quasar plugins
-      plugins: []{{/if_eq}}{{#if_eq importStrategy 'false'}}
       components: [
         'QLayout',
         'QHeader',
@@ -75,12 +62,12 @@ module.exports = function (ctx) {
 
       directives: [
         'Ripple'
-      ],
+      ],{{else}}
+      components: [],
+      directives: [],{{/if_eq}}
 
       // Quasar plugins
-      plugins: [
-        'Notify'
-      ]{{/if_eq}}
+      plugins: []
     },
 
     supportIE: {{#if preset.ie}}true{{else}}false{{/if}},
