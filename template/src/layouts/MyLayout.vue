@@ -7,10 +7,9 @@
           dense
           round
           @click="leftDrawerOpen = !leftDrawerOpen"
+          icon="menu"
           aria-label="Menu"
-        >
-          <q-icon name="menu" />
-        </q-btn>
+        />
 
         <q-toolbar-title>
           Quasar App
