@@ -10,7 +10,7 @@
     <q-btn
       color="secondary"
       style="width:200px;"
-      @click="$router.push('/')"
+      to="/"
       label="Go back"
     />
   </div>
