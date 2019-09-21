@@ -5,6 +5,7 @@ module.exports = function (ctx) {
   return {
     // app boot file (/src/boot)
     // --> boot files are part of "main.js"
+    // https://quasar.dev/quasar-cli/cli-documentation/boot-files
     boot: [
       {{#preset.i18n}}
       'i18n'{{#preset.axios}},{{/preset.axios}}
@@ -14,10 +15,12 @@ module.exports = function (ctx) {
       {{/preset.axios}}
     ],
 
+    // https://quasar.dev/quasar-cli/quasar-conf-js#Property%3A-css
     css: [
       'app.{{#if_eq css "none"}}css{{/if_eq}}{{#if_eq css "stylus"}}styl{{/if_eq}}{{#if_eq css "scss"}}scss{{/if_eq}}{{#if_eq css "sass"}}sass{{/if_eq}}'
     ],
 
+    // https://github.com/quasarframework/quasar/tree/dev/extras
     extras: [
       // 'ionicons-v4',
       // 'mdi-v4',
@@ -30,6 +33,7 @@ module.exports = function (ctx) {
       'material-icons' // optional, you are not bound to it
     ],
 
+    // https://quasar.dev/quasar-cli/quasar-conf-js#Property%3A-framework
     framework: {
       // iconSet: 'ionicons-v4', // Quasar icon set
       // lang: 'de', // Quasar language pack
@@ -70,15 +74,20 @@ module.exports = function (ctx) {
       plugins: []
     },
 
+    // https://quasar.dev/quasar-cli/cli-documentation/supporting-ie
     supportIE: {{#if preset.ie}}true{{else}}false{{/if}},
 
+    // https://quasar.dev/quasar-cli/quasar-conf-js#Property%3A-build
     build: {
       scopeHoisting: true,
       // vueRouterMode: 'history',
       // showProgress: false,
       // gzip: true,
       // analyze: true,
+      // preloadChunks: false,
       // extractCSS: false,
+
+      // https://quasar.dev/quasar-cli/cli-documentation/handling-webpack
       extendWebpack (cfg) {
         {{#preset.lint}}
         cfg.module.rules.push({
@@ -94,6 +103,7 @@ module.exports = function (ctx) {
       }
     },
 
+    // https://quasar.dev/quasar-cli/quasar-conf-js#Property%3A-devServer
     devServer: {
       // https: true,
       // port: 8080,
@@ -101,12 +111,15 @@ module.exports = function (ctx) {
     },
 
     // animations: 'all', // --- includes all animations
+    // https://quasar.dev/options/animations
     animations: [],
 
+    // https://quasar.dev/quasar-cli/developing-ssr/configuring-ssr
     ssr: {
       pwa: false
     },
 
+    // https://quasar.dev/quasar-cli/developing-pwa/configuring-pwa
     pwa: {
       // workboxPluginMode: 'InjectManifest',
       // workboxOptions: {}, // only for NON InjectManifest
@@ -148,11 +161,13 @@ module.exports = function (ctx) {
       }
     },
 
+    // https://quasar.dev/quasar-cli/developing-cordova-apps/configuring-cordova
     cordova: {
       // id: '{{ cordovaId }}',
       // noIosLegacyBuildFlag: true, // uncomment only if you know what you are doing
     },
 
+    // https://quasar.dev/quasar-cli/developing-electron-apps/configuring-electron
     electron: {
       // bundler: 'builder', // or 'packager'
 
