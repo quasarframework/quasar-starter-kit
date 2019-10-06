@@ -167,14 +167,6 @@ function sortObject(object) {
   return sortedObject
 }
 
-const { version } = require('../package.json')
-
-module.exports.helpers = {
-  template_version() {
-    return version
-  }
-}
-
 module.exports.complete = function (data, { chalk }) {
   const green = chalk.green
 

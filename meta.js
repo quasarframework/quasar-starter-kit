@@ -174,6 +174,5 @@ module.exports = {
     'src/css/quasar.variables.sass': `css === 'sass'`
   },
 
-  helpers,
   complete
 }
