@@ -4,6 +4,7 @@
   "description": "{{ description }}",
   "productName": "{{ productName }}",
   "cordovaId": "{{ cordovaId }}",
+  "capacitorId": "{{ capacitorId }}",
   "author": "{{ author }}",
   "private": true,
   "scripts": {
