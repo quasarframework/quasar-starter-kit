@@ -129,7 +129,7 @@ module.exports = {
 
     cordovaId: {
       type: 'string',
-      message: 'Cordova id (disregard if not building mobile apps)',
+      message: 'Cordova/Capacitor id (disregard if not building mobile apps)',
       default: 'org.cordova.quasar.app'
     },
 
