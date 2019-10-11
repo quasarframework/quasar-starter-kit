@@ -1,4 +1,4 @@
-const { helpers, complete } = require('./utils')
+const { complete } = require('./utils')
 
 module.exports = {
   prompts: {
