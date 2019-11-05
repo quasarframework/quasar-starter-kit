@@ -45,7 +45,8 @@ module.exports = {
     'cordova': true,
     '__statics': true,
     'process': true,
-    'Capacitor': true
+    'Capacitor': true,
+    'chrome': true
   },
 
   // add your custom rules here
