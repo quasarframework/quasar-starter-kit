@@ -10,30 +10,20 @@ module.exports = {
     browser: true
   },
 
-  {{#if_eq lintConfig "standard"}}
   extends: [
     // https://github.com/vuejs/eslint-plugin-vue#priority-a-essential-error-prevention
     // consider switching to `plugin:vue/strongly-recommended` or `plugin:vue/recommended` for stricter rules.
     'plugin:vue/essential',
+    {{#if_eq lintConfig "standard"}}
     '@vue/standard'
-  ],
-  {{/if_eq}}
-  {{#if_eq lintConfig "airbnb"}}
-  // https://github.com/vuejs/eslint-plugin-vue#priority-a-essential-error-prevention
-  // consider switching to `plugin:vue/strongly-recommended` or `plugin:vue/recommended` for stricter rules.
-  extends: [
-    'plugin:vue/essential',
+    {{/if_eq}}
+    {{#if_eq lintConfig "airbnb"}}
     'airbnb-base'
-  ],
-  {{/if_eq}}
-  {{#if_eq lintConfig "prettier"}}
-  // https://github.com/vuejs/eslint-plugin-vue#priority-a-essential-error-prevention
-  // consider switching to `plugin:vue/strongly-recommended` or `plugin:vue/recommended` for stricter rules.
-  extends: [
-    'plugin:vue/essential',
+    {{/if_eq}}
+    {{#if_eq lintConfig "prettier"}}
     '@vue/prettier'
+    {{/if_eq}}
   ],
-  {{/if_eq}}
 
   // required to lint *.vue files
   plugins: [
