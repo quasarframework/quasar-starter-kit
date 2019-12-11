@@ -77,10 +77,10 @@ module.exports = function (ctx) {
     // https://quasar.dev/quasar-cli/cli-documentation/supporting-ie
     supportIE: {{#if preset.ie}}true{{else}}false{{/if}},
 
-    // https://quasar.dev/quasar-cli/quasar-conf-js#Property%3A-build
+    // Full list of options: https://quasar.dev/quasar-cli/quasar-conf-js#Property%3A-build
     build: {
       scopeHoisting: true,
-      vueRouterMode: 'hash', // available values: 'hash', 'history', 'abstract'
+      vueRouterMode: 'hash', // available values: 'hash', 'history'
       showProgress: true,
       gzip: false,
       analyze: false,
@@ -104,7 +104,7 @@ module.exports = function (ctx) {
       }
     },
 
-    // https://quasar.dev/quasar-cli/quasar-conf-js#Property%3A-devServer
+    // Full list of options: https://quasar.dev/quasar-cli/quasar-conf-js#Property%3A-devServer
     devServer: {
       https: false,
       port: 8080,
@@ -162,19 +162,19 @@ module.exports = function (ctx) {
       }
     },
 
-    // https://quasar.dev/quasar-cli/developing-cordova-apps/configuring-cordova
+    // Full list of options: https://quasar.dev/quasar-cli/developing-cordova-apps/configuring-cordova
     cordova: {
       id: '{{ cordovaId }}',
       // noIosLegacyBuildFlag: true, // uncomment only if you know what you are doing
     },
 
 
-    // https://quasar.dev/quasar-cli/developing-capacitor-apps/configuring-capacitor
+    // Full list of options: https://quasar.dev/quasar-cli/developing-capacitor-apps/configuring-capacitor
     capacitor: {
       hideSplashscreen: true
     },
 
-    // https://quasar.dev/quasar-cli/developing-electron-apps/configuring-electron
+    // Full list of options: https://quasar.dev/quasar-cli/developing-electron-apps/configuring-electron
     electron: {
       bundler: 'packager', // 'packager' or 'builder'
 
