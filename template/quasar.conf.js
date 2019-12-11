@@ -35,8 +35,8 @@ module.exports = function (ctx) {
 
     // https://quasar.dev/quasar-cli/quasar-conf-js#Property%3A-framework
     framework: {
-      // iconSet: 'ionicons-v4', // Quasar icon set
-      // lang: 'de', // Quasar language pack
+      iconSet: 'material-icons', // Quasar icon set
+      lang: 'en-us', // Quasar language pack
 
       // Possible values for "all":
       // * 'auto' - Auto-import needed Quasar components & directives
@@ -77,13 +77,14 @@ module.exports = function (ctx) {
     // https://quasar.dev/quasar-cli/cli-documentation/supporting-ie
     supportIE: {{#if preset.ie}}true{{else}}false{{/if}},
 
-    // https://quasar.dev/quasar-cli/quasar-conf-js#Property%3A-build
+    // Full list of options: https://quasar.dev/quasar-cli/quasar-conf-js#Property%3A-build
     build: {
       scopeHoisting: true,
-      // vueRouterMode: 'history',
-      // showProgress: false,
-      // gzip: true,
-      // analyze: true,
+      vueRouterMode: 'hash', // available values: 'hash', 'history'
+      showProgress: true,
+      gzip: false,
+      analyze: false,
+      // Options below are automatically set depending on the env, set them if you want to override
       // preloadChunks: false,
       // extractCSS: false,
 
@@ -103,10 +104,10 @@ module.exports = function (ctx) {
       }
     },
 
-    // https://quasar.dev/quasar-cli/quasar-conf-js#Property%3A-devServer
+    // Full list of options: https://quasar.dev/quasar-cli/quasar-conf-js#Property%3A-devServer
     devServer: {
-      // https: true,
-      // port: 8080,
+      https: false,
+      port: 8080,
       open: true // opens browser window automatically
     },
 
@@ -121,12 +122,12 @@ module.exports = function (ctx) {
 
     // https://quasar.dev/quasar-cli/developing-pwa/configuring-pwa
     pwa: {
-      // workboxPluginMode: 'InjectManifest',
-      // workboxOptions: {}, // only for NON InjectManifest
+      workboxPluginMode: 'GenerateSW', // 'GenerateSW' or 'InjectManifest'
+      workboxOptions: {}, // only for GenerateSW
       manifest: {
-        // name: '{{ productName }}',
-        // short_name: '{{ productName }}',
-        // description: '{{ description }}',
+        name: '{{ productName }}',
+        short_name: '{{ productName }}',
+        description: '{{ description }}',
         display: 'standalone',
         orientation: 'portrait',
         background_color: '#ffffff',
@@ -161,21 +162,21 @@ module.exports = function (ctx) {
       }
     },
 
-    // https://quasar.dev/quasar-cli/developing-cordova-apps/configuring-cordova
+    // Full list of options: https://quasar.dev/quasar-cli/developing-cordova-apps/configuring-cordova
     cordova: {
-      // id: '{{ cordovaId }}',
+      id: '{{ cordovaId }}',
       // noIosLegacyBuildFlag: true, // uncomment only if you know what you are doing
     },
 
 
-    // https://quasar.dev/quasar-cli/developing-capacitor-apps/configuring-capacitor
+    // Full list of options: https://quasar.dev/quasar-cli/developing-capacitor-apps/configuring-capacitor
     capacitor: {
-      // hideSplashscreen: false
+      hideSplashscreen: true
     },
 
-    // https://quasar.dev/quasar-cli/developing-electron-apps/configuring-electron
+    // Full list of options: https://quasar.dev/quasar-cli/developing-electron-apps/configuring-electron
     electron: {
-      // bundler: 'builder', // or 'packager'
+      bundler: 'packager', // 'packager' or 'builder'
 
       packager: {
         // https://github.com/electron-userland/electron-packager/blob/master/docs/api.md#options
@@ -193,7 +194,7 @@ module.exports = function (ctx) {
       builder: {
         // https://www.electron.build/configuration/configuration
 
-        // appId: '{{ name }}'
+        appId: '{{ name }}'
       },
 
       // keep in sync with /src-electron/main-process/electron-main
