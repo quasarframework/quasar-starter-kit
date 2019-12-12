@@ -164,8 +164,8 @@ module.exports = function (ctx) {
 
     // Full list of options: https://quasar.dev/quasar-cli/developing-cordova-apps/configuring-cordova
     cordova: {
-      id: '{{ cordovaId }}',
       // noIosLegacyBuildFlag: true, // uncomment only if you know what you are doing
+      id: '{{ cordovaId }}'
     },
 
 
