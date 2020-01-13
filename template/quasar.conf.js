@@ -197,8 +197,6 @@ module.exports = function (ctx) {
         appId: '{{ name }}'
       },
 
-      // keep in sync with /src-electron/main-process/electron-main
-      // > BrowserWindow > webPreferences > nodeIntegration
       // More info: https://quasar.dev/quasar-cli/developing-electron-apps/node-integration
       nodeIntegration: true,
 
