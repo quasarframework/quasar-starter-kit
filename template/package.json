@@ -8,21 +8,26 @@
   "author": "{{ author }}",
   "private": true,
   "scripts": {
-    {{#preset.lint}}"lint": "eslint --ext .js,.vue src",{{/preset.lint}}
+    {{#preset.lint}}"lint": "eslint --ext .js,{{#preset.typescript}}.ts,{{/preset.typescript}}.vue --ignore-path .gitignore ./",{{/preset.lint}}
     "test": "echo \"No test specified\" && exit 0"
   },
   "dependencies": {
-    "quasar": "^1.0.0",
-    "@quasar/extras": "^1.0.0"{{#preset.axios}},
-    "axios": "^0.18.1"{{/preset.axios}}{{#preset.i18n}},
-    "vue-i18n": "^8.0.0"{{/preset.i18n}}
+    {{#if_eq typescriptConfig "composition"}}"@vue/composition-api": "^0.3.4",{{/if_eq}}
+    {{#if_eq typescriptConfig "class"}}
+    "vue-class-component": "^7.2.2",
+    "vue-property-decorator": "^8.3.0"
+    {{/if_eq}}
+    {{#preset.axios}}"axios": "^0.18.1",{{/preset.axios}}
+    {{#preset.i18n}}"vue-i18n": "^8.0.0",{{/preset.i18n}}
+    "@quasar/extras": "^1.0.0",
+    "quasar": "^1.0.0"
   },
   "devDependencies": {
     {{#preset.lint}}
     "babel-eslint": "^10.0.1",
-    "eslint": "^5.10.0",
-    "eslint-loader": "^2.1.1",
-    "eslint-plugin-vue": "^5.0.0",
+    "eslint": "^6.8.0",
+    "eslint-loader": "^3.0.3",
+    "eslint-plugin-vue": "^6.1.2",
     {{#if_eq lintConfig "standard"}}
     "@vue/eslint-config-standard": "^4.0.0",
     {{/if_eq}}
@@ -30,9 +35,19 @@
     "@vue/eslint-config-airbnb": "^4.0.0",
     {{/if_eq}}
     {{#if_eq lintConfig "prettier"}}
-    "@vue/eslint-config-prettier": "^4.0.0",
+    "eslint-config-prettier": "^6.9.0",
     {{/if_eq}}
     {{/preset.lint}}
+    {{#preset.typescript}}
+    {{#preset.lint}}
+    "@typescript-eslint/eslint-plugin": "^2.17.0",
+    "@typescript-eslint/parser": "^2.17.0",
+    {{/preset.lint}}
+    "@types/node": "^10.18.1",
+    "fork-ts-checker-webpack-plugin": "^4.0.2",
+    "ts-loader": "^6.2.1",
+    "typescript": "^3.7.5",
+    {{/preset.typescript}}
     "@quasar/app": "^1.0.0"
   },
   "engines": {

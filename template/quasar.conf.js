@@ -1,17 +1,30 @@
+{{#preset.lint}}/* eslint-env node */{{/preset.lint}}
+{{#preset.typescript}}/* eslint-disable @typescript-eslint/no-var-requires */{{/preset.typescript}}
+/*	
+ * This file runs in a Node context (it's NOT transpiled by Babel), so use only	
+ * the ES6 features that are supported by your Node version. https://node.green/	
+ */
+
 // Configuration for your app
 // https://quasar.dev/quasar-cli/quasar-conf-js
 
-module.exports = function (ctx) {
+{{#preset.typescript}}
+const ForkTsCheckerWebpackPlugin = require('fork-ts-checker-webpack-plugin')
+const { configure } = require('quasar');
+{{/preset.typescript}}
+
+module.exports = {{#preset.typescript}}configure({{/preset.typescript}}function (/* ctx */) {
   return {
     // app boot file (/src/boot)
     // --> boot files are part of "main.js"
     // https://quasar.dev/quasar-cli/cli-documentation/boot-files
     boot: [
+      {{#if_eq typescriptConfig "composition"}}'composition-api',{{/if_eq}}
       {{#preset.i18n}}
-      'i18n'{{#preset.axios}},{{/preset.axios}}
+      'i18n',
       {{/preset.i18n}}
       {{#preset.axios}}
-      'axios'
+      'axios',
       {{/preset.axios}}
     ],
 
@@ -92,6 +105,10 @@ module.exports = function (ctx) {
       // https://quasar.dev/quasar-cli/cli-documentation/handling-webpack
       extendWebpack (cfg) {
         {{#preset.lint}}
+        {{#preset.typescript}}
+        if (process.env.NODE_ENV === 'production') {
+          // linting is slow in TS projects, we execute it only for production builds
+        {{/preset.typescript}}
         cfg.module.rules.push({
           enforce: 'pre',
           test: /\.(js|vue)$/,
@@ -101,8 +118,29 @@ module.exports = function (ctx) {
             formatter: require('eslint').CLIEngine.getFormatter('stylish')
           }
         })
+        {{#preset.typescript}}
+        }
+        {{/preset.typescript}}
         {{/preset.lint}}
-      }
+      },
+      chainWebpack(chain) {
+        {{#preset.typescript}}
+        chain.resolve.extensions.add('.ts').add('.tsx');
+        chain.module
+          .rule('typescript')
+          .test(/\.tsx?$/)
+          .use('ts-loader')
+          .loader('ts-loader')
+          .options({
+            appendTsSuffixTo: [/\.vue$/],
+            // Type checking is handled by fork-ts-checker-webpack-plugin
+            transpileOnly: true
+          });
+        chain
+          .plugin('ts-checker')
+          // https://github.com/TypeStrong/fork-ts-checker-webpack-plugin#options
+          .use(ForkTsCheckerWebpackPlugin, [{ {{#preset.lint}}eslint: true, {{/preset.lint}}vue: true }]);
+        {{/preset.typescript}}
     },
 
     // Full list of options: https://quasar.dev/quasar-cli/quasar-conf-js#Property%3A-devServer
@@ -127,11 +165,14 @@ module.exports = function (ctx) {
       workboxOptions: {}, // only for GenerateSW
       manifest: {
         name: '{{ productName }}',
+        {{#preset.typescript}}// eslint-disable-next-line @typescript-eslint/camelcase{{/preset.typescript}}
         short_name: '{{ productName }}',
         description: '{{ description }}',
         display: 'standalone',
         orientation: 'portrait',
+        {{#preset.typescript}}// eslint-disable-next-line @typescript-eslint/camelcase{{/preset.typescript}}
         background_color: '#ffffff',
+        {{#preset.typescript}}// eslint-disable-next-line @typescript-eslint/camelcase{{/preset.typescript}}
         theme_color: '#027be3',
         icons: [
           {
@@ -201,10 +242,10 @@ module.exports = function (ctx) {
       // More info: https://quasar.dev/quasar-cli/developing-electron-apps/node-integration
       nodeIntegration: true,
 
-      extendWebpack (cfg) {
+      extendWebpack (/* cfg */) {
         // do something with Electron main process Webpack cfg
         // chainWebpack also available besides this extendWebpack
       }
     }
   }
-}
+}{{#preset.typescript}});{{/preset.typescript}}
