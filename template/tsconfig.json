@@ -1,9 +1,9 @@
 {
   "compilerOptions": {
     "allowJs": true,
-    "baseUrl": ".",
-    {{#if_eq typescriptConfig "class"}}"experimentalDecorators": true,{{/if_eq}}
-    "esModuleInterop": true,
+    "baseUrl": ".",{{#if_eq typescriptConfig "class"}}
+    "experimentalDecorators": true,
+    {{/if_eq}}"esModuleInterop": true,
     "module": "esnext",
     "moduleResolution": "node",
     // Needed to address https://github.com/quasarframework/app-extension-typescript/issues/36

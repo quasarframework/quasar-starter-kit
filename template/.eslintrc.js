@@ -117,12 +117,11 @@ module.exports = {
 
     {{#preset.typescript}}
     // TypeScript
-    'quotes: ['warn', 'single']',
+    'quotes': ['warn', 'single'],
     '@typescript-eslint/explicit-function-return-type': 'off',
     {{/preset.typescript}}
 
     // allow debugger during development only
     'no-debugger': process.env.NODE_ENV === 'production' ? 'error' : 'off'
-
   }
 }

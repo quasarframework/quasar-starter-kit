@@ -201,7 +201,7 @@ module.exports = {
     'src/store/**/*.js': 'preset.vuex && !preset.typescript',
     
     // TypeScript files
-    '.prettierrc': 'preset.typescript && lintConfig.prettier',
+    '.prettierrc': `preset.typescript && lintConfig === 'prettier'`,
     'tsconfig.json': 'preset.typescript',
     'src/env.d.ts': 'preset.typescript',
     'src/shims-vue.d.ts': 'preset.typescript',
@@ -217,8 +217,8 @@ module.exports = {
     'src/boot/axios.ts': 'preset.axios && preset.typescript',
     'src/boot/composition-api.ts': `typescriptConfig === 'composition'`,
     'src/boot/i18n.ts': 'preset.i18n && preset.typescript',
-    'src/i18n/**/*.js': 'preset.i18n && preset.typescript',
-    'src/store/**/*.js': 'preset.vuex && preset.typescript',
+    'src/i18n/**/*.ts': 'preset.i18n && preset.typescript',
+    'src/store/**/*.ts': 'preset.vuex && preset.typescript',
     
     // CSS preprocessors
     '.stylintrc': `preset.lint && css === 'stylus'`,

@@ -10,12 +10,13 @@
   </q-page>
 </template>
 
-<script lang="ts">
-{{#preset.typescript}}
-{{#if_eq typescriptConfig "composition"}}import ExampleComponent from 'components/CompositionComponent.vue';{{/if_eq}}
-{{#if_eq typescriptConfig "class"}}import ExampleComponent from 'components/ClassComponent.vue';{{/if_eq}}
-{{#if_eq typescriptConfig "object"}}import ExampleComponent from 'components/ObjectComponent.vue';{{/if_eq}}
-
+<script lang="ts">{{#preset.typescript}}{{#if_eq typescriptConfig "composition"}}
+import ExampleComponent from 'components/CompositionComponent.vue';
+{{/if_eq}}{{#if_eq typescriptConfig "class"}}
+import ExampleComponent from 'components/ClassComponent.vue';
+{{/if_eq}}{{#if_eq typescriptConfig "object"}}
+import ExampleComponent from 'components/ObjectComponent.vue';
+{{/if_eq}}
 import { Todo, Meta } from 'components/models';
 {{/preset.typescript}}
 

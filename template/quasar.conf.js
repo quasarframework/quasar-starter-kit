@@ -248,4 +248,4 @@ module.exports = {{#preset.typescript}}configure({{/preset.typescript}}function 
       }
     }
   }
-}{{#preset.typescript}});{{/preset.typescript}}
+}{{#preset.typescript}} });{{/preset.typescript}}
