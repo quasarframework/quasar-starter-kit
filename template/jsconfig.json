@@ -5,9 +5,9 @@
       "src/*": ["src/*"],
       "app/*": ["*"],
       "components/*": ["src/components/*"],
-      "layouts/*": ["src/boot/*"],
-      "pages/*": ["src/boot/*"],
-      "assets/*": ["src/boot/*"],
+      "layouts/*": ["src/layouts/*"],
+      "pages/*": ["src/pages/*"],
+      "assets/*": ["src/assets/*"],
       "boot/*": ["src/boot/*"],
       "vue$": ["node_modules/vue/dist/vue.esm.js"]
     }
