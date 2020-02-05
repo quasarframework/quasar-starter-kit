@@ -3,6 +3,7 @@ import { VueConstructor } from 'vue';
 import Vuex from 'vuex';
 
 // import example from './module-example'
+// import exampleState from './module-example/state'
 
 /*
  * If not building with SSR mode, you can
@@ -12,6 +13,12 @@ import Vuex from 'vuex';
 type StoreBootParams = {
   Vue: VueConstructor;
 } & HasSsrBootParams;
+
+export interface StoreInterface {
+  // Define your own store structure, using submodules if needed
+  // example: typeof exampleState;
+  example: unknown;
+}
 
 export default function({ Vue }: StoreBootParams) {
   Vue.use(Vuex);

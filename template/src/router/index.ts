@@ -1,7 +1,8 @@
 import { HasSsrBootParams, HasStoreBootParams } from 'quasar';
 import { VueConstructor } from 'vue';
 import VueRouter from 'vue-router';
-import routes from './routes';
+{{#preset.vuex}}import { StoreInterface } from '../store';
+{{/preset.vuex}}import routes from './routes';
 
 /*
  * If not building with SSR mode, you can
@@ -11,7 +12,7 @@ import routes from './routes';
 type RouterBootParams = {
   Vue: VueConstructor;
 } & HasSsrBootParams &
-  HasStoreBootParams;
+  HasStoreBootParams{{#preset.vuex}}<StoreInterface>{{/preset.vuex}};
 
 export default function({ Vue }: RouterBootParams) {
   Vue.use(VueRouter);
