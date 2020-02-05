@@ -20,7 +20,6 @@ import ExampleComponent from 'components/ObjectComponent.vue';
 import { Todo, Meta } from 'components/models';
 {{/preset.typescript}}
 
-
 export default {
   name: 'PageIndex',
   components: { ExampleComponent },
