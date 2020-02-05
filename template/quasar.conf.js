@@ -141,6 +141,7 @@ module.exports = {{#preset.typescript}}configure({{/preset.typescript}}function 
           // https://github.com/TypeStrong/fork-ts-checker-webpack-plugin#options
           .use(ForkTsCheckerWebpackPlugin, [{ {{#preset.lint}}eslint: true, {{/preset.lint}}vue: true }]);
         {{/preset.typescript}}
+      }
     },
 
     // Full list of options: https://quasar.dev/quasar-cli/quasar-conf-js#Property%3A-devServer
@@ -248,4 +249,4 @@ module.exports = {{#preset.typescript}}configure({{/preset.typescript}}function 
       }
     }
   }
-}{{#preset.typescript}} });{{/preset.typescript}}
+}{{#preset.typescript}});{{/preset.typescript}}

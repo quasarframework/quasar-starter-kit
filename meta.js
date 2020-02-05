@@ -201,13 +201,13 @@ module.exports = {
     'src/store/**/*.js': 'preset.vuex && !preset.typescript',
     
     // TypeScript files
-    '.prettierrc': `preset.typescript && lintConfig === 'prettier'`,
+    '.prettierrc': `preset.lint && preset.typescript && lintConfig === 'prettier'`,
     'tsconfig.json': 'preset.typescript',
     'src/env.d.ts': 'preset.typescript',
     'src/shims-vue.d.ts': 'preset.typescript',
-    'src/components/CompositionComponent.vue': `typescriptConfig === 'composition'`,
-    'src/components/ClassComponent.vue': `typescriptConfig === 'class'`,
-    'src/components/ObjectComponent.vue': `typescriptConfig === 'object'`,
+    'src/components/CompositionComponent.vue': `preset.typescript && typescriptConfig === 'composition'`,
+    'src/components/ClassComponent.vue': `preset.typescript && typescriptConfig === 'class'`,
+    'src/components/ObjectComponent.vue': `preset.typescript && typescriptConfig === 'object'`,
     'src/components/models.ts': `preset.typescript`,
     
     // Default files using TypeScript
@@ -215,7 +215,7 @@ module.exports = {
     
     // Presets files using TypeScript
     'src/boot/axios.ts': 'preset.axios && preset.typescript',
-    'src/boot/composition-api.ts': `typescriptConfig === 'composition'`,
+    'src/boot/composition-api.ts': `preset.typescript && typescriptConfig === 'composition'`,
     'src/boot/i18n.ts': 'preset.i18n && preset.typescript',
     'src/i18n/**/*.ts': 'preset.i18n && preset.typescript',
     'src/store/**/*.ts': 'preset.vuex && preset.typescript',

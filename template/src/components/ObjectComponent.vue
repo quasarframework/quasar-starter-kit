@@ -3,7 +3,7 @@
     <p>\{{ title }}</p>
     <ul>
       <li v-for="todo in todos" :key="todo.id" @click="increment">
-        {{ prettyTodo(todo) }}
+        \{{ prettyTodo(todo) }}
       </li>
     </ul>
     <p>Count: \{{ todoCount }} / \{{ meta.totalCount }}</p>
