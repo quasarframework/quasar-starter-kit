@@ -2,8 +2,8 @@
   "compilerOptions": {
     "allowJs": true,
     "baseUrl": ".",{{#if_eq typescriptConfig "class"}}
-    "experimentalDecorators": true,
-    {{/if_eq}}"esModuleInterop": true,
+    "experimentalDecorators": true,{{/if_eq}}
+    "esModuleInterop": true,
     "module": "esnext",
     "moduleResolution": "node",
     // Needed to address https://github.com/quasarframework/app-extension-typescript/issues/36
@@ -11,7 +11,17 @@
     "resolveJsonModule": true,
     "sourceMap": true,
     "strict": true,
-    "target": "es6"
+    "target": "es6",
+    // Quasar-defined webpack aliases
+    "paths": {
+      "app/*": ["/*"],
+      "src/*": ["src/*"],
+      "components/*": ["src/components/*"],
+      "layouts/*": ["src/layouts/*"],
+      "pages/*": ["src/pages/*"],
+      "assets/*": ["src/assets/*"],
+      "boot/*": ["src/boot/*"]
+    }
   },
   "exclude": [
     "node_modules",
