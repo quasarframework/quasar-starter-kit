@@ -192,6 +192,7 @@ module.exports = {
     '.eslintrc.js': 'preset.lint',
     
     // Default files when not using TypeScript
+    'jsconfig.json': '!preset.typescript',
     'src/router/*.js': '!preset.typescript',
     
     // Presets files when not using TypeScript

@@ -14,8 +14,8 @@
     "target": "es6",
     // Quasar-defined webpack aliases
     "paths": {
-      "app/*": ["/*"],
       "src/*": ["src/*"],
+      "app/*": ["*"],
       "components/*": ["src/components/*"],
       "layouts/*": ["src/layouts/*"],
       "pages/*": ["src/pages/*"],
@@ -24,9 +24,10 @@
     }
   },
   "exclude": [
-    "node_modules",
     // Needed to avoid files copied into 'dist' folder (eg. a `.d.ts` file inside `src-ssr` folder)
     //  to be considered by TS when their original files has been updated
-    "/dist"
+    "/dist",
+    ".quasar",
+    "node_modules",
   ]
 }
