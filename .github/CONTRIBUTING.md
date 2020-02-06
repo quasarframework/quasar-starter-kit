@@ -31,7 +31,7 @@ Hi! I’m really excited that you are interested in contributing to Quasar. Befo
 
 ## Pull Request Guidelines
 
-- Checkout a topic branch from the `master` branch and merge back against this branch.
+- Checkout a topic branch from the `dev` branch and merge back against this branch.
 
 - Work in the `/template` folder.
 
