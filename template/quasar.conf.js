@@ -10,7 +10,7 @@
 
 {{#preset.typescript}}
 const ForkTsCheckerWebpackPlugin = require('fork-ts-checker-webpack-plugin')
-const { configure } = require('quasar');
+const { configure } = require('quasar/wrappers');
 {{/preset.typescript}}
 
 module.exports = {{#preset.typescript}}configure({{/preset.typescript}}function (/* ctx */) {
