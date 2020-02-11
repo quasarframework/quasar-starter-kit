@@ -20,7 +20,11 @@
     {{#preset.axios}}"axios": "^0.18.1",{{/preset.axios}}
     {{#preset.i18n}}"vue-i18n": "^8.0.0",{{/preset.i18n}}
     "@quasar/extras": "^1.0.0",
+    {{#if preset.typescript}}
+    "quasar": "^1.9.0"
+    {{else}}
     "quasar": "^1.0.0"
+    {{/if}}
   },
   "devDependencies": {
     {{#preset.lint}}
@@ -48,7 +52,11 @@
     "ts-loader": "^6.2.1",
     "typescript": "^3.7.5",
     {{/preset.typescript}}
+    {{#if preset.typescript}}
+    "@quasar/app": "^1.5.4"
+    {{else}}
     "@quasar/app": "^1.0.0"
+    {{/if}}
   },
   "engines": {
     "node": ">= 10.18.1",
