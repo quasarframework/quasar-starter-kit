@@ -11,18 +11,18 @@ module.exports = {
   },
 
   extends: [
-    // https://eslint.vuejs.org/rules/#priority-a-essential-error-prevention
-    // consider switching to `plugin:vue/strongly-recommended` or `plugin:vue/recommended` for stricter rules.
-    'plugin:vue/essential',
     {{#if_eq lintConfig "standard"}}
-    '@vue/standard'
+    'standard',
     {{/if_eq}}
     {{#if_eq lintConfig "airbnb"}}
-    'airbnb-base'
+    'airbnb-base',
     {{/if_eq}}
     {{#if_eq lintConfig "prettier"}}
-    '@vue/prettier'
+    'prettier',
     {{/if_eq}}
+    // https://eslint.vuejs.org/rules/#priority-a-essential-error-prevention
+    // consider switching to `plugin:vue/strongly-recommended` or `plugin:vue/recommended` for stricter rules.
+    'plugin:vue/essential'
   ],
 
   // required to lint *.vue files
