@@ -47,8 +47,9 @@
   },
   "browserslist": [
     "last 1 version, not dead, ie >= 11"
-  ],
+  ]{{#preset.lint}},
   "resolutions": {
     "@babel/parser": "7.7.5"
   }
+  {{/preset.lint}}
 }
