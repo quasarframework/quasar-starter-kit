@@ -20,17 +20,22 @@
   "devDependencies": {
     {{#preset.lint}}
     "babel-eslint": "^10.0.1",
-    "eslint": "^5.10.0",
-    "eslint-loader": "^2.1.1",
-    "eslint-plugin-vue": "^5.0.0",
+    "eslint": "^6.8.0",
+    "eslint-loader": "^3.0.3",
+    "eslint-plugin-vue": "^6.1.2",
     {{#if_eq lintConfig "standard"}}
-    "@vue/eslint-config-standard": "^4.0.0",
+    "eslint-config-standard": "^14.1.0",
+    "eslint-plugin-import": "^2.14.0",
+    "eslint-plugin-node": "^11.0.0",
+    "eslint-plugin-promise": "^4.0.1",
+    "eslint-plugin-standard": "^4.0.0",
     {{/if_eq}}
     {{#if_eq lintConfig "airbnb"}}
-    "@vue/eslint-config-airbnb": "^4.0.0",
+    "eslint-config-airbnb-base": "^14.0.0",
+    "eslint-plugin-import": "^2.20.1",
     {{/if_eq}}
     {{#if_eq lintConfig "prettier"}}
-    "@vue/eslint-config-prettier": "^4.0.0",
+    "eslint-config-prettier": "^4.0.0",
     {{/if_eq}}
     {{/preset.lint}}
     "@quasar/app": "^1.0.0"
@@ -42,5 +47,8 @@
   },
   "browserslist": [
     "last 1 version, not dead, ie >= 11"
-  ]
+  ],
+  "resolutions": {
+    "@babel/parser": "7.7.5"
+  }
 }
