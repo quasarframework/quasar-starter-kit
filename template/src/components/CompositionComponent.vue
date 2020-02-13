@@ -16,7 +16,7 @@
 import { createComponent, PropType, computed, ref } from '@vue/composition-api';
 import { Todo, Meta } from './models';
 
-function clickFeatures() {
+function useClickCount() {
   const clickCount = ref(0);
   function increment() {
     return clickCount.value++;
@@ -25,7 +25,7 @@ function clickFeatures() {
   return { clickCount, increment };
 }
 
-function todoFeatures(todos: Todo[]) {
+function useDisplayTodo(todos: Todo[]) {
   const todoCount = computed(() => todos.length);
 
   function prettyTodo(todo: Todo) {
@@ -55,7 +55,7 @@ export default createComponent({
     }
   },
   setup({ todos }) {
-    return { ...clickFeatures(), ...todoFeatures(todos) };
+    return { ...useClickCount(), ...useDisplayTodo(todos) };
   }
 });
 </script>
