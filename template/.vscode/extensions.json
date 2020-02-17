@@ -1,0 +1,14 @@
+{
+  "recommendations": [
+    {{#preset.lint}}
+    "dbaeumer.vscode-eslint",
+    {{#if_eq lintConfig "prettier"}}"esbenp.prettier-vscode",{{/if_eq}}
+    {{/preset.lint}}
+    "octref.vetur"
+  ],
+  "unwantedRecommendations": [
+    "hookyqr.beautify",
+    "dbaeumer.jshint",
+    "ms-vscode.vscode-typescript-tslint-plugin"
+  ]
+}

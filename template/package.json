@@ -33,10 +33,15 @@
     "eslint-loader": "^3.0.3",
     "eslint-plugin-vue": "^6.1.2",
     {{#if_eq lintConfig "standard"}}
-    "@vue/eslint-config-standard": "^4.0.0",
+    "eslint-config-standard": "^14.1.0",
+    "eslint-plugin-import": "^2.14.0",
+    "eslint-plugin-node": "^11.0.0",
+    "eslint-plugin-promise": "^4.0.1",
+    "eslint-plugin-standard": "^4.0.0",
     {{/if_eq}}
     {{#if_eq lintConfig "airbnb"}}
-    "@vue/eslint-config-airbnb": "^4.0.0",
+    "eslint-config-airbnb-base": "^14.0.0",
+    "eslint-plugin-import": "^2.20.1",
     {{/if_eq}}
     {{#if_eq lintConfig "prettier"}}
     "eslint-config-prettier": "^6.9.0",
@@ -65,5 +70,9 @@
   },
   "browserslist": [
     "last 1 version, not dead, ie >= 11"
-  ]
+  ]{{#preset.lint}},
+  "resolutions": {
+    "@babel/parser": "7.7.5"
+  }
+  {{/preset.lint}}
 }

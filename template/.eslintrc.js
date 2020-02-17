@@ -42,17 +42,17 @@ module.exports = {
     'plugin:vue/essential',
 
     {{#if_eq lintConfig "standard"}}
-    '@vue/standard'
+    'standard',
     {{/if_eq}}
     {{#if_eq lintConfig "airbnb"}}
-    'airbnb-base'
+    'airbnb-base',
     {{/if_eq}}
     {{#if_eq lintConfig "prettier"}}
-    // https://github.com/typescript-eslint/typescript-eslint/tree/master/packages/eslint-plugin#usage-with-prettier
+    // https://github.com/prettier/eslint-config-prettier#installation
     // usage with Prettier, provided by 'eslint-config-prettier'.
     'prettier',
     {{#preset.typescript}}'prettier/@typescript-eslint',{{/preset.typescript}}
-    'prettier/vue'
+    'prettier/vue',
     {{/if_eq}}
   ],
 
