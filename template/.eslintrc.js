@@ -20,9 +20,11 @@ module.exports = {
     {{#if_eq lintConfig "prettier"}}
     'prettier',
     {{/if_eq}}
-    // https://eslint.vuejs.org/rules/#priority-a-essential-error-prevention
-    // consider switching to `plugin:vue/strongly-recommended` or `plugin:vue/recommended` for stricter rules.
-    'plugin:vue/essential'
+    // Uncomment any of the lines below to choose desired strictness
+    // See https://vuejs.github.io/eslint-plugin-vue/rules/#available-rules
+    // 'plugin:vue/essential' // Priority A: Essential (Error Prevention)
+    // 'plugin:vue/strongly-recommended' // Priority B: Strongly Recommended (Improving Readability)
+    'plugin:vue/recommended' // Priority C: Recommended (Minimizing Arbitrary Choices and Cognitive Overhead)
   ],
 
   // required to lint *.vue files
