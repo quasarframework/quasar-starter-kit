@@ -10,13 +10,16 @@ module.exports = {
     {{#if preset.typescript}}
     // Needed to make the parser take into account 'vue' files
     // See https://github.com/typescript-eslint/typescript-eslint/tree/master/packages/parser#configuration
+    // See https://github.com/TypeStrong/fork-ts-checker-webpack-plugin#eslint
     extraFileExtensions: ['.vue'],
     parser: '@typescript-eslint/parser',
-    project: './tsconfig.json',
+    project: path.resolve(__dirname, './tsconfig.json'),
+    tsconfigRootDir: __dirname,
     {{else}}
     parser: 'babel-eslint',
     {{/if}}
-    sourceType: 'module'
+    ecmaVersion: 2018, // Allows for the parsing of modern ECMAScript features
+    sourceType: 'module', // Allows for the use of imports
   },
 
   env: {
