@@ -17,7 +17,7 @@ import { Vue, Component, Prop } from 'vue-property-decorator';
 import { Todo, Meta } from './models';
 
 @Component
-export default class CompositionComponent extends Vue {
+export default class ClassComponent extends Vue {
   @Prop({ type: String, required: true }) readonly title!: string;
   @Prop({ type: Array, default: () => [] }) readonly todos!: Todo[];
   @Prop({ type: Object, required: true }) readonly meta!: Meta;
