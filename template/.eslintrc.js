@@ -1,3 +1,5 @@
+{{#preset.typescript}}const { resolve } = require('path');
+{{/preset.typescript}}
 module.exports = {
   root: true,
 
@@ -13,7 +15,7 @@ module.exports = {
     // See https://github.com/TypeStrong/fork-ts-checker-webpack-plugin#eslint
     extraFileExtensions: ['.vue'],
     parser: '@typescript-eslint/parser',
-    project: path.resolve(__dirname, './tsconfig.json'),
+    project: resolve(__dirname, './tsconfig.json'),
     tsconfigRootDir: __dirname,
     {{else}}
     parser: 'babel-eslint',
