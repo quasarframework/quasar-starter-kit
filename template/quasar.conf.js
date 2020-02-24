@@ -9,7 +9,6 @@
 // https://quasar.dev/quasar-cli/quasar-conf-js
 
 {{#preset.typescript}}
-const ForkTsCheckerWebpackPlugin = require('fork-ts-checker-webpack-plugin')
 const { configure } = require('quasar/wrappers');
 {{/preset.typescript}}
 
@@ -90,6 +89,12 @@ module.exports = {{#preset.typescript}}configure({{/preset.typescript}}function 
 
     // https://quasar.dev/quasar-cli/cli-documentation/supporting-ie
     supportIE: {{#if preset.ie}}true{{else}}false{{/if}},
+    
+    // https://quasar.dev/quasar-cli/cli-documentation/supporting-ts
+    supportTS: {{#if preset.typescript}}{{#if preset.lint}}{
+      enable: true,
+      tsCheckerConfig: { eslint: true }
+    }{{else}}true{{/if}}{{else}}false{{/if}},
 
     // Full list of options: https://quasar.dev/quasar-cli/quasar-conf-js#Property%3A-build
     build: {
@@ -123,25 +128,6 @@ module.exports = {{#preset.typescript}}configure({{/preset.typescript}}function 
         {{/preset.typescript}}
         {{/preset.lint}}
       },
-      chainWebpack(chain) {
-        {{#preset.typescript}}
-        chain.resolve.extensions.add('.ts').add('.tsx');
-        chain.module
-          .rule('typescript')
-          .test(/\.tsx?$/)
-          .use('ts-loader')
-          .loader('ts-loader')
-          .options({
-            appendTsSuffixTo: [/\.vue$/],
-            // Type checking is handled by fork-ts-checker-webpack-plugin
-            transpileOnly: true
-          });
-        chain
-          .plugin('ts-checker')
-          // https://github.com/TypeStrong/fork-ts-checker-webpack-plugin#options
-          .use(ForkTsCheckerWebpackPlugin, [{ {{#preset.lint}}eslint: true, {{/preset.lint}}vue: true }]);
-        {{/preset.typescript}}
-      }
     },
 
     // Full list of options: https://quasar.dev/quasar-cli/quasar-conf-js#Property%3A-devServer
