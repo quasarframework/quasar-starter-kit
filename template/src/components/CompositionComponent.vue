@@ -13,7 +13,7 @@
 </template>
 
 <script lang="ts">
-import { createComponent, PropType, computed, ref } from '@vue/composition-api';
+import { defineComponent, PropType, computed, ref } from '@vue/composition-api';
 import { Todo, Meta } from './models';
 
 function useClickCount() {
@@ -35,7 +35,7 @@ function useDisplayTodo(todos: Todo[]) {
   return { todoCount, prettyTodo };
 }
 
-export default createComponent({
+export default defineComponent({
   name: 'CompositionComponent',
   props: {
     title: {
