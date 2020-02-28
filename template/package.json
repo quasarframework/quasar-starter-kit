@@ -21,7 +21,7 @@
     {{#preset.i18n}}"vue-i18n": "^8.0.0",{{/preset.i18n}}
     "@quasar/extras": "^1.0.0",
     {{#if preset.typescript}}
-    "quasar": "^1.9.2"
+    "quasar": "^1.9.5"
     {{else}}
     "quasar": "^1.0.0"
     {{/if}}
@@ -55,7 +55,7 @@
     "@types/node": "^10.17.15",
     {{/preset.typescript}}
     {{#if preset.typescript}}
-    "@quasar/app": "^1.5.7"
+    "@quasar/app": "^1.6.0"
     {{else}}
     "@quasar/app": "^1.0.0"
     {{/if}}

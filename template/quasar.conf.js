@@ -92,7 +92,6 @@ module.exports = {{#preset.typescript}}configure({{/preset.typescript}}function 
     
     // https://quasar.dev/quasar-cli/cli-documentation/supporting-ts
     supportTS: {{#if preset.typescript}}{{#if preset.lint}}{
-      enable: true,
       tsCheckerConfig: { eslint: true }
     }{{else}}true{{/if}}{{else}}false{{/if}},
 
