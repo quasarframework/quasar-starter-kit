@@ -8,6 +8,7 @@
   "author": "{{ author }}",
   "private": true,
   "scripts": {
+    "dev": "quasar dev",
     {{#preset.lint}}"lint": "eslint --ext .js,.vue src",{{/preset.lint}}
     "test": "echo \"No test specified\" && exit 0"
   },
