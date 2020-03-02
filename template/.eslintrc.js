@@ -34,12 +34,12 @@ module.exports = {
   ],
 
   globals: {
-    'ga': true, // Google Analytics
-    'cordova': true,
-    '__statics': true,
-    'process': true,
-    'Capacitor': true,
-    'chrome': true
+    'ga': writable, // Google Analytics
+    'cordova': writable,
+    '__statics': writable,
+    'process': writable,
+    'Capacitor': writable,
+    'chrome': writable
   },
 
   // add your custom rules here
