@@ -1,5 +1,4 @@
-import { HasSsrBootParams } from 'quasar';
-import { VueConstructor } from 'vue';
+import { store } from 'quasar/wrappers';
 import Vuex from 'vuex';
 
 // import example from './module-example'
@@ -10,17 +9,13 @@ import Vuex from 'vuex';
  * directly export the Store instantiation
  */
 
-type StoreBootParams = {
-  Vue: VueConstructor;
-} & HasSsrBootParams;
-
 export interface StoreInterface {
   // Define your own store structure, using submodules if needed
   // example: typeof exampleState;
   example: unknown;
 }
 
-export default function({ Vue }: StoreBootParams) {
+export default store(function ({ Vue }) {
   Vue.use(Vuex);
 
   const Store = new Vuex.Store({
@@ -34,4 +29,4 @@ export default function({ Vue }: StoreBootParams) {
   });
 
   return Store;
-}
+})

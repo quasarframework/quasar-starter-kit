@@ -1,5 +1,4 @@
-import { HasSsrBootParams, HasStoreBootParams } from 'quasar';
-import { VueConstructor } from 'vue';
+import { route } from 'quasar/wrappers';
 import VueRouter from 'vue-router';
 {{#preset.vuex}}import { StoreInterface } from '../store';
 {{/preset.vuex}}import routes from './routes';
@@ -9,12 +8,7 @@ import VueRouter from 'vue-router';
  * directly export the Router instantiation
  */
 
-type RouterBootParams = {
-  Vue: VueConstructor;
-} & HasSsrBootParams &
-  HasStoreBootParams{{#preset.vuex}}<StoreInterface>{{/preset.vuex}};
-
-export default function({ Vue }: RouterBootParams) {
+export default route{{#preset.vuex}}<StoreInterface>{{/preset.vuex}}(function ({ Vue }) {
   Vue.use(VueRouter);
 
   const Router = new VueRouter({
@@ -29,4 +23,4 @@ export default function({ Vue }: RouterBootParams) {
   });
 
   return Router;
-}
+})
