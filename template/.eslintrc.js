@@ -43,7 +43,7 @@ module.exports = {
     'plugin:@typescript-eslint/recommended',
     // consider disabling this class of rules if linting takes too long
     'plugin:@typescript-eslint/recommended-requiring-type-checking',
-    {{/preset.typescript}}    
+    {{/preset.typescript}}
 
     // Uncomment any of the lines below to choose desired strictness,
     // but leave only one uncommented!
@@ -53,18 +53,17 @@ module.exports = {
     // 'plugin:vue/recommended' // Priority C: Recommended (Minimizing Arbitrary Choices and Cognitive Overhead)
 
     {{#if_eq lintConfig "standard"}}
-    'standard',
+    'standard'
     {{/if_eq}}
     {{#if_eq lintConfig "airbnb"}}
-    'airbnb-base',
+    'airbnb-base'
     {{/if_eq}}
     {{#if_eq lintConfig "prettier"}}
     // https://github.com/prettier/eslint-config-prettier#installation
     // usage with Prettier, provided by 'eslint-config-prettier'.
     'prettier',
     {{#preset.typescript}}'prettier/@typescript-eslint',{{/preset.typescript}}
-    'prettier/vue',
-    {{/if_eq}}
+    'prettier/vue'{{/if_eq}}
   ],
 
   plugins: [
