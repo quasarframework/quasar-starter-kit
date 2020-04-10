@@ -1,0 +1,7 @@
+{
+  "extends": "@quasar/app/tsconfig-preset",
+  "compilerOptions": {
+    "baseUrl": "."{{#if_eq typescriptConfig "class"}},
+    "experimentalDecorators": true,{{/if_eq}}
+  }
+}
