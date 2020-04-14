@@ -95,6 +95,12 @@ export default {
           caption: '@QuasarFramework',
           icon: 'public',
           link: 'https://facebook.quasar.dev'
+        },
+        {
+          title: 'Quasar Awesome',
+          caption: 'Community Quasar projects',
+          icon: 'favorite',
+          link: 'https://github.com/quasarframework/quasar-awesome'
         }
       ]
     }
