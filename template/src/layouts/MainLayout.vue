@@ -100,7 +100,7 @@ export default {
           title: 'Quasar Awesome',
           caption: 'Community Quasar projects',
           icon: 'favorite',
-          link: 'https://github.com/quasarframework/quasar-awesome'
+          link: 'https://awesome.quasar.dev'
         }
       ]
     }
