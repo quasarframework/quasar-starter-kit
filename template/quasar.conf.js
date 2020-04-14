@@ -1,8 +1,8 @@
 {{#preset.lint}}/* eslint-env node */{{/preset.lint}}
 {{#preset.typescript}}/* eslint-disable @typescript-eslint/no-var-requires */{{/preset.typescript}}
-/*	
- * This file runs in a Node context (it's NOT transpiled by Babel), so use only	
- * the ES6 features that are supported by your Node version. https://node.green/	
+/*
+ * This file runs in a Node context (it's NOT transpiled by Babel), so use only
+ * the ES6 features that are supported by your Node version. https://node.green/
  */
 
 // Configuration for your app
@@ -35,7 +35,7 @@ module.exports = {{#preset.typescript}}configure({{/preset.typescript}}function 
     // https://github.com/quasarframework/quasar/tree/dev/extras
     extras: [
       // 'ionicons-v4',
-      // 'mdi-v4',
+      // 'mdi-v5',
       // 'fontawesome-v5',
       // 'eva-icons',
       // 'themify',
@@ -89,7 +89,7 @@ module.exports = {{#preset.typescript}}configure({{/preset.typescript}}function 
 
     // https://quasar.dev/quasar-cli/cli-documentation/supporting-ie
     supportIE: {{#if preset.ie}}true{{else}}false{{/if}},
-    
+
     // https://quasar.dev/quasar-cli/cli-documentation/supporting-ts
     supportTS: {{#if preset.typescript}}{{#if preset.lint}}{
       tsCheckerConfig: { eslint: true }
