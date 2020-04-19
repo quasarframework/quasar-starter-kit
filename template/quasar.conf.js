@@ -12,8 +12,14 @@
 const { configure } = require('quasar/wrappers');
 {{/preset.typescript}}
 
+{{#if_eq lintConfig "airbnb"}}
+/* eslint-disable func-names */
+{{/if_eq}}
 module.exports = {{#preset.typescript}}configure({{/preset.typescript}}function (/* ctx */) {
-  return {
+{{#if_eq lintConfig "airbnb"}}
+/* eslint-enable func-names */
+{{/if_eq}}
+    return {
     // app boot file (/src/boot)
     // --> boot files are part of "main.js"
     // https://quasar.dev/quasar-cli/cli-documentation/boot-files
@@ -121,7 +127,13 @@ module.exports = {{#preset.typescript}}configure({{/preset.typescript}}function 
           loader: 'eslint-loader',
           exclude: /node_modules/,
           options: {
-            formatter: require('eslint').CLIEngine.getFormatter('stylish')
+            {{#if_eq lintConfig "airbnb"}}
+            /* eslint-disable global-require */
+            {{/if_eq}}
+            formatter: require('eslint').CLIEngine.getFormatter('stylish'),
+            {{#if_eq lintConfig "airbnb"}}
+            /* eslint-enable global-require */
+            {{/if_eq}}
           }
         })
         {{#preset.typescript}}
