@@ -3,7 +3,7 @@
     <p>\{{ title }}</p>
     <ul>
       <li v-for="todo in todos" :key="todo.id" @click="increment">
-        \{{ prettyTodo(todo) }}
+        \{{ todo.id }} - \{{ todo.content }}
       </li>
     </ul>
     <p>Count: \{{ todoCount }} / \{{ meta.totalCount }}</p>
@@ -42,10 +42,7 @@ export default Vue.extend({
   },
   methods: {
     increment(): void {
-      this.clickCount++;
-    },
-    prettyTodo(todo: Todo): string {
-      return `${todo.id} - ${todo.content}`;
+      this.clickCount += 1;
     }
   },
   computed: {

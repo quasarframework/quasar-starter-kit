@@ -1,7 +1,6 @@
-const
-  path = require('path'),
-  fs = require('fs'),
-  spawn = require('child_process').spawn
+const path = require('path')
+const fs = require('fs')
+const spawn = require('child_process').spawn
 
 const lintStyles = ['standard', 'airbnb', 'prettier']
 

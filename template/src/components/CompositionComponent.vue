@@ -3,7 +3,7 @@
     <p>\{{ title }}</p>
     <ul>
       <li v-for="todo in todos" :key="todo.id" @click="increment">
-        \{{ prettyTodo(todo) }}
+        \{{ todo.id }} - \{{ todo.content }}
       </li>
     </ul>
     <p>Count: \{{ todoCount }} / \{{ meta.totalCount }}</p>
@@ -19,7 +19,8 @@ import { Todo, Meta } from './models';
 function useClickCount() {
   const clickCount = ref(0);
   function increment() {
-    return clickCount.value++;
+    clickCount.value += 1
+    return clickCount.value;
   }
 
   return { clickCount, increment };
@@ -27,12 +28,7 @@ function useClickCount() {
 
 function useDisplayTodo(todos: Todo[]) {
   const todoCount = computed(() => todos.length);
-
-  function prettyTodo(todo: Todo) {
-    return `${todo.id} - ${todo.content}`;
-  }
-
-  return { todoCount, prettyTodo };
+  return { todoCount };
 }
 
 export default defineComponent({
