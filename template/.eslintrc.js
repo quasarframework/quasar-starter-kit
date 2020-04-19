@@ -123,8 +123,8 @@ module.exports = {
     'import/no-extraneous-dependencies': 'off',
     'import/prefer-default-export': 'off',
 
-    'airbnb-base/func-names': 'off',
-    'airbnb-base/global-require': 'off',
+    // 'airbnb-base/func-names': 'off',
+    // 'airbnb-base/global-require': 'off',
     {{/if_eq}}
     'prefer-promise-reject-errors': 'off',
 
