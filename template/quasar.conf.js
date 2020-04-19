@@ -1,5 +1,3 @@
-{{#preset.lint}}/* eslint-env node */{{/preset.lint}}
-{{#preset.typescript}}/* eslint-disable @typescript-eslint/no-var-requires */{{/preset.typescript}}
 /*
  * This file runs in a Node context (it's NOT transpiled by Babel), so use only
  * the ES6 features that are supported by your Node version. https://node.green/
@@ -7,18 +5,22 @@
 
 // Configuration for your app
 // https://quasar.dev/quasar-cli/quasar-conf-js
-
+{{#preset.lint}}
+/* eslint-env node */
+{{#if_eq lintConfig "airbnb"}}
+/* eslint func-names: 0 */
+/* eslint global-require: 0 */
+{{/if_eq}}
+{{/preset.lint}}
+{{#preset.typescript}}
+/* eslint-disable @typescript-eslint/no-var-requires */
+/* eslint-disable @typescript-eslint/camelcase */
+{{/preset.typescript}}
 {{#preset.typescript}}
 const { configure } = require('quasar/wrappers');
 {{/preset.typescript}}
 
-{{#if_eq lintConfig "airbnb"}}
-/* eslint-disable func-names */
-{{/if_eq}}
-module.exports = {{#preset.typescript}}configure({{/preset.typescript}}function (/* ctx */) {
-{{#if_eq lintConfig "airbnb"}}
-/* eslint-enable func-names */
-{{/if_eq}}
+module.exports = {{#preset.typescript}}configure({{/preset.typescript}}function ({{#preset.lint}}{{#preset.typescript}}ctx{{else}}/* ctx */{{/preset.typescript}}{{else}}/* ctx */{{/preset.lint}}) {
     return {
     // app boot file (/src/boot)
     // --> boot files are part of "main.js"
@@ -49,7 +51,7 @@ module.exports = {{#preset.typescript}}configure({{/preset.typescript}}function 
       // 'roboto-font-latin-ext', // this or either 'roboto-font', NEVER both!
 
       'roboto-font', // optional, you are not bound to it
-      'material-icons' // optional, you are not bound to it
+      'material-icons', // optional, you are not bound to it
     ],
 
     // https://quasar.dev/quasar-cli/quasar-conf-js#Property%3A-framework
@@ -118,22 +120,15 @@ module.exports = {{#preset.typescript}}configure({{/preset.typescript}}function 
       extendWebpack (cfg) {
         {{#preset.lint}}
         {{#preset.typescript}}
-        if (process.env.NODE_ENV === 'production') {
           // linting is slow in TS projects, we execute it only for production builds
-        {{/preset.typescript}}
-        cfg.module.rules.push({
+        if (ctx.prod) {
+        {{/preset.typescript}}cfg.module.rules.push({
           enforce: 'pre',
           test: /\.(js|vue)$/,
           loader: 'eslint-loader',
           exclude: /node_modules/,
           options: {
-            {{#if_eq lintConfig "airbnb"}}
-            /* eslint-disable global-require */
-            {{/if_eq}}
             formatter: require('eslint').CLIEngine.getFormatter('stylish'),
-            {{#if_eq lintConfig "airbnb"}}
-            /* eslint-enable global-require */
-            {{/if_eq}}
           }
         })
         {{#preset.typescript}}
@@ -165,14 +160,11 @@ module.exports = {{#preset.typescript}}configure({{/preset.typescript}}function 
       workboxOptions: {}, // only for GenerateSW
       manifest: {
         name: '{{ productName }}',
-        {{#preset.typescript}}// eslint-disable-next-line @typescript-eslint/camelcase{{/preset.typescript}}
         short_name: '{{ productName }}',
         description: '{{ description }}',
         display: 'standalone',
         orientation: 'portrait',
-        {{#preset.typescript}}// eslint-disable-next-line @typescript-eslint/camelcase{{/preset.typescript}}
         background_color: '#ffffff',
-        {{#preset.typescript}}// eslint-disable-next-line @typescript-eslint/camelcase{{/preset.typescript}}
         theme_color: '#027be3',
         icons: [
           {
