@@ -17,7 +17,7 @@ import Vue, { PropType } from 'vue';
 import { Todo, Meta } from './models';
 
 export default Vue.extend({
-  name: 'ObjectComponent',
+  name: 'OptionsComponent',
   props: {
     title: {
       type: String,
