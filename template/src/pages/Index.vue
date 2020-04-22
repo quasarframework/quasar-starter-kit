@@ -14,8 +14,8 @@
 import ExampleComponent from 'components/CompositionComponent.vue';
 {{/if_eq}}{{#if_eq typescriptConfig "class"}}
 import ExampleComponent from 'components/ClassComponent.vue';
-{{/if_eq}}{{#if_eq typescriptConfig "object"}}
-import ExampleComponent from 'components/ObjectComponent.vue';
+{{/if_eq}}{{#if_eq typescriptConfig "options"}}
+import ExampleComponent from 'components/OptionsComponent.vue';
 {{/if_eq}}
 import { Todo, Meta } from 'components/models';
 {{/preset.typescript}}

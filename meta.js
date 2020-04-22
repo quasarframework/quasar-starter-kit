@@ -126,9 +126,9 @@ module.exports = {
           short: 'Class',
         },
         {
-          name: 'Object API',
-          value: 'object',
-          short: 'object',
+          name: 'Options API',
+          value: 'options',
+          short: 'options',
         }
       ]
     },
@@ -208,7 +208,7 @@ module.exports = {
     'src/shims-vue.d.ts': 'preset.typescript',
     'src/components/CompositionComponent.vue': `preset.typescript && typescriptConfig === 'composition'`,
     'src/components/ClassComponent.vue': `preset.typescript && typescriptConfig === 'class'`,
-    'src/components/ObjectComponent.vue': `preset.typescript && typescriptConfig === 'object'`,
+    'src/components/OptionsComponent.vue': `preset.typescript && typescriptConfig === 'options'`,
     'src/components/models.ts': `preset.typescript`,
     
     // Default files using TypeScript
