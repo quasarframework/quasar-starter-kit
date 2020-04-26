@@ -1,7 +1,9 @@
-import * as actions from './actions';
-import * as getters from './getters';
-import * as mutations from './mutations';
-import state from './state';
+import { Module } from 'vuex';
+import { StoreInterface } from '../index';
+import state, { ExampleStateInterface } from './state';
+import actions from './actions';
+import getters from './getters';
+import mutations from './mutations';
 
 export default {
   namespaced: true,
@@ -9,4 +11,4 @@ export default {
   mutations,
   actions,
   state
-};
+} as Module<ExampleStateInterface, StoreInterface>;

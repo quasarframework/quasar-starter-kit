@@ -1,3 +1,7 @@
+export interface ExampleStateInterface {
+  prop: boolean;
+}
+
 export default {
-  // your code
-};
+  prop: false
+} as ExampleStateInterface;
