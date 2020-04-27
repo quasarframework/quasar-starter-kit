@@ -1,8 +1,8 @@
 import { store } from 'quasar/wrappers';
 import Vuex from 'vuex';
 
-// import example from './module-example'
-// import exampleState from './module-example/state'
+// import example from './module-example';
+// import { ExampleStateInterface } from './module-example/state';
 
 /*
  * If not building with SSR mode, you can
@@ -11,14 +11,14 @@ import Vuex from 'vuex';
 
 export interface StoreInterface {
   // Define your own store structure, using submodules if needed
-  // example: typeof exampleState;
-  example: unknown;
+  // example: ExampleStateInterface;
+  example: unknown; // Declared as unknown to avoid linting issue. Best to strongly type as per the line above.
 }
 
 export default store(function ({ Vue }) {
   Vue.use(Vuex);
 
-  const Store = new Vuex.Store({
+  const Store = new Vuex.Store<StoreInterface>({
     modules: {
       // example
     },
@@ -29,4 +29,4 @@ export default store(function ({ Vue }) {
   });
 
   return Store;
-})
+});
