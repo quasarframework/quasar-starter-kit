@@ -1,5 +1,5 @@
 import { store } from 'quasar/wrappers';
-import Vuex, { Store } from 'vuex';
+import Vuex from 'vuex';
 
 // import example from './module-example';
 import { ExampleStateInterface } from './module-example/state';
@@ -14,10 +14,10 @@ export interface StoreInterface {
   example: ExampleStateInterface;
 }
 
-export default store(function ({ Vue }): Store<StoreInterface> {
+export default store(function ({ Vue }) {
   Vue.use(Vuex);
 
-  const newStore: Store<StoreInterface> = new Vuex.Store({
+  const Store = new Vuex.Store<StoreInterface>({
     modules: {
       // example
     },
@@ -27,5 +27,5 @@ export default store(function ({ Vue }): Store<StoreInterface> {
     strict: !!process.env.DEV
   });
 
-  return newStore;
+  return Store;
 });

@@ -2,6 +2,8 @@ export interface ExampleStateInterface {
   prop: boolean;
 }
 
-export default {
+const state: ExampleStateInterface = {
   prop: false
-} as ExampleStateInterface;
+};
+
+export default state;

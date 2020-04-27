@@ -2,8 +2,10 @@ import { GetterTree } from 'vuex';
 import { StoreInterface } from '../index';
 import { ExampleStateInterface } from './state';
 
-export default {
-  someGetter (/* state */) {
-    // return state.prop;
+const getters: GetterTree<ExampleStateInterface, StoreInterface> = {
+  someAction (/* context */) {
+    // your code
   }
-} as GetterTree<ExampleStateInterface, StoreInterface>;
+};
+
+export default getters;

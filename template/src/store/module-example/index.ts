@@ -5,10 +5,12 @@ import actions from './actions';
 import getters from './getters';
 import mutations from './mutations';
 
-export default {
+const module: Module<ExampleStateInterface, StoreInterface> = {
   namespaced: true,
+  actions,
   getters,
   mutations,
-  actions,
   state
-} as Module<ExampleStateInterface, StoreInterface>;
+};
+
+export default module;
