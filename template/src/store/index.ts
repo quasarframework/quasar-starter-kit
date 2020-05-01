@@ -12,7 +12,8 @@ import Vuex from 'vuex';
 export interface StoreInterface {
   // Define your own store structure, using submodules if needed
   // example: ExampleStateInterface;
-  example: unknown; // Declared as unknown to avoid linting issue. Best to strongly type as per the line above.
+  // Declared as unknown to avoid linting issue. Best to strongly type as per the line above.
+  example: unknown;
 }
 
 export default store(function ({ Vue }) {
