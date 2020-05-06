@@ -4,7 +4,7 @@
   </div>
 </template>
 
-<script {{#preset.typescript}}lang="ts"{{/preset.typescript}}>
+<script{{#preset.typescript}} lang="ts"{{/preset.typescript}}>
 export default {
   name: 'App'
 }
