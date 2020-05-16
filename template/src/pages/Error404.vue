@@ -19,7 +19,15 @@
 </template>
 
 <script {{#preset.typescript}}lang="ts"{{/preset.typescript}}>
+{{#if preset.typescript}}
+import Vue as 'vue';
+
+export default Vue.extend({
+  name: 'Error404'
+});
+{{else}}
 export default {
   name: 'Error404'
 }
+{{/if}}
 </script>

@@ -10,7 +10,9 @@
   </q-page>
 </template>
 
-<script lang="ts">{{#preset.typescript}}{{#if_eq typescriptConfig "composition"}}
+<script lang="ts">
+import Vue from 'vue';
+{{#preset.typescript}}{{#if_eq typescriptConfig "composition"}}
 import ExampleComponent from 'components/CompositionComponent.vue';
 {{/if_eq}}{{#if_eq typescriptConfig "class"}}
 import ExampleComponent from 'components/ClassComponent.vue';
@@ -20,7 +22,7 @@ import ExampleComponent from 'components/OptionsComponent.vue';
 import { Todo, Meta } from 'components/models';
 {{/preset.typescript}}
 
-export default {
+export default Vue.extend({
   name: 'PageIndex',
   components: { ExampleComponent },
   data() {
@@ -51,7 +53,7 @@ export default {
     };
     return { todos, meta };
   }
-}
+});
 </script>
 {{else}}
 <template>
