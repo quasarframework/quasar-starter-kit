@@ -20,7 +20,7 @@
 
 <script {{#preset.typescript}}lang="ts"{{/preset.typescript}}>
 {{#if preset.typescript}}
-import Vue as 'vue';
+import Vue from 'vue';
 
 export default Vue.extend({
   name: 'Error404'
