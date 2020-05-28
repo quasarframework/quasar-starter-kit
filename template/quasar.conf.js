@@ -110,6 +110,7 @@ module.exports = {{#preset.typescript}}configure({{/preset.typescript}}function 
     build: {
       vueRouterMode: 'hash', // available values: 'hash', 'history'
 
+      // modern: true, // https://quasar.dev/quasar-cli/modern-build
       // rtl: false, // https://quasar.dev/options/rtl-support
       // preloadChunks: true,
       // showProgress: false,
