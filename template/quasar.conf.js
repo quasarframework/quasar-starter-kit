@@ -104,7 +104,7 @@ module.exports = {{#preset.typescript}}configure({{/preset.typescript}}function 
     }{{else}}true{{/if}}{{else}}false{{/if}},
 
     // https://quasar.dev/quasar-cli/cli-documentation/prefetch-feature
-    // preFetch: true
+    // preFetch: true,
 
     // Full list of options: https://quasar.dev/quasar-cli/quasar-conf-js#Property%3A-build
     build: {
