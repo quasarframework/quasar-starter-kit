@@ -69,6 +69,11 @@ module.exports = {{#preset.typescript}}configure({{/preset.typescript}}function 
     build: {
       vueRouterMode: 'hash', // available values: 'hash', 'history'
 
+      // Add dependencies for transpiling with Babel (Array of regexes)
+      // (from node_modules, which are by default not transpiled).
+      // Does not applies to modern builds.
+      // transpileDependencies: [],
+
       // modern: true, // https://quasar.dev/quasar-cli/modern-build
       // rtl: false, // https://quasar.dev/options/rtl-support
       // preloadChunks: true,
