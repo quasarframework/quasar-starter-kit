@@ -22,9 +22,6 @@ const { configure } = require('quasar/wrappers');
 
 module.exports = {{#preset.typescript}}configure({{/preset.typescript}}function ({{#preset.lint}}{{#preset.typescript}}ctx{{else}}/* ctx */{{/preset.typescript}}{{else}}/* ctx */{{/preset.lint}}) {
   return {
-    // https://quasar.dev/quasar-cli/cli-documentation/supporting-ie
-    supportIE: {{#if preset.ie}}true{{else}}false{{/if}},
-
     // https://quasar.dev/quasar-cli/cli-documentation/supporting-ts
     supportTS: {{#if preset.typescript}}{{#if preset.lint}}{
       tsCheckerConfig: { eslint: true }
@@ -69,12 +66,13 @@ module.exports = {{#preset.typescript}}configure({{/preset.typescript}}function 
     build: {
       vueRouterMode: 'hash', // available values: 'hash', 'history'
 
+      // legacy: true,
+
       // Add dependencies for transpiling with Babel (Array of regexes)
       // (from node_modules, which are by default not transpiled).
-      // Does not applies to modern builds.
+      // Applies only if "legacy build" is used.
       // transpileDependencies: [],
 
-      // modern: true, // https://quasar.dev/quasar-cli/modern-build
       // rtl: false, // https://quasar.dev/options/rtl-support
       // preloadChunks: true,
       // showProgress: false,
