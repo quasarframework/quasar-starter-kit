@@ -8,7 +8,7 @@
   "author": "{{ author }}",
   "private": true,
   "scripts": {
-    {{#preset.lint}}"lint": "eslint --ext .js,{{#preset.typescript}}.ts,{{/preset.typescript}}.vue --ignore-path .gitignore ./",{{/preset.lint}}
+    {{#preset.lint}}"lint": "eslint --ext .js,{{#preset.typescript}}.ts,{{/preset.typescript}}.vue ./",{{/preset.lint}}
     "test": "echo \"No test specified\" && exit 0"
   },
   "dependencies": {
