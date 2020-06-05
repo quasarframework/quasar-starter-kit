@@ -81,6 +81,11 @@ module.exports = {
       message: 'Check the features needed for your project:',
       choices: [
         {
+          name: 'Babel',
+          value: 'babel',
+          checked: true
+        },
+        {
           name: 'ESLint',
           value: 'lint',
           checked: true
