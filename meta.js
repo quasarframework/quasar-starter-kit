@@ -156,18 +156,6 @@ module.exports = {
       ]
     },
 
-    cordovaId: {
-      type: 'string',
-      message: 'Cordova id (disregard if not building with Cordova mode)',
-      default: 'org.cordova.quasar.app'
-    },
-
-    capacitorId: {
-      type: 'string',
-      message: 'Capacitor id (disregard if not building with Capacitor mode)',
-      default: 'org.capacitor.quasar.app'
-    },
-
     autoInstall: {
       type: 'list',
       message:
