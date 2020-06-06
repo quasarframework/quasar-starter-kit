@@ -127,7 +127,7 @@ module.exports = {
 
     {{#preset.typescript}}
     // TypeScript
-    'quotes': ['warn', 'single'],
+    quotes: ['warn', 'single', { avoidEscape: true }],
     '@typescript-eslint/explicit-function-return-type': 'off',
     {{/preset.typescript}}
 
