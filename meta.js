@@ -164,7 +164,7 @@ module.exports = {
     autoInstall: {
       type: 'list',
       message:
-        'Should we run `npm install` for you after the project has been created? (recommended)',
+        'Continue to install project dependencies after the project has been created? (recommended)',
       choices: [
         {
           name: 'Yes, use Yarn (recommended)',
