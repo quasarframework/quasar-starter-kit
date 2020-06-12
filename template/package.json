@@ -48,7 +48,7 @@
     {{/preset.lint}}
     "@types/node": "^10.17.15",
     {{/preset.typescript}}
-    "@quasar/app": "^1.0.0"
+    "@quasar/app": "^2.0.0"
   },
   "engines": {
     "node": ">= 10.18.1",
