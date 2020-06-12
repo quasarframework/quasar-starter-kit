@@ -67,7 +67,7 @@ module.exports = {{#preset.typescript}}configure({{/preset.typescript}}function 
       vueRouterMode: 'hash', // available values: 'hash', 'history'
       transpile: {{#preset.ie}}true{{else}}{{#preset.babel}}true{{else}}false{{/preset.babel}}{{/preset.ie}},
 
-      // Add dependencies for transpiling with Babel (Array of regexes)
+      // Add dependencies for transpiling with Babel (Array of string/regex)
       // (from node_modules, which are by default not transpiled).
       // Applies only if "transpile" is set to true.
       // transpileDependencies: [],
@@ -111,38 +111,12 @@ module.exports = {{#preset.typescript}}configure({{/preset.typescript}}function 
     framework: {
       iconSet: 'material-icons', // Quasar icon set
       lang: 'en-us', // Quasar language pack
+      config: {},
 
-      // Possible values for "all":
-      // * 'auto' - Auto-import needed Quasar components & directives
-      //            (slightly higher compile time; next to minimum bundle size; most convenient)
-      // * false  - Manually specify what to import
-      //            (fastest compile time; minimum bundle size; most tedious)
-      // * true   - Import everything from Quasar
-      //            (not treeshaking Quasar; biggest bundle size; convenient)
-      all: {{importStrategy}},
-      {{#if_eq importStrategy 'false'}}
-
-      components: [
-        'QLayout',
-        'QHeader',
-        'QDrawer',
-        'QPageContainer',
-        'QPage',
-        'QToolbar',
-        'QToolbarTitle',
-        'QBtn',
-        'QIcon',
-        'QList',
-        'QItem',
-        'QItemSection',
-        'QItemLabel'
-      ],
-
-      directives: [
-        'Ripple'
-      ],{{else}}
-      components: [],
-      directives: [],{{/if_eq}}
+      // Possible values for "importStrategy":
+      // * 'auto' - (DEFAULT) Auto-import needed Quasar components & directives
+      // * 'all'  - Manually specify what to import
+      importStrategy: '{{importStrategy}}',
 
       // Quasar plugins
       plugins: []
