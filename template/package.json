@@ -50,11 +50,6 @@
     {{/preset.typescript}}
     "@quasar/app": "^2.0.0"
   },
-  "engines": {
-    "node": ">= 10.18.1",
-    "npm": ">= 6.13.4",
-    "yarn": ">= 1.21.1"
-  },
   "browserslist": [
     {{#preset.ie}}
     "ie >= 11",
@@ -68,5 +63,10 @@
     "last 8 FirefoxAndroid versions",
     "last 10 iOS versions",
     "last 5 Opera versions"
-  ]
+  ],
+  "engines": {
+    "node": ">= 10.18.1",
+    "npm": ">= 6.13.4",
+    "yarn": ">= 1.21.1"
+  }
 }
