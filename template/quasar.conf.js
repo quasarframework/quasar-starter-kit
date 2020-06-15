@@ -65,7 +65,8 @@ module.exports = {{#preset.typescript}}configure({{/preset.typescript}}function 
     // Full list of options: https://quasar.dev/quasar-cli/quasar-conf-js#Property%3A-build
     build: {
       vueRouterMode: 'hash', // available values: 'hash', 'history'
-      transpile: {{#preset.ie}}true{{else}}{{#preset.babel}}true{{else}}false{{/preset.babel}}{{/preset.ie}},
+
+      // transpile: false,
 
       // Add dependencies for transpiling with Babel (Array of string/regex)
       // (from node_modules, which are by default not transpiled).
