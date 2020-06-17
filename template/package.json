@@ -10,7 +10,7 @@
     "test": "echo \"No test specified\" && exit 0"
   },
   "dependencies": {
-    {{#if_eq typescriptConfig "composition"}}"@vue/composition-api": "^0.5.0",{{/if_eq}}
+    {{#if_eq typescriptConfig "composition"}}"@vue/composition-api": "^0.6.4",{{/if_eq}}
     {{#if_eq typescriptConfig "class"}}
     "vue-class-component": "^7.2.2",
     "vue-property-decorator": "^8.3.0",
