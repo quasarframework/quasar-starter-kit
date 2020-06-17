@@ -76,17 +76,17 @@ module.exports = {
       message: 'Check the features needed for your project:',
       choices: [
         {
-          name: 'ESLint',
+          name: 'ESLint (recommended)',
           value: 'lint',
           checked: true
         },
         {
-          name: 'Vuex',
-          value: 'vuex'
-        },
-        {
           name: 'TypeScript',
           value: 'typescript'
+        },
+        {
+          name: 'Vuex',
+          value: 'vuex'
         },
         {
           name: 'Axios',
