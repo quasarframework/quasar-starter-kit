@@ -24,7 +24,11 @@ module.exports = {{#preset.typescript}}configure({{/preset.typescript}}function 
   return {
     // https://quasar.dev/quasar-cli/cli-documentation/supporting-ts
     supportTS: {{#if preset.typescript}}{{#if preset.lint}}{
-      tsCheckerConfig: { eslint: true }
+      tsCheckerConfig: {
+        eslint: {
+          files: './src/**/*' // required - same as command `eslint ./src/**/* --ext .ts,.tsx,.js,.jsx`
+        }
+      }
     }{{else}}true{{/if}}{{else}}false{{/if}},
 
     // https://quasar.dev/quasar-cli/cli-documentation/prefetch-feature
