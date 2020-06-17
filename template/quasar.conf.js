@@ -26,6 +26,7 @@ module.exports = {{#preset.typescript}}configure({{/preset.typescript}}function 
     supportTS: {{#if preset.typescript}}{{#if preset.lint}}{
       tsCheckerConfig: {
         eslint: {
+          enabled: true,
           files: './src/**/*' // required - same as command `eslint ./src/**/* --ext .ts,.tsx,.js,.jsx`
         }
       }
