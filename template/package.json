@@ -3,8 +3,6 @@
   "version": "0.0.1",
   "description": "{{ description }}",
   "productName": "{{ productName }}",
-  "cordovaId": "{{ cordovaId }}",
-  "capacitorId": "{{ capacitorId }}",
   "author": "{{ author }}",
   "private": true,
   "scripts": {
@@ -20,11 +18,8 @@
     {{#preset.axios}}"axios": "^0.18.1",{{/preset.axios}}
     {{#preset.i18n}}"vue-i18n": "^8.0.0",{{/preset.i18n}}
     "@quasar/extras": "^1.0.0",
-    {{#if preset.typescript}}
-    "quasar": "^1.9.5"
-    {{else}}
+    "core-js": "^3.6.5",
     "quasar": "^1.0.0"
-    {{/if}}
   },
   "devDependencies": {
     {{#preset.lint}}
@@ -54,22 +49,25 @@
     {{/preset.lint}}
     "@types/node": "^10.17.15",
     {{/preset.typescript}}
-    {{#if preset.typescript}}
-    "@quasar/app": "^1.6.2"
-    {{else}}
-    "@quasar/app": "^1.0.0"
-    {{/if}}
+    "@quasar/app": "^2.0.0"
   },
+  "browserslist": [
+    {{#preset.ie}}
+    "ie >= 11",
+    {{/preset.ie}}
+    "last 10 Chrome versions",
+    "last 10 Firefox versions",
+    "last 4 Edge versions",
+    "last 7 Safari versions",
+    "last 8 Android versions",
+    "last 8 ChromeAndroid versions",
+    "last 8 FirefoxAndroid versions",
+    "last 10 iOS versions",
+    "last 5 Opera versions"
+  ],
   "engines": {
     "node": ">= 10.18.1",
     "npm": ">= 6.13.4",
     "yarn": ">= 1.21.1"
-  },
-  "browserslist": [
-    "last 1 version, not dead, ie >= 11"
-  ]{{#preset.lint}},
-  "resolutions": {
-    "@babel/parser": "7.7.5"
   }
-  {{/preset.lint}}
 }
