@@ -44,8 +44,8 @@
     {{/preset.lint}}
     {{#preset.typescript}}
     {{#preset.lint}}
-    "@typescript-eslint/eslint-plugin": "^2.17.0",
-    "@typescript-eslint/parser": "^2.17.0",
+    "@typescript-eslint/eslint-plugin": "^3.3.0",
+    "@typescript-eslint/parser": "^3.3.0",
     {{/preset.lint}}
     "@types/node": "^10.17.15",
     {{/preset.typescript}}
