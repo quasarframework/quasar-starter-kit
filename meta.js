@@ -32,17 +32,17 @@ module.exports = {
     css: {
       type: 'list',
       message: 'Pick your favorite CSS preprocessor: (can be changed later)',
-      default: 'sass',
+      default: 'scss',
       choices: [
-        {
-          name: 'Sass with indented syntax (recommended)',
-          value: 'sass',
-          short: 'Sass'
-        },
         {
           name: 'Sass with SCSS syntax (recommended)',
           value: 'scss',
           short: 'SCSS'
+        },
+        {
+          name: 'Sass with indented syntax (recommended)',
+          value: 'sass',
+          short: 'Sass'
         },
         {
           name: 'Stylus',
