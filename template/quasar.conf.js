@@ -22,22 +22,19 @@ const { configure } = require('quasar/wrappers');
 
 module.exports = {{#preset.typescript}}configure({{/preset.typescript}}function ({{#preset.lint}}{{#preset.typescript}}ctx{{else}}/* ctx */{{/preset.typescript}}{{else}}/* ctx */{{/preset.lint}}) {
   return {
-    // https://quasar.dev/quasar-cli/cli-documentation/supporting-ts
+    // https://quasar.dev/quasar-cli/supporting-ts
     supportTS: {{#if preset.typescript}}{{#if preset.lint}}{
       tsCheckerConfig: {
-        eslint: {
-          enabled: true,
-          files: './src/**/*' // required - same as command `eslint ./src/**/* --ext .ts,.tsx,.js,.jsx`
-        }
+        eslint: true
       }
     }{{else}}true{{/if}}{{else}}false{{/if}},
 
-    // https://quasar.dev/quasar-cli/cli-documentation/prefetch-feature
+    // https://quasar.dev/quasar-cli/prefetch-feature
     // preFetch: true,
 
     // app boot file (/src/boot)
     // --> boot files are part of "main.js"
-    // https://quasar.dev/quasar-cli/cli-documentation/boot-files
+    // https://quasar.dev/quasar-cli/boot-files
     boot: [
       {{#if_eq typescriptConfig "composition"}}'composition-api',{{/if_eq}}
       {{#preset.i18n}}
@@ -87,7 +84,7 @@ module.exports = {{#preset.typescript}}configure({{/preset.typescript}}function 
       // Options below are automatically set depending on the env, set them if you want to override
       // extractCSS: false,
 
-      // https://quasar.dev/quasar-cli/cli-documentation/handling-webpack
+      // https://quasar.dev/quasar-cli/handling-webpack
       extendWebpack (cfg) {
         {{#preset.lint}}
         {{#preset.typescript}}
