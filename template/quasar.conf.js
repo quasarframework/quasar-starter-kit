@@ -22,20 +22,20 @@ const { configure } = require('quasar/wrappers');
 
 module.exports = {{#preset.typescript}}configure({{/preset.typescript}}function ({{#preset.lint}}{{#preset.typescript}}ctx{{else}}/* ctx */{{/preset.typescript}}{{else}}/* ctx */{{/preset.lint}}) {
   return {
-    // https://quasar.dev/quasar-cli/cli-documentation/supporting-ie
+    // https://quasar.dev/quasar-cli/supporting-ie
     supportIE: {{#if preset.ie}}true{{else}}false{{/if}},
 
-    // https://quasar.dev/quasar-cli/cli-documentation/supporting-ts
+    // https://quasar.dev/quasar-cli/supporting-ts
     supportTS: {{#if preset.typescript}}{{#if preset.lint}}{
       tsCheckerConfig: { eslint: true }
     }{{else}}true{{/if}}{{else}}false{{/if}},
 
-    // https://quasar.dev/quasar-cli/cli-documentation/prefetch-feature
+    // https://quasar.dev/quasar-cli/prefetch-feature
     // preFetch: true,
 
     // app boot file (/src/boot)
     // --> boot files are part of "main.js"
-    // https://quasar.dev/quasar-cli/cli-documentation/boot-files
+    // https://quasar.dev/quasar-cli/boot-files
     boot: [
       {{#if_eq typescriptConfig "composition"}}'composition-api',{{/if_eq}}
       {{#preset.i18n}}
