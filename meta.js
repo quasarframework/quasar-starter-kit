@@ -58,19 +58,14 @@ module.exports = {
       message: 'Pick a Quasar components & directives import strategy: (can be changed later)',
       choices: [
         {
-          name: '* Auto-import in-use Quasar components & directives\n    - slightly higher compile time; next to minimum bundle size; most convenient',
-          value: '\'auto\'',
+          name: '* Auto-import in-use Quasar components & directives\n    - also treeshakes Quasar; minimum bundle size',
+          value: 'auto',
           short: 'Auto import',
           checked: true
         },
         {
-          name: '* Manually specify what to import\n    - fastest compile time; minimum bundle size; most tedious',
-          value: 'false',
-          short: 'Manual'
-        },
-        {
-          name: '* Import everything from Quasar\n    - not treeshaking Quasar; biggest bundle size; convenient',
-          value: 'true',
+          name: '* Import everything from Quasar\n    - not treeshaking Quasar; biggest bundle size',
+          value: 'all',
           short: 'Import everything'
         }
       ]
@@ -81,17 +76,17 @@ module.exports = {
       message: 'Check the features needed for your project:',
       choices: [
         {
-          name: 'ESLint',
+          name: 'ESLint (recommended)',
           value: 'lint',
           checked: true
         },
         {
-          name: 'Vuex',
-          value: 'vuex'
-        },
-        {
           name: 'TypeScript',
           value: 'typescript'
+        },
+        {
+          name: 'Vuex',
+          value: 'vuex'
         },
         {
           name: 'Axios',
@@ -156,16 +151,10 @@ module.exports = {
       ]
     },
 
-    cordovaId: {
-      type: 'string',
-      message: 'Cordova/Capacitor id (disregard if not building mobile apps)',
-      default: 'org.cordova.quasar.app'
-    },
-
     autoInstall: {
       type: 'list',
       message:
-        'Should we run `npm install` for you after the project has been created? (recommended)',
+        'Continue to install project dependencies after the project has been created? (recommended)',
       choices: [
         {
           name: 'Yes, use Yarn (recommended)',
@@ -190,17 +179,17 @@ module.exports = {
     // ESlint files
     '.eslintignore': 'preset.lint',
     '.eslintrc.js': 'preset.lint',
-    
+
     // Default files when not using TypeScript
     'jsconfig.json': '!preset.typescript',
     'src/router/*.js': '!preset.typescript',
-    
+
     // Presets files when not using TypeScript
     'src/boot/axios.js': 'preset.axios && !preset.typescript',
     'src/boot/i18n.js': 'preset.i18n && !preset.typescript',
     'src/i18n/**/*.js': 'preset.i18n && !preset.typescript',
     'src/store/**/*.js': 'preset.vuex && !preset.typescript',
-    
+
     // TypeScript files
     '.prettierrc': `preset.lint && preset.typescript && lintConfig === 'prettier'`,
     'tsconfig.json': 'preset.typescript',
@@ -210,17 +199,17 @@ module.exports = {
     'src/components/ClassComponent.vue': `preset.typescript && typescriptConfig === 'class'`,
     'src/components/OptionsComponent.vue': `preset.typescript && typescriptConfig === 'options'`,
     'src/components/models.ts': `preset.typescript`,
-    
+
     // Default files using TypeScript
     'src/router/*.ts': 'preset.typescript',
-    
+
     // Presets files using TypeScript
     'src/boot/axios.ts': 'preset.axios && preset.typescript',
     'src/boot/composition-api.ts': `preset.typescript && typescriptConfig === 'composition'`,
     'src/boot/i18n.ts': 'preset.i18n && preset.typescript',
     'src/i18n/**/*.ts': 'preset.i18n && preset.typescript',
     'src/store/**/*.ts': 'preset.vuex && preset.typescript',
-    
+
     // CSS preprocessors
     '.stylintrc': `preset.lint && css === 'stylus'`,
     'src/css/*.styl': `css === 'stylus'`,
