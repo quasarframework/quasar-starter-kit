@@ -14,7 +14,6 @@
 {{/preset.lint}}
 {{#preset.typescript}}
 /* eslint-disable @typescript-eslint/no-var-requires */
-/* eslint-disable @typescript-eslint/camelcase */
 {{/preset.typescript}}
 {{#preset.typescript}}
 const { configure } = require('quasar/wrappers');
