@@ -138,9 +138,9 @@ module.exports = {{#preset.typescript}}configure({{/preset.typescript}}function 
       workboxPluginMode: 'GenerateSW', // 'GenerateSW' or 'InjectManifest'
       workboxOptions: {}, // only for GenerateSW
       manifest: {
-        name: '{{ productName }}',
-        short_name: '{{ productName }}',
-        description: '{{ description }}',
+        name: `{{ productName }}`,
+        short_name: `{{ productName }}`,
+        description: `{{ description }}`,
         display: 'standalone',
         orientation: 'portrait',
         background_color: '#ffffff',

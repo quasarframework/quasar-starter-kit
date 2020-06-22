@@ -1,4 +1,5 @@
 const { complete } = require('./utils')
+const escape = val => JSON.stringify(val).slice(1, -1)
 
 module.exports = {
   prompts: {
@@ -12,13 +13,15 @@ module.exports = {
       type: 'string',
       message: 'Project product name (must start with letter if building mobile apps)',
       default: 'Quasar App',
-      validate: val => val && val.length > 0
+      validate: val => val && val.length > 0,
+      transformer: escape
     },
 
     description: {
       type: 'string',
       message: 'Project description',
       default: 'A Quasar Framework app',
+      transformer: escape
     },
 
     author: {
