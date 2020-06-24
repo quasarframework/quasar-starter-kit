@@ -1,7 +1,7 @@
 {
   {{#preset.lint}}
   "vetur.validation.template": false,
-  {{#if_eq lintConfig "prettier"}}"vetur.format.enable": false,{{/if_eq}}
+  "vetur.format.enable": false,
   "eslint.validate": ["javascript", "javascriptreact", "typescript", "vue"],
   {{/preset.lint}}
   {{#preset.typescript}}"typescript.tsdk": "node_modules/typescript/lib",{{/preset.typescript}}
