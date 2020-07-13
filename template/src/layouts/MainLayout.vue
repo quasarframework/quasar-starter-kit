@@ -46,64 +46,96 @@
   </q-layout>
 </template>
 
-<script>
+<script{{#if preset.typescript}} lang="ts"{{/if}}>
 import EssentialLink from 'components/EssentialLink.vue'
 
+const linksData = [
+  {
+    title: 'Docs',
+    caption: 'quasar.dev',
+    icon: 'school',
+    link: 'https://quasar.dev'
+  },
+  {
+    title: 'Github',
+    caption: 'github.com/quasarframework',
+    icon: 'code',
+    link: 'https://github.com/quasarframework'
+  },
+  {
+    title: 'Discord Chat Channel',
+    caption: 'chat.quasar.dev',
+    icon: 'chat',
+    link: 'https://chat.quasar.dev'
+  },
+  {
+    title: 'Forum',
+    caption: 'forum.quasar.dev',
+    icon: 'record_voice_over',
+    link: 'https://forum.quasar.dev'
+  },
+  {
+    title: 'Twitter',
+    caption: '@quasarframework',
+    icon: 'rss_feed',
+    link: 'https://twitter.quasar.dev'
+  },
+  {
+    title: 'Facebook',
+    caption: '@QuasarFramework',
+    icon: 'public',
+    link: 'https://facebook.quasar.dev'
+  },
+  {
+    title: 'Quasar Awesome',
+    caption: 'Community Quasar projects',
+    icon: 'favorite',
+    link: 'https://awesome.quasar.dev'
+  }
+];
+
+{{#if preset.typescript}}
+{{#if_eq typescriptConfig "composition"}}import { defineComponent, ref } from '@vue/composition-api';
+
+export default defineComponent({
+  name: 'MainLayout',
+  components: { EssentialLink },
+  setup() {
+    const leftDrawerOpen = ref(false);
+    const essentialLinks = ref(linksData);
+
+    return {leftDrawerOpen, essentialLinks}
+  }
+});{{/if_eq}}{{#if_eq typescriptConfig "class"}}import { Vue, Component } from 'vue-property-decorator';
+
+@Component({
+  components: { EssentialLink }
+})
+export default class MainLayout extends Vue {
+  leftDrawerOpen = false;
+  essentialLinks = linksData;
+}{{/if_eq}}{{#if_eq typescriptConfig "options"}}import Vue from 'vue';
+
+export default Vue.extend({
+  name: 'MainLayout',
+  components: { EssentialLink },
+  data() {
+    return {
+      leftDrawerOpen: false,
+      essentialLinks: linksData
+    }
+  }
+});{{/if_eq}}
+{{else}}
 export default {
   name: 'MainLayout',
-
-  components: {
-    EssentialLink
-  },
-
+  components: { EssentialLink },
   data () {
     return {
       leftDrawerOpen: false,
-      essentialLinks: [
-        {
-          title: 'Docs',
-          caption: 'quasar.dev',
-          icon: 'school',
-          link: 'https://quasar.dev'
-        },
-        {
-          title: 'Github',
-          caption: 'github.com/quasarframework',
-          icon: 'code',
-          link: 'https://github.com/quasarframework'
-        },
-        {
-          title: 'Discord Chat Channel',
-          caption: 'chat.quasar.dev',
-          icon: 'chat',
-          link: 'https://chat.quasar.dev'
-        },
-        {
-          title: 'Forum',
-          caption: 'forum.quasar.dev',
-          icon: 'record_voice_over',
-          link: 'https://forum.quasar.dev'
-        },
-        {
-          title: 'Twitter',
-          caption: '@quasarframework',
-          icon: 'rss_feed',
-          link: 'https://twitter.quasar.dev'
-        },
-        {
-          title: 'Facebook',
-          caption: '@QuasarFramework',
-          icon: 'public',
-          link: 'https://facebook.quasar.dev'
-        },
-        {
-          title: 'Quasar Awesome',
-          caption: 'Community Quasar projects',
-          icon: 'favorite',
-          link: 'https://awesome.quasar.dev'
-        }
-      ]
+      essentialLinks: linksData
     }
   }
 }
+{{/if}}
 </script>
