@@ -120,6 +120,13 @@ module.exports = {{#preset.typescript}}configure({{/preset.typescript}}function 
       // * 'all'  - Manually specify what to import
       importStrategy: '{{importStrategy}}',
 
+      // For special cases outside of where "auto" importStrategy can have an impact
+      // (like functional components as one of the examples),
+      // you can manually specify Quasar components/directives to be available everywhere:
+      //
+      // components: [],
+      // directives: [],
+
       // Quasar plugins
       plugins: []
     },
