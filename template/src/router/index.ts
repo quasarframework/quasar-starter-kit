@@ -1,7 +1,7 @@
 import { route } from 'quasar/wrappers';
 import VueRouter from 'vue-router';
-import { Store } from "vuex";
-{{#preset.vuex}}import { StateInterface } from '../store';
+{{#preset.vuex}}import { Store } from "vuex";
+import { StateInterface } from '../store';
 {{/preset.vuex}}import routes from './routes';
 
 /*
