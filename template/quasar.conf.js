@@ -19,7 +19,7 @@
 const { configure } = require('quasar/wrappers');
 {{/preset.typescript}}
 
-module.exports = {{#preset.typescript}}configure({{/preset.typescript}}function ({{#preset.lint}}{{#preset.typescript}}ctx{{else}}/* ctx */{{/preset.typescript}}{{else}}/* ctx */{{/preset.lint}}) {
+module.exports = {{#preset.typescript}}configure({{/preset.typescript}}function (/* ctx */) {
   return {
     // https://quasar.dev/quasar-cli/supporting-ts
     supportTS: {{#if preset.typescript}}{{#if preset.lint}}{
@@ -84,22 +84,17 @@ module.exports = {{#preset.typescript}}configure({{/preset.typescript}}function 
       // extractCSS: false,
 
       // https://quasar.dev/quasar-cli/handling-webpack
-      extendWebpack (cfg) {
-        {{#preset.lint}}
-        {{#preset.typescript}}
-          // linting is slow in TS projects, we execute it only for production builds
-        if (ctx.prod) {
-        {{/preset.typescript}}cfg.module.rules.push({
+      {{#if preset.typescript}}extendWebpack (/* cfg */) {
+        // Add here your webpack customizations
+      },{{else}}extendWebpack (cfg) {
+        {{#preset.lint}}cfg.module.rules.push({
           enforce: 'pre',
           test: /\.(js|vue)$/,
           loader: 'eslint-loader',
           exclude: /node_modules/
         })
-        {{#preset.typescript}}
-        }
-        {{/preset.typescript}}
         {{/preset.lint}}
-      },
+      },{{/if}}
     },
 
     // Full list of options: https://quasar.dev/quasar-cli/quasar-conf-js#Property%3A-devServer
