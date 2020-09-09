@@ -3,6 +3,6 @@
   "compilerOptions": {
     "baseUrl": "."{{#if_eq typescriptConfig "class"}},
     "experimentalDecorators": true{{/if_eq}}{{#if preset.ie}},
-    "target": "es5",{{/if}}
+    "target": "es5"{{/if}}
   }
 }
