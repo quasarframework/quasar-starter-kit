@@ -35,7 +35,6 @@ module.exports = {{#preset.typescript}}configure({{/preset.typescript}}function 
     // --> boot files are part of "main.js"
     // https://quasar.dev/quasar-cli/boot-files
     boot: [
-      {{#if_eq typescriptConfig "composition"}}'composition-api',{{/if_eq}}
       {{#preset.i18n}}
       'i18n',
       {{/preset.i18n}}
@@ -46,7 +45,7 @@ module.exports = {{#preset.typescript}}configure({{/preset.typescript}}function 
 
     // https://quasar.dev/quasar-cli/quasar-conf-js#Property%3A-css
     css: [
-      'app.{{#if_eq css "none"}}css{{/if_eq}}{{#if_eq css "stylus"}}styl{{/if_eq}}{{#if_eq css "scss"}}scss{{/if_eq}}{{#if_eq css "sass"}}sass{{/if_eq}}'
+      'app.{{#if_eq css "none"}}css{{/if_eq}}{{#if_eq css "scss"}}scss{{/if_eq}}{{#if_eq css "sass"}}sass{{/if_eq}}'
     ],
 
     // https://github.com/quasarframework/quasar/tree/dev/extras
@@ -115,12 +114,7 @@ module.exports = {{#preset.typescript}}configure({{/preset.typescript}}function 
       lang: 'en-us', // Quasar language pack
       config: {},
 
-      // Possible values for "importStrategy":
-      // * 'auto' - (DEFAULT) Auto-import needed Quasar components & directives
-      // * 'all'  - Manually specify what to import
-      importStrategy: '{{importStrategy}}',
-
-      // For special cases outside of where "auto" importStrategy can have an impact
+      // For special cases outside of where the auto-import stategy can have an impact
       // (like functional components as one of the examples),
       // you can manually specify Quasar components/directives to be available everywhere:
       //

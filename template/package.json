@@ -10,7 +10,6 @@
     "test": "echo \"No test specified\" && exit 0"
   },
   "dependencies": {
-    {{#if_eq typescriptConfig "composition"}}"@vue/composition-api": "^0.6.4",{{/if_eq}}
     {{#if_eq typescriptConfig "class"}}
     "vue-class-component": "^7.2.2",
     "vue-property-decorator": "^8.3.0",
@@ -19,7 +18,7 @@
     {{#preset.i18n}}"vue-i18n": "^8.0.0",{{/preset.i18n}}
     "@quasar/extras": "^1.0.0",
     "core-js": "^3.6.5",
-    "quasar": "^1.0.0"
+    "quasar": "^2.0.0"
   },
   "devDependencies": {
     {{#preset.lint}}
@@ -49,12 +48,9 @@
     {{/preset.lint}}
     "@types/node": "^10.17.15",
     {{/preset.typescript}}
-    "@quasar/app": "^2.0.0"
+    "@quasar/app": "^3.0.0"
   },
   "browserslist": [
-    {{#preset.ie}}
-    "ie >= 11",
-    {{/preset.ie}}
     "last 10 Chrome versions",
     "last 10 Firefox versions",
     "last 4 Edge versions",
