@@ -6,6 +6,7 @@
 // Configuration for your app
 // https://quasar.dev/quasar-cli/quasar-conf-js
 {{#preset.lint}}
+const ESLintPlugin = require('eslint-webpack-plugin')
 /* eslint-env node */
 {{#if_eq lintConfig "airbnb"}}
 /* eslint func-names: 0 */
@@ -88,12 +89,11 @@ module.exports = {{#preset.typescript}}configure({{/preset.typescript}}function 
         {{#preset.typescript}}
           // linting is slow in TS projects, we execute it only for production builds
         if (ctx.prod) {
-        {{/preset.typescript}}cfg.module.rules.push({
-          enforce: 'pre',
-          test: /\.(js|vue)$/,
-          loader: 'eslint-loader',
-          exclude: /node_modules/
-        })
+        {{/preset.typescript}}chain.plugin('eslint-webpack-plugin')
+        .use(ESLintPlugin, [{
+          extensions: [ 'js', 'vue' ],
+          exclude: 'node_modules'
+        }])
         {{#preset.typescript}}
         }
         {{/preset.typescript}}
