@@ -15,7 +15,7 @@
     "vue-property-decorator": "^8.3.0",
     {{/if_eq}}
     {{#preset.axios}}"axios": "^0.18.1",{{/preset.axios}}
-    {{#preset.i18n}}"vue-i18n": "^8.0.0",{{/preset.i18n}}
+    {{#preset.i18n}}"vue-i18n": "^9.0.0-beta.0",{{/preset.i18n}}
     "@quasar/extras": "^1.0.0",
     "core-js": "^3.6.5",
     "quasar": "^2.0.0-alpha.0"

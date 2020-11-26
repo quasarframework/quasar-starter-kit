@@ -5,9 +5,10 @@
 
 // Configuration for your app
 // https://quasar.dev/quasar-cli/quasar-conf-js
+
 {{#preset.lint}}
-const ESLintPlugin = require('eslint-webpack-plugin')
 /* eslint-env node */
+const ESLintPlugin = require('eslint-webpack-plugin')
 {{#if_eq lintConfig "airbnb"}}
 /* eslint func-names: 0 */
 /* eslint global-require: 0 */
@@ -84,7 +85,8 @@ module.exports = {{#preset.typescript}}configure({{/preset.typescript}}function 
       // extractCSS: false,
 
       // https://quasar.dev/quasar-cli/handling-webpack
-      extendWebpack (cfg) {
+      // "chain" is a webpack-chain object https://github.com/neutrinojs/webpack-chain
+      chainWebpack (chain) {
         {{#preset.lint}}
         {{#preset.typescript}}
           // linting is slow in TS projects, we execute it only for production builds
