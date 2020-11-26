@@ -50,7 +50,7 @@
 <script{{#if preset.typescript}} lang="ts"{{/if}}>
 import EssentialLink from 'components/EssentialLink.vue'
 
-const linksData = [
+const linksList = [
   {
     title: 'Docs',
     caption: 'quasar.dev',
@@ -103,9 +103,8 @@ export default defineComponent({
   components: { EssentialLink },
   setup() {
     const leftDrawerOpen = ref(false);
-    const essentialLinks = ref(linksData);
 
-    return {leftDrawerOpen, essentialLinks}
+    return {leftDrawerOpen, essentialLinks: linksList}
   }
 });{{/if_eq}}{{#if_eq typescriptConfig "class"}}import { Vue, Component } from 'vue-property-decorator';
 
@@ -114,7 +113,7 @@ export default defineComponent({
 })
 export default class MainLayout extends Vue {
   leftDrawerOpen = false;
-  essentialLinks = linksData;
+  essentialLinks = linksList;
 }{{/if_eq}}{{#if_eq typescriptConfig "options"}}import Vue from 'vue';
 
 export default Vue.extend({
@@ -123,11 +122,13 @@ export default Vue.extend({
   data() {
     return {
       leftDrawerOpen: false,
-      essentialLinks: linksData
+      essentialLinks: linksList
     }
   }
 });{{/if_eq}}
 {{else}}
+import { ref } from 'vue'
+
 export default {
   name: 'MainLayout',
 
@@ -139,7 +140,7 @@ export default {
     const leftDrawerOpen = ref(false)
 
     return {
-      essentialLinks,
+      essentialLinks: linksList,
       leftDrawerOpen,
       toggleLeftDrawer () {
         leftDrawerOpen.value = !leftDrawerOpen.value
