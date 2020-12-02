@@ -117,6 +117,7 @@ module.exports = {
     {{/if_eq}}
     {{#if_eq lintConfig "airbnb"}}
     'no-param-reassign': 'off',
+    'no-void': 'off',
 
     'import/first': 'off',
     'import/named': 'error',

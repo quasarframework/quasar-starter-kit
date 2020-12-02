@@ -47,7 +47,7 @@
   </q-layout>
 </template>
 
-<script{{#if preset.typescript}} lang="ts"{{/if}}>
+<script{{#preset.typescript}} lang="ts"{{/preset.typescript}}>
 import EssentialLink from 'components/EssentialLink.vue'
 
 const linksList = [
@@ -95,48 +95,41 @@ const linksList = [
   }
 ];
 
-{{#if preset.typescript}}
-{{#if_eq typescriptConfig "composition"}}import { defineComponent, ref } from '@vue/composition-api';
+{{#if_eq typescriptConfig "class"}}import { Vue, Options } from 'vue-class-component'
 
-export default defineComponent({
-  name: 'MainLayout',
-  components: { EssentialLink },
-  setup() {
-    const leftDrawerOpen = ref(false);
-
-    return {leftDrawerOpen, essentialLinks: linksList}
-  }
-});{{/if_eq}}{{#if_eq typescriptConfig "class"}}import { Vue, Component } from 'vue-property-decorator';
-
-@Component({
+@Options({
   components: { EssentialLink }
 })
 export default class MainLayout extends Vue {
   leftDrawerOpen = false;
   essentialLinks = linksList;
-}{{/if_eq}}{{#if_eq typescriptConfig "options"}}import Vue from 'vue';
-
-export default Vue.extend({
-  name: 'MainLayout',
-  components: { EssentialLink },
-  data() {
-    return {
-      leftDrawerOpen: false,
-      essentialLinks: linksList
-    }
+  toggleLeftDrawer () {
+    this.leftDrawerOpen = !this.leftDrawerOpen
   }
-});{{/if_eq}}
+}
 {{else}}
-import { ref } from 'vue'
+import { defineComponent{{#unless_eq typescriptConfig "options"}}, ref{{/unless_eq}} } from 'vue'
 
-export default {
+export default defineComponent({
   name: 'MainLayout',
 
   components: {
     EssentialLink
   },
 
-  setup () {
+  {{#if_eq typescriptConfig "options"}}data() {
+    return {
+      leftDrawerOpen: false,
+      essentialLinks: linksList
+    }
+  },
+
+  methods: {
+    toggleLeftDrawer () {
+      this.leftDrawerOpen = !this.leftDrawerOpen
+    }
+  }
+  {{else}}setup () {
     const leftDrawerOpen = ref(false)
 
     return {
@@ -147,6 +140,7 @@ export default {
       }
     }
   }
-}
-{{/if}}
+  {{/if_eq}}
+})
+{{/if_eq}}
 </script>

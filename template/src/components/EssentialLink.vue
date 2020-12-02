@@ -21,9 +21,18 @@
   </q-item>
 </template>
 
-{{#if preset.typescript}}
-<script lang="ts">
-{{#if_eq typescriptConfig "composition"}}import { defineComponent } from '@vue/composition-api';
+<script{{#preset.typescript}} lang="ts"{{/preset.typescript}}>
+{{#if_eq typescriptConfig "class"}}import { Vue, prop, Options } from 'vue-class-component';
+
+class Props {
+  readonly title!: string;
+  readonly caption = prop({ default: '' });
+  readonly link = prop({ default: '#' });
+  readonly icon = prop({ default: '' });
+}
+
+@Options({})
+export default class EssentialLink extends Vue.with(Props) {}{{else}}import { defineComponent } from 'vue';
 
 export default defineComponent({
   name: 'EssentialLink',
@@ -48,66 +57,5 @@ export default defineComponent({
       default: ''
     }
   }
-});{{/if_eq}}{{#if_eq typescriptConfig "class"}}import { Vue, Component, Prop } from 'vue-property-decorator';
-
-@Component
-export default class EssentialLink extends Vue {
-  @Prop({ type: String, required: true }) readonly title!: string;
-  @Prop({ type: String, default: '' }) readonly caption!: string;
-  @Prop({ type: String, default: '#' }) readonly link!: string;
-  @Prop({ type: String, default: ''}) readonly icon!: string;
-}{{/if_eq}}{{#if_eq typescriptConfig "options"}}import Vue from 'vue';
-
-export default Vue.extend({
-  name: 'EssentialLink',
-  props: {
-    title: {
-      type: String,
-      required: true
-    },
-
-    caption: {
-      type: String,
-      default: ''
-    },
-
-    link: {
-      type: String,
-      default: '#'
-    },
-
-    icon: {
-      type: String,
-      default: ''
-    }
-  }
-});{{/if_eq}}
+}){{/if_eq}}
 </script>
-{{else}}
-<script>
-export default {
-  name: 'EssentialLink',
-  props: {
-    title: {
-      type: String,
-      required: true
-    },
-
-    caption: {
-      type: String,
-      default: ''
-    },
-
-    link: {
-      type: String,
-      default: '#'
-    },
-
-    icon: {
-      type: String,
-      default: ''
-    }
-  }
-}
-</script>
-{{/if}}
