@@ -4,4 +4,5 @@
 /src-cordova
 /.quasar
 /node_modules
+.eslintrc.js
 {{#preset.typescript}}{{#preset.lint}}/src-ssr{{/preset.lint}}{{/preset.typescript}}

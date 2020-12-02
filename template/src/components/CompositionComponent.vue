@@ -14,8 +14,13 @@
 
 <script lang="ts">
 import {
-  defineComponent, PropType, computed, ref, toRef, Ref,
-} from '@vue/composition-api';
+  defineComponent,
+  PropType,
+  computed,
+  ref,
+  toRef,
+  Ref,
+} from 'vue';
 import { Todo, Meta } from './models';
 
 function useClickCount() {
@@ -41,11 +46,11 @@ export default defineComponent({
       required: true
     },
     todos: {
-      type: (Array as unknown) as PropType<Todo[]>,
+      type: Array as PropType<Todo[]>,
       default: () => []
     },
     meta: {
-      type: (Object as unknown) as PropType<Meta>,
+      type: Object as PropType<Meta>,
       required: true
     },
     active: {

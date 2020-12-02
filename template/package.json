@@ -11,8 +11,7 @@
   },
   "dependencies": {
     {{#if_eq typescriptConfig "class"}}
-    "vue-class-component": "^7.2.2",
-    "vue-property-decorator": "^8.3.0",
+    "vue-class-component": "^8.0.0-rc.1",
     {{/if_eq}}
     {{#preset.axios}}"axios": "^0.18.1",{{/preset.axios}}
     {{#preset.i18n}}"vue-i18n": "^9.0.0-beta.0",{{/preset.i18n}}
@@ -25,7 +24,9 @@
     "babel-eslint": "^10.0.1",
     "eslint": "^7.14.0",
     "eslint-plugin-vue": "^7.0.0",
+    {{#unless preset.typescript}}
     "eslint-webpack-plugin": "^2.4.0",
+    {{/unless}}
     {{#if_eq lintConfig "standard"}}
     "eslint-config-standard": "^16.0.2",
     "eslint-plugin-import": "^2.19.1",
@@ -37,13 +38,13 @@
     "eslint-plugin-import": "^2.20.1",
     {{/if_eq}}
     {{#if_eq lintConfig "prettier"}}
-    "eslint-config-prettier": "^6.9.0",
+    "eslint-config-prettier": "^6.15.0",
     {{/if_eq}}
     {{/preset.lint}}
     {{#preset.typescript}}
     {{#preset.lint}}
-    "@typescript-eslint/eslint-plugin": "^3.3.0",
-    "@typescript-eslint/parser": "^3.3.0",
+    "@typescript-eslint/eslint-plugin": "^4.9.0",
+    "@typescript-eslint/parser": "^4.9.0",
     {{/preset.lint}}
     "@types/node": "^10.17.15",
     {{/preset.typescript}}
