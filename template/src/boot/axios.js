@@ -1,4 +1,6 @@
-import Vue from 'vue'
 import axios from 'axios'
+import { boot } from 'quasar/wrappers';
 
-Vue.prototype.$axios = axios
+export default boot(({ app }) => {
+  app.config.globalProperties.$axios = axios
+})

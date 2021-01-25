@@ -5,27 +5,30 @@
 
 // Configuration for your app
 // https://quasar.dev/quasar-cli/quasar-conf-js
+
 {{#preset.lint}}
-const ESLintPlugin = require('eslint-webpack-plugin')
 /* eslint-env node */
+{{#preset.typescript}}
+/* eslint-disable @typescript-eslint/no-var-requires */
+{{else}}
+const ESLintPlugin = require('eslint-webpack-plugin')
+{{/preset.typescript}}
 {{#if_eq lintConfig "airbnb"}}
 /* eslint func-names: 0 */
 /* eslint global-require: 0 */
 {{/if_eq}}
 {{/preset.lint}}
-{{#preset.typescript}}
-/* eslint-disable @typescript-eslint/no-var-requires */
-{{/preset.typescript}}
-{{#preset.typescript}}
 const { configure } = require('quasar/wrappers');
-{{/preset.typescript}}
 
-module.exports = {{#preset.typescript}}configure({{/preset.typescript}}function ({{#preset.lint}}{{#preset.typescript}}ctx{{else}}/* ctx */{{/preset.typescript}}{{else}}/* ctx */{{/preset.lint}}) {
+module.exports = configure(function (/* ctx */) {
   return {
     // https://quasar.dev/quasar-cli/supporting-ts
     supportTS: {{#if preset.typescript}}{{#if preset.lint}}{
       tsCheckerConfig: {
-        eslint: true
+        eslint: {
+          enabled: true,
+          files: './src/**/*.{ts,tsx,js,jsx,vue}',
+        },
       }
     }{{else}}true{{/if}}{{else}}false{{/if}},
 
@@ -84,21 +87,20 @@ module.exports = {{#preset.typescript}}configure({{/preset.typescript}}function 
       // extractCSS: false,
 
       // https://quasar.dev/quasar-cli/handling-webpack
-      extendWebpack (cfg) {
-        {{#preset.lint}}
-        {{#preset.typescript}}
-          // linting is slow in TS projects, we execute it only for production builds
-        if (ctx.prod) {
-        {{/preset.typescript}}chain.plugin('eslint-webpack-plugin')
-        .use(ESLintPlugin, [{
-          extensions: [ 'js', 'vue' ],
-          exclude: 'node_modules'
-        }])
-        {{#preset.typescript}}
-        }
-        {{/preset.typescript}}
-        {{/preset.lint}}
+      // "chain" is a webpack-chain object https://github.com/neutrinojs/webpack-chain
+      {{#preset.typescript}}chainWebpack (/* chain */) {
+        // 
       },
+      {{else}}{{#preset.lint}}chainWebpack (chain) {
+        chain.plugin('eslint-webpack-plugin')
+          .use(ESLintPlugin, [{
+            extensions: [ 'js', 'vue' ],
+            exclude: 'node_modules'
+          }])
+        },
+      {{else}}chainWebpack (/* chain */) {
+        // 
+      },{{/preset.lint}}{{/preset.typescript}}
     },
 
     // Full list of options: https://quasar.dev/quasar-cli/quasar-conf-js#Property%3A-devServer
@@ -218,4 +220,4 @@ module.exports = {{#preset.typescript}}configure({{/preset.typescript}}function 
       }
     }
   }
-}{{#preset.typescript}});{{/preset.typescript}}
+});
