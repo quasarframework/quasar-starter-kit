@@ -32,7 +32,7 @@ class Props {
 }
 
 @Options({})
-export default class EssentialLink extends Vue.with(Props) {}{{else}}import { defineComponent } from 'vue';
+export default class EssentialLink extends Vue.with(Props) {}{{else}}import { defineComponent } from 'vue'
 
 export default defineComponent({
   name: 'EssentialLink',
