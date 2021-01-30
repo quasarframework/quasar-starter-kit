@@ -19,6 +19,11 @@
 const { configure } = require('quasar/wrappers');
 {{/preset.typescript}}
 
+/**
+ *
+ * @param {QuasarContext} ctx
+ * @return {QuasarConf}
+ */
 module.exports = {{#preset.typescript}}configure({{/preset.typescript}}function ({{#preset.lint}}{{#preset.typescript}}ctx{{else}}/* ctx */{{/preset.typescript}}{{else}}/* ctx */{{/preset.lint}}) {
   return {
     // https://quasar.dev/quasar-cli/supporting-ts
