@@ -35,12 +35,12 @@ module.exports = {
       default: 'sass',
       choices: [
         {
-          name: 'Sass with indented syntax (recommended)',
+          name: 'Sass with indented syntax',
           value: 'sass',
           short: 'Sass'
         },
         {
-          name: 'Sass with SCSS syntax (recommended)',
+          name: 'Sass with SCSS syntax',
           value: 'scss',
           short: 'SCSS'
         },
@@ -93,7 +93,7 @@ module.exports = {
         },
         {
           name:
-            'Class-based (recommended) (https://github.com/vuejs/vue-class-component & https://github.com/kaorun343/vue-property-decorator)',
+            'Class-based (https://github.com/vuejs/vue-class-component & https://github.com/kaorun343/vue-property-decorator)',
           value: 'class',
           short: 'Class',
         },
