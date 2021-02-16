@@ -97,7 +97,7 @@ module.exports = configure(function (/* ctx */) {
             extensions: [ 'js', 'vue' ],
             exclude: 'node_modules'
           }])
-        },
+      },
       {{else}}chainWebpack (/* chain */) {
         //
       },{{/preset.lint}}{{/preset.typescript}}
@@ -212,13 +212,39 @@ module.exports = configure(function (/* ctx */) {
         appId: '{{ name }}'
       },
 
-      // More info: https://quasar.dev/quasar-cli/developing-electron-apps/node-integration
-      nodeIntegration: true,
+      // "chain" is a webpack-chain object https://github.com/neutrinojs/webpack-chain
+      {{#preset.typescript}}chainWebpack (/* chain */) {
+        // do something with the Electron main process Webpack cfg
+        // extendWebpackMain also available besides this chainWebpackMain
+      },
+      {{else}}{{#preset.lint}}chainWebpackMain (chain) {
+        chain.plugin('eslint-webpack-plugin')
+          .use(ESLintPlugin, [{
+            extensions: [ 'js' ],
+            exclude: 'node_modules'
+          }])
+      },
+      {{else}}chainWebpackMain (/* chain */) {
+        // do something with the Electron main process Webpack cfg
+        // extendWebpackMain also available besides this chainWebpackMain
+      },{{/preset.lint}}{{/preset.typescript}}
 
-      extendWebpack (/* cfg */) {
-        // do something with Electron main process Webpack cfg
-        // chainWebpack also available besides this extendWebpack
-      }
+      // "chain" is a webpack-chain object https://github.com/neutrinojs/webpack-chain
+      {{#preset.typescript}}chainWebpackPreload (/* chain */) {
+        // do something with the Electron main process Webpack cfg
+        // extendWebpackPreload also available besides this chainWebpackPreload
+      },
+      {{else}}{{#preset.lint}}chainWebpackPreload (chain) {
+        chain.plugin('eslint-webpack-plugin')
+          .use(ESLintPlugin, [{
+            extensions: [ 'js' ],
+            exclude: 'node_modules'
+          }])
+      },
+      {{else}}chainWebpackPreload (/* chain */) {
+        // do something with the Electron main process Webpack cfg
+        // extendWebpackPreload also available besides this chainWebpackPreload
+      },{{/preset.lint}}{{/preset.typescript}}
     }
   }
 });
