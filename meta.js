@@ -35,14 +35,14 @@ module.exports = {
       default: 'sass',
       choices: [
         {
-          name: 'Sass with indented syntax',
-          value: 'sass',
-          short: 'Sass'
-        },
-        {
           name: 'Sass with SCSS syntax',
           value: 'scss',
           short: 'SCSS'
+        },
+        {
+          name: 'Sass with indented syntax',
+          value: 'sass',
+          short: 'Sass'
         },
         {
           name: 'None (the others will still be available)',
@@ -111,6 +111,11 @@ module.exports = {
       message: 'Pick an ESLint preset:',
       choices: [
         {
+          name: 'Prettier (https://github.com/prettier/prettier)',
+          value: 'prettier',
+          short: 'Prettier'
+        },
+        {
           name: 'Standard (https://github.com/standard/standard)',
           value: 'standard',
           short: 'Standard',
@@ -119,11 +124,6 @@ module.exports = {
           name: 'Airbnb (https://github.com/airbnb/javascript)',
           value: 'airbnb',
           short: 'Airbnb',
-        },
-        {
-          name: 'Prettier (https://github.com/prettier/prettier)',
-          value: 'prettier',
-          short: 'Prettier'
         }
       ]
     },
