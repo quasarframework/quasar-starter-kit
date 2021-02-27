@@ -93,10 +93,7 @@ module.exports = configure(function (/* ctx */) {
       },
       {{else}}{{#preset.lint}}chainWebpack (chain) {
         chain.plugin('eslint-webpack-plugin')
-          .use(ESLintPlugin, [{
-            extensions: [ 'js', 'vue' ],
-            exclude: 'node_modules'
-          }])
+          .use(ESLintPlugin, [{ extensions: [ 'js', 'vue' ] }])
       },
       {{else}}chainWebpack (/* chain */) {
         //
@@ -219,10 +216,7 @@ module.exports = configure(function (/* ctx */) {
       },
       {{else}}{{#preset.lint}}chainWebpackMain (chain) {
         chain.plugin('eslint-webpack-plugin')
-          .use(ESLintPlugin, [{
-            extensions: [ 'js' ],
-            exclude: 'node_modules'
-          }])
+          .use(ESLintPlugin, [{ extensions: [ 'js' ] }])
       },
       {{else}}chainWebpackMain (/* chain */) {
         // do something with the Electron main process Webpack cfg
@@ -236,10 +230,7 @@ module.exports = configure(function (/* ctx */) {
       },
       {{else}}{{#preset.lint}}chainWebpackPreload (chain) {
         chain.plugin('eslint-webpack-plugin')
-          .use(ESLintPlugin, [{
-            extensions: [ 'js' ],
-            exclude: 'node_modules'
-          }])
+          .use(ESLintPlugin, [{ extensions: [ 'js' ] }])
       },
       {{else}}chainWebpackPreload (/* chain */) {
         // do something with the Electron main process Webpack cfg
