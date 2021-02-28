@@ -90,12 +90,10 @@ module.exports = configure(function (/* ctx */) {
       // "chain" is a webpack-chain object https://github.com/neutrinojs/webpack-chain
       {{#preset.typescript}}chainWebpack (/* chain */) {
         //
-      },
-      {{else}}{{#preset.lint}}chainWebpack (chain) {
+      },{{else}}{{#preset.lint}}chainWebpack (chain) {
         chain.plugin('eslint-webpack-plugin')
           .use(ESLintPlugin, [{ extensions: [ 'js', 'vue' ] }])
-      },
-      {{else}}chainWebpack (/* chain */) {
+      },{{else}}chainWebpack (/* chain */) {
         //
       },{{/preset.lint}}{{/preset.typescript}}
     },
@@ -138,6 +136,18 @@ module.exports = configure(function (/* ctx */) {
     pwa: {
       workboxPluginMode: 'GenerateSW', // 'GenerateSW' or 'InjectManifest'
       workboxOptions: {}, // only for GenerateSW
+
+      // for the custom service worker ONLY (/src-pwa/custom-service-worker.[js|ts])
+      // if using workbox in InjectManifest mode
+      {{#preset.typescript}}chainWebpackCustomSW (/* chain */) {
+        //
+      },{{else}}{{#preset.lint}}chainWebpackCustomSW (chain) {
+        chain.plugin('eslint-webpack-plugin')
+          .use(ESLintPlugin, [{ extensions: [ 'js' ] }])
+      },{{else}}chainWebpackCustomSW (/* chain */) {
+        //
+      },{{/preset.lint}}{{/preset.typescript}}
+
       manifest: {
         name: `{{ productName }}`,
         short_name: `{{ productName }}`,
@@ -213,12 +223,10 @@ module.exports = configure(function (/* ctx */) {
       {{#preset.typescript}}chainWebpack (/* chain */) {
         // do something with the Electron main process Webpack cfg
         // extendWebpackMain also available besides this chainWebpackMain
-      },
-      {{else}}{{#preset.lint}}chainWebpackMain (chain) {
+      },{{else}}{{#preset.lint}}chainWebpackMain (chain) {
         chain.plugin('eslint-webpack-plugin')
           .use(ESLintPlugin, [{ extensions: [ 'js' ] }])
-      },
-      {{else}}chainWebpackMain (/* chain */) {
+      },{{else}}chainWebpackMain (/* chain */) {
         // do something with the Electron main process Webpack cfg
         // extendWebpackMain also available besides this chainWebpackMain
       },{{/preset.lint}}{{/preset.typescript}}
@@ -227,12 +235,10 @@ module.exports = configure(function (/* ctx */) {
       {{#preset.typescript}}chainWebpackPreload (/* chain */) {
         // do something with the Electron main process Webpack cfg
         // extendWebpackPreload also available besides this chainWebpackPreload
-      },
-      {{else}}{{#preset.lint}}chainWebpackPreload (chain) {
+      },{{else}}{{#preset.lint}}chainWebpackPreload (chain) {
         chain.plugin('eslint-webpack-plugin')
           .use(ESLintPlugin, [{ extensions: [ 'js' ] }])
-      },
-      {{else}}chainWebpackPreload (/* chain */) {
+      },{{else}}chainWebpackPreload (/* chain */) {
         // do something with the Electron main process Webpack cfg
         // extendWebpackPreload also available besides this chainWebpackPreload
       },{{/preset.lint}}{{/preset.typescript}}
