@@ -10,12 +10,12 @@
     "test": "echo \"No test specified\" && exit 0"
   },
   "dependencies": {
-    {{#if_eq typescriptConfig "composition"}}"@vue/composition-api": "^0.6.4",{{/if_eq}}
+    {{#if_eq typescriptConfig "composition"}}"@vue/composition-api": "^1.0.0-rc.3",{{/if_eq}}
     {{#if_eq typescriptConfig "class"}}
     "vue-class-component": "^7.2.2",
     "vue-property-decorator": "^8.3.0",
     {{/if_eq}}
-    {{#preset.axios}}"axios": "^0.18.1",{{/preset.axios}}
+    {{#preset.axios}}"axios": "^0.21.1",{{/preset.axios}}
     {{#preset.i18n}}"vue-i18n": "^8.0.0",{{/preset.i18n}}
     "@quasar/extras": "^1.0.0",
     "core-js": "^3.6.5",
@@ -24,30 +24,29 @@
   "devDependencies": {
     {{#preset.lint}}
     "babel-eslint": "^10.0.1",
-    "eslint": "^6.8.0",
+    "eslint": "^7.21.0",
     {{#unless preset.typescript}}
     "eslint-loader": "^3.0.3",
     {{/unless}}
-    "eslint-plugin-vue": "^6.1.2",
+    "eslint-plugin-vue": "^7.7.0",
     {{#if_eq lintConfig "standard"}}
-    "eslint-config-standard": "^14.1.0",
+    "eslint-config-standard": "^16.0.2",
     "eslint-plugin-import": "^2.14.0",
     "eslint-plugin-node": "^11.0.0",
     "eslint-plugin-promise": "^4.0.1",
-    "eslint-plugin-standard": "^4.0.0",
     {{/if_eq}}
     {{#if_eq lintConfig "airbnb"}}
     "eslint-config-airbnb-base": "^14.0.0",
     "eslint-plugin-import": "^2.20.1",
     {{/if_eq}}
     {{#if_eq lintConfig "prettier"}}
-    "eslint-config-prettier": "^6.9.0",
+    "eslint-config-prettier": "^8.1.0",
     {{/if_eq}}
     {{/preset.lint}}
     {{#preset.typescript}}
     {{#preset.lint}}
-    "@typescript-eslint/eslint-plugin": "^3.3.0",
-    "@typescript-eslint/parser": "^3.3.0",
+    "@typescript-eslint/eslint-plugin": "^4.16.1",
+    "@typescript-eslint/parser": "^4.16.1",
     {{/preset.lint}}
     "@types/node": "^10.17.15",
     {{/preset.typescript}}
