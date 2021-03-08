@@ -90,8 +90,7 @@ module.exports = {{#preset.typescript}}configure({{/preset.typescript}}function 
         {{#preset.lint}}cfg.module.rules.push({
           enforce: 'pre',
           test: /\.(js|vue)$/,
-          loader: 'eslint-loader',
-          exclude: /node_modules/
+          loader: 'eslint-loader'
         })
         {{/preset.lint}}
       },{{/if}}
