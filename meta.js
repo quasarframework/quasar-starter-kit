@@ -32,20 +32,20 @@ module.exports = {
     css: {
       type: 'list',
       message: 'Pick your favorite CSS preprocessor: (can be changed later)',
-      default: 'sass',
+      default: 'scss',
       choices: [
-        {
-          name: 'Sass with indented syntax (recommended)',
-          value: 'sass',
-          short: 'Sass'
-        },
         {
           name: 'Sass with SCSS syntax (recommended)',
           value: 'scss',
           short: 'SCSS'
         },
         {
-          name: 'Stylus',
+          name: 'Sass with indented syntax (recommended)',
+          value: 'sass',
+          short: 'Sass'
+        },
+        {
+          name: 'Stylus (deprecated)',
           value: 'stylus'
         },
         {
@@ -137,6 +137,11 @@ module.exports = {
       message: 'Pick an ESLint preset:',
       choices: [
         {
+          name: 'Prettier (https://github.com/prettier/prettier)',
+          value: 'prettier',
+          short: 'Prettier'
+        },
+        {
           name: 'Standard (https://github.com/standard/standard)',
           value: 'standard',
           short: 'Standard',
@@ -145,11 +150,6 @@ module.exports = {
           name: 'Airbnb (https://github.com/airbnb/javascript)',
           value: 'airbnb',
           short: 'Airbnb',
-        },
-        {
-          name: 'Prettier (https://github.com/prettier/prettier)',
-          value: 'prettier',
-          short: 'Prettier'
         }
       ]
     },
