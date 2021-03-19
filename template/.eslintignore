@@ -5,3 +5,4 @@
 /.quasar
 /node_modules
 {{#preset.typescript}}{{#preset.lint}}/src-ssr{{/preset.lint}}{{/preset.typescript}}
+.eslintrc.js

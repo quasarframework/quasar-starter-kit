@@ -60,9 +60,7 @@ module.exports = {
     {{#if_eq lintConfig "prettier"}}
     // https://github.com/prettier/eslint-config-prettier#installation
     // usage with Prettier, provided by 'eslint-config-prettier'.
-    'prettier',
-    {{#preset.typescript}}'prettier/@typescript-eslint',{{/preset.typescript}}
-    'prettier/vue'{{/if_eq}}
+    'prettier'{{/if_eq}}
   ],
 
   plugins: [
@@ -83,12 +81,12 @@ module.exports = {
   ],
 
   globals: {
-    ga: true, // Google Analytics
-    cordova: true,
-    __statics: true,
-    process: true,
-    Capacitor: true,
-    chrome: true
+    ga: 'readonly', // Google Analytics
+    cordova: 'readonly',
+    __statics: 'readonly',
+    process: 'readonly',
+    Capacitor: 'readonly',
+    chrome: 'readonly'
   },
 
   // add your custom rules here
