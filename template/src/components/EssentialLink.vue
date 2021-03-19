@@ -14,7 +14,10 @@
 
     <q-item-section>
       <q-item-label>\{{ title }}</q-item-label>
-      <q-item-label caption>
+      <q-item-label
+        v-if="caption"
+        caption
+      >
         \{{ caption }}
       </q-item-label>
     </q-item-section>
