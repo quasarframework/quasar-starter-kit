@@ -11,11 +11,13 @@
 /* eslint func-names: 0 */
 /* eslint global-require: 0 */
 {{/if_eq}}
+{{#preset.typescript}}
+{{else}}
+const ESLintPlugin = require('eslint-webpack-plugin')
+{{/preset.typescript}}
 {{/preset.lint}}
 {{#preset.typescript}}
 /* eslint-disable @typescript-eslint/no-var-requires */
-{{/preset.typescript}}
-{{#preset.typescript}}
 const { configure } = require('quasar/wrappers');
 {{/preset.typescript}}
 
@@ -84,16 +86,15 @@ module.exports = {{#preset.typescript}}configure({{/preset.typescript}}function 
       // extractCSS: false,
 
       // https://quasar.dev/quasar-cli/handling-webpack
-      {{#if preset.typescript}}extendWebpack (/* cfg */) {
-        // Add here your webpack customizations
-      },{{else}}extendWebpack (cfg) {
-        {{#preset.lint}}cfg.module.rules.push({
-          enforce: 'pre',
-          test: /\.(js|vue)$/,
-          loader: 'eslint-loader'
-        })
-        {{/preset.lint}}
-      },{{/if}}
+      // "chain" is a webpack-chain object https://github.com/neutrinojs/webpack-chain
+      {{#preset.typescript}}chainWebpack (/* chain */) {
+        //
+      },{{else}}{{#preset.lint}}chainWebpack (chain) {
+        chain.plugin('eslint-webpack-plugin')
+          .use(ESLintPlugin, [{ extensions: [ 'js', 'vue' ] }])
+      },{{else}}chainWebpack (/* chain */) {
+        //
+      },{{/preset.lint}}{{/preset.typescript}}
     },
 
     // Full list of options: https://quasar.dev/quasar-cli/quasar-conf-js#Property%3A-devServer
