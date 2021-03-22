@@ -60,9 +60,7 @@ module.exports = {
     {{#if_eq lintConfig "prettier"}}
     // https://github.com/prettier/eslint-config-prettier#installation
     // usage with Prettier, provided by 'eslint-config-prettier'.
-    'prettier',
-    {{#preset.typescript}}'prettier/@typescript-eslint',{{/preset.typescript}}
-    'prettier/vue'{{/if_eq}}
+    'prettier'{{/if_eq}}
   ],
 
   plugins: [

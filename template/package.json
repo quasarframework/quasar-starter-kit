@@ -38,13 +38,13 @@
     "eslint-plugin-import": "^2.20.1",
     {{/if_eq}}
     {{#if_eq lintConfig "prettier"}}
-    "eslint-config-prettier": "^6.15.0",
+    "eslint-config-prettier": "^8.1.0",
     {{/if_eq}}
     {{/preset.lint}}
     {{#preset.typescript}}
     {{#preset.lint}}
-    "@typescript-eslint/eslint-plugin": "^4.9.0",
-    "@typescript-eslint/parser": "^4.9.0",
+    "@typescript-eslint/eslint-plugin": "^4.16.1",
+    "@typescript-eslint/parser": "^4.16.1",
     {{/preset.lint}}
     "@types/node": "^10.17.15",
     {{/preset.typescript}}
