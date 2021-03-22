@@ -26,7 +26,7 @@
     "babel-eslint": "^10.0.1",
     "eslint": "^7.21.0",
     {{#unless preset.typescript}}
-    "eslint-loader": "^3.0.3",
+    "eslint-webpack-plugin": "^2.4.0",
     {{/unless}}
     "eslint-plugin-vue": "^7.7.0",
     {{#if_eq lintConfig "standard"}}
