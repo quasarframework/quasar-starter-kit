@@ -32,7 +32,6 @@ module.exports = {
     css: {
       type: 'list',
       message: 'Pick your CSS preprocessor:',
-      default: 'scss',
       choices: [
         {
           name: 'Sass with SCSS syntax',
@@ -149,6 +148,12 @@ module.exports = {
           short: 'no',
         }
       ]
+    },
+
+    autoInitializeGit: {
+      type: 'confirm',
+      message: 'Automatically initialize git repository and commit all files?',
+      default: true,
     }
   },
 
