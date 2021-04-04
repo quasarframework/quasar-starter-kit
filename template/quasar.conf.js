@@ -139,7 +139,7 @@ module.exports = configure(function (ctx) {
 
       {{#preset.typescript}}chainWebpackWebserver (/* chain */) {
         //
-      }{{else}}{{#preset.lint}}chainWebpackWebserver (chain) {
+      },{{else}}{{#preset.lint}}chainWebpackWebserver (chain) {
         chain.plugin('eslint-webpack-plugin')
           .use(ESLintPlugin, [{ extensions: [ 'js', 'vue' ] }])
       },{{else}}chainWebpackWebserver (/* chain */) {
