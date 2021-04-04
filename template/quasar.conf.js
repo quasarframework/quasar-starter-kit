@@ -20,7 +20,7 @@ const ESLintPlugin = require('eslint-webpack-plugin')
 {{/preset.lint}}
 const { configure } = require('quasar/wrappers');
 
-module.exports = configure(function (/* ctx */) {
+module.exports = configure(function (ctx) {
   return {
     // https://v2.quasar.dev/quasar-cli/supporting-ts
     supportTS: {{#if preset.typescript}}{{#if preset.lint}}{
@@ -129,7 +129,27 @@ module.exports = configure(function (/* ctx */) {
 
     // https://v2.quasar.dev/quasar-cli/developing-ssr/configuring-ssr
     ssr: {
-      pwa: false
+      pwa: false,
+      // manualStoreHydration: true,
+      prodPort: 3000, // The default port that the production server should use
+                      // (gets superseded if process.env.PORT is specified at runtime)
+
+      maxAge: 1000 * 60 * 60 * 24 * 30,
+        // Tell browser when a file from the server should expire from cache (in ms)
+
+      {{#preset.typescript}}chainWebpackWebserver (/* chain */) {
+        //
+      }{{else}}{{#preset.lint}}chainWebpackWebserver (chain) {
+        chain.plugin('eslint-webpack-plugin')
+          .use(ESLintPlugin, [{ extensions: [ 'js', 'vue' ] }])
+      },{{else}}chainWebpackWebserver (/* chain */) {
+        //
+      },{{/preset.lint}}{{/preset.typescript}}
+
+      middlewares: [
+        ctx.prod ? 'compression' : '',
+        'render' // keep this as last one
+      ]
     },
 
     // https://v2.quasar.dev/quasar-cli/developing-pwa/configuring-pwa
