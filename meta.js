@@ -31,8 +31,7 @@ module.exports = {
 
     css: {
       type: 'list',
-      message: 'Pick your favorite CSS preprocessor: (can be changed later)',
-      default: 'scss',
+      message: 'Pick your CSS preprocessor:',
       choices: [
         {
           name: 'Sass with SCSS syntax (recommended)',
