@@ -21,7 +21,7 @@
   },
   "devDependencies": {
     {{#preset.lint}}
-    "babel-eslint": "^10.0.1",
+    "@babel/eslint-parser": "^7.13.14",
     "eslint": "^7.14.0",
     "eslint-plugin-vue": "^7.0.0",
     {{#unless preset.typescript}}

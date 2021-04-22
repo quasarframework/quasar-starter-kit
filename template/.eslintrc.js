@@ -21,7 +21,7 @@ module.exports = {
     project: resolve(__dirname, './tsconfig.json'),
     tsconfigRootDir: __dirname,
     {{else}}
-    parser: 'babel-eslint',
+    parser: '@babel/eslint-parser',
     {{/if}}
     ecmaVersion: 2018, // Allows for the parsing of modern ECMAScript features
     sourceType: 'module' // Allows for the use of imports
