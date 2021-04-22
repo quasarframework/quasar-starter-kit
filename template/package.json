@@ -31,7 +31,7 @@
     "eslint-config-standard": "^16.0.2",
     "eslint-plugin-import": "^2.19.1",
     "eslint-plugin-node": "^11.0.0",
-    "eslint-plugin-promise": "^4.2.1",
+    "eslint-plugin-promise": "^5.1.0",
     {{/if_eq}}
     {{#if_eq lintConfig "airbnb"}}
     "eslint-config-airbnb-base": "^14.0.0",
