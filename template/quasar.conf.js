@@ -130,7 +130,10 @@ module.exports = configure(function (ctx) {
     // https://v2.quasar.dev/quasar-cli/developing-ssr/configuring-ssr
     ssr: {
       pwa: false,
+
       // manualStoreHydration: true,
+      // manualPostHydrationTrigger: true,
+
       prodPort: 3000, // The default port that the production server should use
                       // (gets superseded if process.env.PORT is specified at runtime)
 
@@ -141,7 +144,7 @@ module.exports = configure(function (ctx) {
         //
       },{{else}}{{#preset.lint}}chainWebpackWebserver (chain) {
         chain.plugin('eslint-webpack-plugin')
-          .use(ESLintPlugin, [{ extensions: [ 'js', 'vue' ] }])
+          .use(ESLintPlugin, [{ extensions: [ 'js' ] }])
       },{{else}}chainWebpackWebserver (/* chain */) {
         //
       },{{/preset.lint}}{{/preset.typescript}}
