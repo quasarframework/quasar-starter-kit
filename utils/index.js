@@ -1,8 +1,17 @@
 const path = require('path')
 const fs = require('fs')
-const spawn = require('child_process').spawn
+const { spawn } = require('child_process')
 
-const lintStyles = ['standard', 'airbnb', 'prettier']
+const lintStyles = ['prettier', 'standard', 'airbnb']
+
+/**
+ * Shows a colored string prefixed with a star char
+ * @param {Function} color Helper color function
+ * @param {string} messagge Message to display
+ */
+function starredLog(color, message) {
+  console.log(`\n\n ${color(`[*] ${message}`)}\n\n`)
+}
 
 /**
  * Sorts dependencies in package.json alphabetically.
@@ -36,9 +45,18 @@ function sortDependencies(data) {
  * @param {string} cwd Path of the created project directory
  * @param {object} data Data from questionnaire
  */
-function installDependencies(cwd, executable = 'npm', color) {
-  console.log(`\n\n ${color('[*] Installing project dependencies ...')}\n`)
-  return runCommand(executable, ['install'], { cwd })
+async function installDependencies(cwd, executable = 'npm', color) {
+  starredLog(color, 'Installing project dependencies...')
+
+  try {
+    await runCommand(executable, ['install'], { cwd })
+  } catch(e) {
+    console.log()
+    console.log(` ${executable} install FAILED... Possible temporary npm registry issues?`)
+    console.log(` Please try again later...`)
+    console.log()
+    process.exit(1)
+  }
 }
 
 /**
@@ -46,22 +64,23 @@ function installDependencies(cwd, executable = 'npm', color) {
  * @param {string} cwd Path of the created project directory
  * @param {object} data Data from questionnaire
  */
-function runLintFix(cwd, data, color) {
+async function runLintFix(cwd, data, color) {
   if (data.preset.lint && lintStyles.indexOf(data.lintConfig) !== -1) {
-    console.log(
-      `\n\n ${color(
-        '[*] Running eslint --fix to comply with chosen preset rules...'
-      )}\n\n`
-    )
+    starredLog(color, 'Running eslint --fix to comply with chosen preset rules...')
     const args =
       data.autoInstall === 'npm'
         ? ['run', 'lint', '--', '--fix']
         : ['run', 'lint', '--fix']
-    return runCommand(data.autoInstall, args, {
-      cwd,
-    })
+
+    try {
+      await runCommand(data.autoInstall, args, { cwd })
+    } catch(e) {
+      console.log()
+      console.log(` ${data.autoInstall} lint FAILED...`)
+      console.log(` Please try again later...`)
+      console.log()
+    }
   }
-  return Promise.resolve()
 }
 
 /**
@@ -143,14 +162,11 @@ function runCommand(cmd, args, options) {
 
     spwan.on('exit', code => {
       if (code) {
-        console.log()
-        console.log(` ${cmd} install FAILED... Possible temporary npm registry issues?`)
-        console.log(` Please try again later...`)
-        console.log()
-        process.exit(1)
+        reject(code)
       }
-
-      resolve()
+      else {
+        resolve()
+      }
     })
   })
 }
@@ -166,26 +182,21 @@ function sortObject(object) {
   return sortedObject
 }
 
-module.exports.complete = function (data, { chalk }) {
-  const green = chalk.green
+module.exports.complete = async function (data, { chalk }) {
+  const { green } = chalk
 
   sortDependencies(data, green)
 
   const cwd = path.join(process.cwd(), data.inPlace ? '' : data.destDirName)
 
-  if (data.autoInstall) {
-    installDependencies(cwd, data.autoInstall, green)
-      .then(() => {
-        return runLintFix(cwd, data, green)
-      })
-      .then(() => {
-        printMessage(data, green)
-      })
-      .catch(e => {
-        console.log(chalk.red('Error:'), e)
-      })
+  try {
+    if (data.autoInstall) {
+      await installDependencies(cwd, data.autoInstall, green)
+      await runLintFix(cwd, data, green)
+    }
+  } catch(e) {
+    console.log(chalk.red('Error:'), e)
   }
-  else {
-    printMessage(data, chalk)
-  }
+    
+  printMessage(data, chalk)
 }
