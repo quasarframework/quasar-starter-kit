@@ -13,10 +13,10 @@
 </template>
 
 <script lang="ts">
-import Vue, { PropType } from 'vue';
+import { defineComponent, PropType } from 'vue';
 import { Todo, Meta } from './models';
 
-export default Vue.extend({
+export default defineComponent({
   name: 'OptionsComponent',
   props: {
     title: {
@@ -24,11 +24,11 @@ export default Vue.extend({
       required: true
     },
     todos: {
-      type: (Array as unknown) as PropType<Todo[]>,
+      type: Array as PropType<Todo[]>,
       default: () => [] as Todo[]
     },
     meta: {
-      type: (Object as unknown) as PropType<Meta>,
+      type: Object as PropType<Meta>,
       required: true
     },
     active: {

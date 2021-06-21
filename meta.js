@@ -31,45 +31,23 @@ module.exports = {
 
     css: {
       type: 'list',
-      message: 'Pick your favorite CSS preprocessor: (can be changed later)',
+      message: 'Pick your CSS preprocessor:',
       default: 'scss',
       choices: [
         {
-          name: 'Sass with SCSS syntax (recommended)',
+          name: 'Sass with SCSS syntax',
           value: 'scss',
           short: 'SCSS'
         },
         {
-          name: 'Sass with indented syntax (recommended)',
+          name: 'Sass with indented syntax',
           value: 'sass',
           short: 'Sass'
-        },
-        {
-          name: 'Stylus (deprecated)',
-          value: 'stylus'
         },
         {
           name: 'None (the others will still be available)',
           value: 'none',
           short: 'None'
-        }
-      ]
-    },
-
-    importStrategy: {
-      type: 'list',
-      message: 'Pick a Quasar components & directives import strategy: (can be changed later)',
-      choices: [
-        {
-          name: '* Auto-import in-use Quasar components & directives\n    - also treeshakes Quasar; minimum bundle size',
-          value: 'auto',
-          short: 'Auto import',
-          checked: true
-        },
-        {
-          name: '* Import everything from Quasar\n    - not treeshaking Quasar; biggest bundle size',
-          value: 'all',
-          short: 'Import everything'
         }
       ]
     },
@@ -98,10 +76,6 @@ module.exports = {
         {
           name: 'Vue-i18n',
           value: 'i18n'
-        },
-        {
-          name: 'IE11 support',
-          value: 'ie'
         }
       ]
     },
@@ -119,7 +93,7 @@ module.exports = {
         },
         {
           name:
-            'Class-based (recommended) (https://github.com/vuejs/vue-class-component & https://github.com/kaorun343/vue-property-decorator)',
+            'Class-based (https://github.com/vuejs/vue-class-component & https://github.com/kaorun343/vue-property-decorator)',
           value: 'class',
           short: 'Class',
         },
@@ -214,8 +188,6 @@ module.exports = {
     'src/store/**/*.ts': 'preset.vuex && preset.typescript',
 
     // CSS preprocessors
-    '.stylintrc': `preset.lint && css === 'stylus'`,
-    'src/css/*.styl': `css === 'stylus'`,
     'src/css/*.scss': `css === 'scss'`,
     'src/css/*.sass': `css === 'sass'`,
     'src/css/app.css': `css === 'none'`,

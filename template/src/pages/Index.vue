@@ -13,7 +13,7 @@
 <script lang="ts">
 import { Todo, Meta } from 'components/models';
 {{#if_eq typescriptConfig "composition"}}import ExampleComponent from 'components/CompositionComponent.vue';
-import { defineComponent, ref } from '@vue/composition-api';
+import { defineComponent, ref } from 'vue';
 
 export default defineComponent({
   name: 'PageIndex',
@@ -47,9 +47,9 @@ export default defineComponent({
     return { todos, meta };
   }
 });{{/if_eq}}{{#if_eq typescriptConfig "class"}}import ExampleComponent from 'components/ClassComponent.vue';
-import { Vue, Component } from 'vue-property-decorator';
+import { Vue, Options } from 'vue-class-component'
 
-@Component({
+@Options({
   components: { ExampleComponent }
 })
 export default class PageIndex extends Vue {
@@ -79,9 +79,9 @@ export default class PageIndex extends Vue {
     totalCount: 1200
   };
 };{{/if_eq}}{{#if_eq typescriptConfig "options"}}import ExampleComponent from 'components/OptionsComponent.vue';
-import Vue from 'vue';
+import { defineComponent } from 'vue';
 
-export default Vue.extend({
+export default defineComponent({
   name: 'PageIndex',
   components: { ExampleComponent },
   data() {
@@ -126,8 +126,10 @@ export default Vue.extend({
 </template>
 
 <script>
-export default {
+import { defineComponent } from 'vue';
+
+export default defineComponent({
   name: 'PageIndex'
-}
+})
 </script>
 {{/if}}
