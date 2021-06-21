@@ -8,7 +8,7 @@
           round
           icon="menu"
           aria-label="Menu"
-          @click="leftDrawerOpen = !leftDrawerOpen"
+          @click="toggleLeftDrawer"
         />
 
         <q-toolbar-title>
@@ -23,7 +23,7 @@
       v-model="leftDrawerOpen"
       show-if-above
       bordered
-      content-class="bg-grey-1"
+      class="bg-grey-1"
     >
       <q-list>
         <q-item-label
@@ -32,6 +32,7 @@
         >
           Essential Links
         </q-item-label>
+
         <EssentialLink
           v-for="link in essentialLinks"
           :key="link.title"
@@ -46,10 +47,10 @@
   </q-layout>
 </template>
 
-<script{{#if preset.typescript}} lang="ts"{{/if}}>
+<script{{#preset.typescript}} lang="ts"{{/preset.typescript}}>
 import EssentialLink from 'components/EssentialLink.vue'
 
-const linksData = [
+const linksList = [
   {
     title: 'Docs',
     caption: 'quasar.dev',
@@ -94,48 +95,52 @@ const linksData = [
   }
 ];
 
-{{#if preset.typescript}}
-{{#if_eq typescriptConfig "composition"}}import { defineComponent, ref } from '@vue/composition-api';
+{{#if_eq typescriptConfig "class"}}import { Vue, Options } from 'vue-class-component'
 
-export default defineComponent({
-  name: 'MainLayout',
-  components: { EssentialLink },
-  setup() {
-    const leftDrawerOpen = ref(false);
-    const essentialLinks = ref(linksData);
-
-    return {leftDrawerOpen, essentialLinks}
-  }
-});{{/if_eq}}{{#if_eq typescriptConfig "class"}}import { Vue, Component } from 'vue-property-decorator';
-
-@Component({
+@Options({
   components: { EssentialLink }
 })
 export default class MainLayout extends Vue {
   leftDrawerOpen = false;
-  essentialLinks = linksData;
-}{{/if_eq}}{{#if_eq typescriptConfig "options"}}import Vue from 'vue';
-
-export default Vue.extend({
-  name: 'MainLayout',
-  components: { EssentialLink },
-  data() {
-    return {
-      leftDrawerOpen: false,
-      essentialLinks: linksData
-    }
-  }
-});{{/if_eq}}
-{{else}}
-export default {
-  name: 'MainLayout',
-  components: { EssentialLink },
-  data () {
-    return {
-      leftDrawerOpen: false,
-      essentialLinks: linksData
-    }
+  essentialLinks = linksList;
+  toggleLeftDrawer () {
+    this.leftDrawerOpen = !this.leftDrawerOpen
   }
 }
-{{/if}}
+{{else}}
+import { defineComponent{{#unless_eq typescriptConfig "options"}}, ref{{/unless_eq}} } from 'vue'
+
+export default defineComponent({
+  name: 'MainLayout',
+
+  components: {
+    EssentialLink
+  },
+
+  {{#if_eq typescriptConfig "options"}}data() {
+    return {
+      leftDrawerOpen: false,
+      essentialLinks: linksList
+    }
+  },
+
+  methods: {
+    toggleLeftDrawer () {
+      this.leftDrawerOpen = !this.leftDrawerOpen
+    }
+  }
+  {{else}}setup () {
+    const leftDrawerOpen = ref(false)
+
+    return {
+      essentialLinks: linksList,
+      leftDrawerOpen,
+      toggleLeftDrawer () {
+        leftDrawerOpen.value = !leftDrawerOpen.value
+      }
+    }
+  }
+  {{/if_eq}}
+})
+{{/if_eq}}
 </script>
