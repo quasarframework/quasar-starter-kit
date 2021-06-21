@@ -18,7 +18,7 @@
     {{#preset.vuex}}"vuex": "^4.0.1",{{/preset.vuex}}
     "@quasar/extras": "^1.0.0",
     "core-js": "^3.6.5",
-    "quasar": "^2.0.0-beta.1"
+    "quasar": "^2.0.0"
   },
   "devDependencies": {
     {{#preset.lint}}
@@ -49,7 +49,7 @@
     {{/preset.lint}}
     "@types/node": "^10.17.15",
     {{/preset.typescript}}
-    "@quasar/app": "^3.0.0-beta.1"
+    "@quasar/app": "^3.0.0"
   },
   "browserslist": [
     "last 10 Chrome versions",
