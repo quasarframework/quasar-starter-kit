@@ -1,3 +1,5 @@
+/// <reference types="@quasar/app" />
+
 declare namespace NodeJS {
   interface ProcessEnv {
     NODE_ENV: string;
