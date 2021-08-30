@@ -14,7 +14,7 @@
     "vue-class-component": "^8.0.0-rc.1",
     {{/if_eq}}
     {{#preset.axios}}"axios": "^0.21.1",{{/preset.axios}}
-    {{#preset.i18n}}"vue-i18n": "^9.0.0-beta.0",{{/preset.i18n}}
+    {{#preset.i18n}}"vue-i18n": "^9.0.0",{{/preset.i18n}}
     {{#preset.vuex}}"vuex": "^4.0.1",{{/preset.vuex}}
     "@quasar/extras": "^1.0.0",
     "core-js": "^3.6.5",
@@ -47,7 +47,7 @@
     "@typescript-eslint/eslint-plugin": "^4.16.1",
     "@typescript-eslint/parser": "^4.16.1",
     {{/preset.lint}}
-    "@types/node": "^10.17.15",
+    "@types/node": "^10.20.21",
     {{/preset.typescript}}
     "@quasar/app": "^3.0.0"
   },
