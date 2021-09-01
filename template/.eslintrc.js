@@ -104,8 +104,8 @@ module.exports = {
     'no-void': 'off',
     'multiline-ternary': 'off',
 
-    'import/first': 'off',
-    'import/named': 'error',
+    'import/first': 'off',{{#unless preset.typescript}}
+    'import/named': 'error',{{/unless}}
     'import/namespace': 'error',
     'import/default': 'error',
     'import/export': 'error',
@@ -119,8 +119,8 @@ module.exports = {
     'no-nested-ternary': 'off',
     'max-classes-per-file': 'off',
 
-    'import/first': 'off',
-    'import/named': 'error',
+    'import/first': 'off',{{#unless preset.typescript}}
+    'import/named': 'error',{{/unless}}
     'import/namespace': 'error',
     'import/default': 'error',
     'import/export': 'error',
