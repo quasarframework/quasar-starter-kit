@@ -1,6 +1,7 @@
 // Mocks all files ending in `.vue` showing them as plain Vue instances
+/* eslint-disable */
 declare module '*.vue' {
-  import { ComponentOptions } from 'vue'
-  const component: ComponentOptions
-  export default component
+  import type { DefineComponent } from 'vue';
+  const component: DefineComponent<{}, {}, any>;
+  export default component;
 }
