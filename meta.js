@@ -92,16 +92,16 @@ module.exports = {
           short: 'Composition',
         },
         {
-          name:
-            'Class-based (https://github.com/vuejs/vue-class-component & https://github.com/kaorun343/vue-property-decorator)',
-          value: 'class',
-          short: 'Class',
-        },
-        {
           name: 'Options API',
           value: 'options',
           short: 'options',
-        }
+        },
+        {
+          name:
+            'Class-based [DEPRECATED, see https://github.com/quasarframework/quasar/discussions/11204] (https://github.com/vuejs/vue-class-component)',
+          value: 'class',
+          short: 'Class',
+        },
       ]
     },
 
