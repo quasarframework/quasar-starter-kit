@@ -101,6 +101,7 @@ module.exports = {
             'Class-based [DEPRECATED, see https://github.com/quasarframework/quasar/discussions/11204] (https://github.com/vuejs/vue-class-component)',
           value: 'class',
           short: 'Class',
+          disabled: true
         },
       ]
     },
