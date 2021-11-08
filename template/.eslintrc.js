@@ -121,6 +121,7 @@ module.exports = {
     'import/prefer-default-export': 'off',
     {{/if_eq}}
     'prefer-promise-reject-errors': 'off',
+    'func-names': 'off',
 
     {{#preset.typescript}}
     // TypeScript
