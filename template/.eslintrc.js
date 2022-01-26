@@ -135,7 +135,6 @@ module.exports = {
     // TypeScript
     quotes: ['warn', 'single', { avoidEscape: true }],
     '@typescript-eslint/explicit-function-return-type': 'off',
-    '@typescript-eslint/explicit-module-boundary-types': 'off',
     {{/preset.typescript}}
 
     // allow debugger during development only
