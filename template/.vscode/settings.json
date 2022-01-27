@@ -1,5 +1,10 @@
 {
   {{#preset.lint}}
+  "editor.formatOnSave": true,
+  "editor.defaultFormatter": {{#if_eq lintConfig "prettier"}}"esbenp.prettier-vscode"{{else}}"dbaeumer.vscode-eslint"{{/if_eq}},
+  "editor.codeActionsOnSave": [
+    "source.fixAll.eslint"
+  ],
   "eslint.validate": ["javascript", "javascriptreact", "typescript", "vue"],
   {{/preset.lint}}
   {{#preset.typescript}}"typescript.tsdk": "node_modules/typescript/lib"{{/preset.typescript}}
