@@ -1,9 +1,6 @@
 {
   {{#preset.lint}}
-  "vetur.validation.template": false,
-  "vetur.format.enable": false,
   "eslint.validate": ["javascript", "javascriptreact", "typescript", "vue"],
   {{/preset.lint}}
-  {{#preset.typescript}}"typescript.tsdk": "node_modules/typescript/lib",{{/preset.typescript}}
-  "vetur.experimental.templateInterpolationService": true
+  {{#preset.typescript}}"typescript.tsdk": "node_modules/typescript/lib"{{/preset.typescript}}
 }
