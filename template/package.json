@@ -7,6 +7,7 @@
   "private": true,
   "scripts": {
     {{#preset.lint}}"lint": "eslint --ext .js,{{#preset.typescript}}.ts,{{/preset.typescript}}.vue ./",{{/preset.lint}}
+    {{#if_eq lintConfig "prettier"}}"format": "prettier --write \"**/*.{js,{{#preset.typescript}}ts,{{/preset.typescript}}vue,{{#unless_eq css "sass"}}{{ css }}{{/unless_eq}},html,md,json}\" --ignore-path .gitignore",{{/if_eq}}
     "test": "echo \"No test specified\" && exit 0"
   },
   "dependencies": {
@@ -42,6 +43,7 @@
     {{/if_eq}}
     {{#if_eq lintConfig "prettier"}}
     "eslint-config-prettier": "^8.1.0",
+    "prettier": "^2.5.1",
     {{/if_eq}}
     {{/preset.lint}}
     {{#preset.typescript}}

@@ -46,7 +46,7 @@ module.exports = {
         },
         {
           name: 'None (the others will still be available)',
-          value: 'none',
+          value: 'css',
           short: 'None'
         }
       ]
@@ -191,7 +191,7 @@ module.exports = {
     // CSS preprocessors
     'src/css/*.scss': `css === 'scss'`,
     'src/css/*.sass': `css === 'sass'`,
-    'src/css/app.css': `css === 'none'`,
+    'src/css/app.css': `css === 'css'`,
   },
 
   complete
