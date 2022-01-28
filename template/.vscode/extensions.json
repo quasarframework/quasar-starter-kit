@@ -5,7 +5,8 @@
     {{#if_eq lintConfig "prettier"}}"esbenp.prettier-vscode",{{/if_eq}}
     {{/preset.lint}}
     "editorconfig.editorconfig",
-    "johnsoncodehk.volar"
+    "johnsoncodehk.volar",
+    "wayou.vscode-todo-highlight"
   ],
   "unwantedRecommendations": [
     "octref.vetur",
