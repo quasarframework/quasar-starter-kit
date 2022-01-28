@@ -49,7 +49,7 @@ module.exports = configure(function (ctx) {
 
     // https://quasar.dev/quasar-cli/quasar-conf-js#Property%3A-css
     css: [
-      'app.{{#if_eq css "none"}}css{{/if_eq}}{{#if_eq css "scss"}}scss{{/if_eq}}{{#if_eq css "sass"}}sass{{/if_eq}}'
+      'app.{{ css }}'
     ],
 
     // https://github.com/quasarframework/quasar/tree/dev/extras
