@@ -7,6 +7,7 @@ const lintStyles = ['standard', 'airbnb', 'prettier']
 /**
  * Sorts dependencies in package.json alphabetically.
  * They are unsorted because they were grouped for the handlebars helpers
+ *
  * @param {object} data Data from questionnaire
  */
 function sortDependencies(data) {
@@ -33,6 +34,7 @@ function sortDependencies(data) {
 
 /**
  * Runs `npm install` in the project directory
+ *
  * @param {string} cwd Path of the created project directory
  * @param {object} data Data from questionnaire
  */
@@ -43,6 +45,7 @@ function installDependencies(cwd, executable = 'npm', color) {
 
 /**
  * Runs `npm run lint -- --fix` in the project directory
+ *
  * @param {string} cwd Path of the created project directory
  * @param {object} data Data from questionnaire
  */
@@ -65,6 +68,26 @@ function runLintFix(cwd, data, color) {
 }
 
 /**
+ * Runs `npm run format` in the project directory
+ *
+ * @param {string} cwd Path of the created project directory
+ * @param {object} data Data from questionnaire
+ */
+ function runFormat(cwd, data, color) {
+  if (data.lintConfig !== 'prettier') {
+    return Promise.resolve()
+  }
+
+  console.log(
+    `\n\n ${color(
+      '[*] Running Prettier to make the code "prettier"...'
+    )}\n\n`
+  )
+
+  return runCommand(data.autoInstall, ['run', 'format'], { cwd })
+}
+
+/**
  * If the user will have to run lint --fix themselves, it returns a string
  * containing the instruction for this step.
  * @param {Object} data Data from questionnaire.
@@ -79,6 +102,7 @@ function lintMsg(data) {
 
 /**
  * Prints the final message with instructions of necessary next steps.
+ *
  * @param {Object} data Data from questionnaire.
  */
 function printMessage(data, { green, yellow }) {
@@ -112,6 +136,7 @@ Enjoy! - Quasar Team
 /**
  * If the user will have to run `npm install` or `yarn` themselves, it returns a string
  * containing the instruction for this step.
+ *
  * @param {Object} data Data from the questionnaire
  */
 function installMsg(data) {
@@ -122,6 +147,7 @@ function installMsg(data) {
  * Spawns a child process and runs the specified command
  * By default, runs in the CWD and inherits stdio
  * Options are the same as node's child_process.spawn
+ *
  * @param {string} cmd
  * @param {array<string>} args
  * @param {object} options
@@ -177,6 +203,9 @@ module.exports.complete = function (data, { chalk }) {
     installDependencies(cwd, data.autoInstall, green)
       .then(() => {
         return runLintFix(cwd, data, green)
+      })
+      .then(() => {
+        return runFormat(cwd, data, green)
       })
       .then(() => {
         printMessage(data, green)
