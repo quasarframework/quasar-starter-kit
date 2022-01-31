@@ -15,12 +15,19 @@ yarn
 ```bash
 quasar dev
 ```
-
 {{#preset.lint}}
+
 ### Lint the files
 ```bash
-{{#if_eq autoInstall "npm"}}npm{{else}}yarn{{/if_eq}} run lint
+{{#if_eq autoInstall "npm"}}npm run{{else}}yarn{{/if_eq}} lint
 ```
+{{#if_eq lintConfig "prettier"}}
+
+### Format the files
+```bash
+{{#if_eq autoInstall "npm"}}npm run{{else}}yarn{{/if_eq}} format
+```
+{{/if_eq}}
 {{/preset.lint}}
 
 ### Build the app for production
