@@ -55,7 +55,7 @@ module.exports = {{#preset.typescript}}configure({{/preset.typescript}}function 
     extras: [
       // 'ionicons-v4',
       // 'mdi-v5',
-      // 'fontawesome-v5',
+      // 'fontawesome-v6',
       // 'eva-icons',
       // 'themify',
       // 'line-awesome',
